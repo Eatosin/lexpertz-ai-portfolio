@@ -2,15 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #050505;
-  --foreground: #ffffff;
+@layer base {
+  :root {
+    /* Light mode (fallback) */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 11%;
+
+    --radius: 0.5rem;
+
+    /* Brand tokens */
+    --brand-cyan: 187 92% 43%;
+    --brand-blue: 221 83% 53%;
+    --brand-cyan-foreground: 0 0% 100%;
+    --brand-blue-foreground: 0 0% 100%;
+
+    /* Glassmorphism */
+    --glass-bg: 0 0% 100% / 0.7;
+    --glass-border: 0 0% 100% / 0.05;
+  }
+
+  .dark {
+    /* Premium deep dark theme — Tactile Bento-Minimalism */
+    --background: 240 10% 2%;     /* #050505 */
+    --foreground: 0 0% 98%;       /* #fafafa */
+
+    --card: 240 10% 4%;           /* #0a0a0a */
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 2%;
+
+    --secondary: 240 5% 10%;      /* #1a1a1a */
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 240 5% 15%;         /* #262626 */
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5% 10%;         /* #1a1a1a thin borders */
+    --input: 240 5% 15%;          /* #262626 inputs */
+    --ring: 187 92% 43%;          /* brand-cyan for focus */
+
+    /* Brand tokens (same HSL in dark, intended to pop) */
+    --brand-cyan: 187 92% 43%;    /* #06b6d4 */
+    --brand-blue: 221 83% 53%;    /* #2563eb */
+    --brand-cyan-foreground: 0 0% 100%;
+    --brand-blue-foreground: 0 0% 100%;
+
+    /* Glassmorphism */
+    --glass-bg: 240 10% 4% / 0.7;
+    --glass-border: 0 0% 100% / 0.05;
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  /* Modern font rendering */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Brand gradient utility (for text-clips and buttons) */
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-brand-cyan to-brand-blue bg-clip-text text-transparent;
+  }
+
+  /* Glassmorphic surface */
+  .glass {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid hsl(var(--glass-border));
+  }
+
+  /* Subtle brand glow radial */
+  .bg-brand-glow {
+    background-image: radial-gradient(
+      circle at center,
+      hsl(var(--brand-cyan) / 0.15) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Neon hover-glow border (used by bento cards) */
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--brand-cyan)) 0%,
+      hsl(var(--brand-blue)) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .glow-border:hover::after {
+    opacity: 1;
+  }
 }
