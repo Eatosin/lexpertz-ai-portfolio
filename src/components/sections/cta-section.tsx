@@ -13,14 +13,14 @@ export function CTASection() {
   return (
     <Section variant="hero">
       <Container className="flex max-w-3xl flex-col items-start gap-4">
-        <Badge variant="brand">Let's ship</Badge>
+        <Badge variant="brand">Let&apos;s ship</Badge>
         <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-          Let's Architect Your Intelligence.
+          Let&apos;s Architect Your Intelligence.
         </h2>
         <p className="max-w-2xl text-lg text-muted-foreground">
           Ready to move beyond basic automation? Whether you need an
           Enterprise RAG pipeline, a self-healing agentic workflow, or a
-          specialized AI system — I'm ready to engineer the solution.
+          specialized AI System — I&apos;m ready to engineer the solution.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Button

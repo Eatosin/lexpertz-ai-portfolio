@@ -4,22 +4,24 @@ import * as React from "react";
 
 import { breakpoints } from "@/lib/design-tokens";
 
-/**
- * useMedia — returns a mounted-safe media-query result.
- * Supresses hydration mismatches by returning `false` until mount.
- */
 export function useMedia(query: string): boolean {
-  const [matches, setMatches] = React.useState(false);
+  const subscribe = React.useCallback(
+    (callback: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener("change", callback);
+      return () => mql.removeEventListener("change", callback);
+    },
+    [query]
+  );
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(query);
-    const onChange = (e: MediaQueryListEvent) => setMatches(e.matches);
-    setMatches(mql.matches);
-    mql.addEventListener("change", onChange);
-    return () => mql.removeEventListener("change", onChange);
-  }, [query]);
+  const getSnapshot = React.useCallback(
+    () => window.matchMedia(query).matches,
+    [query]
+  );
 
-  return matches;
+  const getServerSnapshot = React.useCallback(() => false, []);
+
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 /** useMediaLessThan — shorthand for breakpoint below checks. */

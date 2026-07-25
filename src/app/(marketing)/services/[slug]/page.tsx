@@ -49,7 +49,7 @@ export default async function ServiceDetailPage({
 
           <div className="mt-8 rounded-lg border border-border bg-card p-6">
             <h2 className="mb-4 text-lg font-semibold">
-              What you'll walk away with
+              What you&apos;ll walk away with
             </h2>
             <ul className="flex flex-col gap-2">
               {service.deliverables?.map((d) => (

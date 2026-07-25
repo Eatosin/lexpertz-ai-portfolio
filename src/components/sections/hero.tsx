@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { siteConfig } from "@/lib/constants";
 import { trackCTA } from "@/lib/analytics";
 
 /**
