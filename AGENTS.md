@@ -1,51 +1,41 @@
-<!-- context7 -->
-Use Context7 MCP to fetch current documentation whenever the user asks about a library, framework, SDK, API, CLI tool, or cloud service — even well-known ones like React, Next.js, Prisma, Express, Tailwind, Django, or Spring Boot. This includes API syntax, configuration, version migration, library-specific debugging, setup instructions, and CLI tool usage. Use even when you think you know the answer — your training data may not reflect recent changes. Prefer this over web search for library docs.
+## Lexpertz AI Portfolio — Repo Guide
 
-Do not use for: refactoring, writing scripts from scratch, debugging business logic, code review, or general programming concepts.
+**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion · Zod + react-hook-form · TypeScript 5 strict
 
-## Steps
+### Commands
 
-1. Always start with `resolve-library-id` using the library name and the user's question, unless the user provides an exact library ID in `/org/project` format
-2. Pick the best match (ID format: `/org/project`) by: exact name match, description relevance, code snippet count, source reputation (High/Medium preferred), and benchmark score (higher is better). If results don't look right, try alternate names or queries (e.g., "next.js" not "nextjs", or rephrase the question). Use version-specific IDs when the user mentions a version
-3. `query-docs` with the selected library ID and the user's full question (not single words), scoped to a single concept. If the question spans multiple distinct concepts (e.g. routing and auth and caching), make a separate `query-docs` call per concept with the same library ID, unless the question is about how the concepts interact — combined queries dilute ranking and return shallow results for each topic
-4. Answer using the fetched docs
-<!-- /context7 -->
+| Action | Command |
+|---|---|
+| Dev server | `npm run dev` (port 3000) |
+| Build + typecheck | `npm run build` |
+| Lint | `npm run lint` |
+| Add shadcn/ui component | `npx shadcn@latest add <name>` |
 
-<!-- graphify -->
-Use the graphify skill for any question about a codebase, its architecture, file relationships, or project content — especially when `graphify-out/` exists. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools.
+No test framework is installed — `npm test` will fail. `npm run build` is the only typecheck path (no separate `tsc --noEmit`).
 
-Key command: `/graphify <path>` — see `.opencode/skills/graphify/SKILL.md` for full reference.
-<!-- /graphify -->
+### Architecture
 
-<!-- defuddle -->
-Defuddle: Extract clean markdown from web pages using `defuddle parse <url> --md`. Prefer over WebFetch for standard web pages (articles, docs, blog posts) — removes clutter and saves tokens. Do NOT use for URLs ending in `.md` (those are already markdown, use WebFetch).
+- **Path alias:** `@/` maps to `./src/*`
+- **Pages:** Homepage is a single-page marketing site. Section components live in `src/components/sections/`. Other routes under `src/app/(marketing)/` (about, case-studies, contact, insights, services) and `src/app/products/axiom-verify/`.
+- **Content:** `src/content/` holds static TypeScript data files (services, case-studies, team, insights) — not backed by a CMS or database.
+- **UI components:** shadcn/ui primitives in `src/components/ui/`. Custom layout in `src/components/layout/`. Framer Motion wrappers in `src/components/motion/`.
+- **Design tokens:** HSL CSS vars in `src/app/globals.css`. Mirror types in `src/lib/design-tokens.ts`. Motion tokens in `src/lib/motion-tokens.ts`.
+- **Forms:** Zod schemas in `src/lib/validators/`. useForm + zodResolver pattern (see `src/components/sections/contact-form.tsx`).
+- **Barrel exports:** Each module dir has `index.ts` re-exporting public API.
+- **Stale code:** `src/components/.old/` — do not import from.
 
-See `.opencode/skills/defuddle/SKILL.md` for full reference.
-<!-- /defuddle -->
+### MCP Available
 
-<!-- json-canvas -->
-JSON Canvas: Create and edit `.canvas` files (Obsidian Canvas format) with nodes, edges, groups, and connections. Use for mind maps, flowcharts, or visual canvases. Follows JSON Canvas Spec 1.0.
+- **shadcn** — add components
+- **Context7** — fetch current library/framework/API docs
 
-See `.opencode/skills/json-canvas/SKILL.md` for full reference.
-<!-- /json-canvas -->
+### Skills Available
 
-<!-- obsidian-bases -->
-Obsidian Bases: Create and edit `.base` files with views (table, cards, list, map), filters, formulas, and summaries. Use when working with database-like views of notes in Obsidian.
+Skills are loaded automatically via `opencode.json`. Use `/plan` for complex features, `/tdd` for test-driven workflow, `/code-review` after writing code, `/security` before commits, `/build-fix` for build errors, `/graphify <path>` to map a codebase into a knowledge graph.
 
-See `.opencode/skills/obsidian-bases/SKILL.md` for full reference.
-<!-- /obsidian-bases -->
+### Tools
 
-<!-- obsidian-cli -->
-Obsidian CLI: Interact with Obsidian vaults via the `obsidian` CLI. Create, read, search, and manage notes, tasks, properties, and more. Also supports plugin/theme development (reload, run JS, screenshots, DOM inspect). Requires Obsidian to be open.
-
-See `.opencode/skills/obsidian-cli/SKILL.md` for full reference.
-<!-- /obsidian-cli -->
-
-<!-- obsidian-markdown -->
-Obsidian Flavored Markdown: Create and edit `.md` files with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with vault notes.
-
-See `.opencode/skills/obsidian-markdown/SKILL.md` for full reference.
-<!-- /obsidian-markdown -->
+- **Defuddle** — `defuddle parse <url> --md` (prefer over WebFetch for standard web pages)
 
 <!-- headroom:rtk-instructions -->
 # RTK (Rust Token Killer) - Token-Optimized Commands
