@@ -15,7 +15,7 @@
       "settings": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "typescript.tsdk": "node_modules/typescript/lib",
+        "js/ts.tsdk.path": "node_modules/typescript/lib",
 
         "editor.minimap.enabled": false,
         "telemetry.telemetryLevel": "off",
@@ -52,7 +52,7 @@
       }
     }
   },
-  "postCreateCommand": "npm ci",
+  "postCreateCommand": "npm ci && curl -fsSL https://opencode.ai/install.sh | bash",
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
