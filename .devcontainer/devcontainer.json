@@ -1,21 +1,24 @@
 {
   "name": "Lexpertz AI Portfolio — Cloud-Optimized",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+  
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+
   "customizations": {
     "vscode": {
       "extensions": [
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
+        "usernamehw.error-lens",
         "github.copilot"
       ],
       "settings": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "js/ts.tsdk.path": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
 
         "editor.minimap.enabled": false,
         "telemetry.telemetryLevel": "off",
@@ -28,9 +31,6 @@
           "**/node_modules/**": true,
           "**/.next/**": true,
           "**/graphify-out/**": true,
-          "**/.agents/**": true,
-          "**/skills/**": true,
-          "**/.opencode/**": true,
           "**/.pytest_cache/**": true
         },
         "search.exclude": {
@@ -39,9 +39,6 @@
           "**/.git": true,
           "**/.next": true,
           "**/graphify-out": true,
-          "**/.agents": true,
-          "**/skills": true,
-          "**/.opencode": true,
           "**/.pytest_cache": true
         },
 
@@ -52,12 +49,16 @@
       }
     }
   },
-  "postCreateCommand": "npm ci && curl -fsSL https://opencode.ai/install.sh | bash",
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
       "label": "Next.js Dev Server",
       "onAutoForward": "openPreview"
     }
-  }
+  },
+
+  "remoteUser": "node"
 }
