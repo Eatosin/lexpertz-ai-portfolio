@@ -52,7 +52,7 @@
       }
     }
   },
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "npm install -g ctx7 pnpm@9 opencode-ai && (curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh || true) && (rtk init -g --opencode || true) && pnpm install",
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
