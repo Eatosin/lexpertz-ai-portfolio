@@ -11,6 +11,10 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "src/components/.old/**",
+    ".opencode/**",
+    "skills/**",
+    ".devcontainer/**",
+    ".github/**",
   ]),
 ]);
 
