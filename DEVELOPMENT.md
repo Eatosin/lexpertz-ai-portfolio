@@ -36,6 +36,33 @@ npm run build
 
 This project uses [ECC](https://github.com/affaan-m/ECC) — an agent harness optimization system that provides skills, agents, commands, hooks, and security scanning.
 
+### How ECC Is Installed
+
+ECC is installed **as committed repo files**, not as a global tool or npm package:
+
+| Path | Contents |
+|---|---|
+| `.opencode/plugins/` | Plugin entry (`ecc-hooks.ts`) + changed-files store — auto-loaded by OpenCode |
+| `.opencode/tools/` | Custom tools (`changed-files`, `dependency-analyzer`, etc.) |
+| `.opencode/prompts/` | Subagent prompts |
+| `.opencode/commands/` | Slash command templates |
+| `skills/` | Skill definitions (SKILL.md) loaded via `opencode.json` |
+| `opencode.json` | Plugin wiring, agents, commands, skills, MCP config |
+
+OpenCode auto-scans `.opencode/plugins/*.{ts,js}` and loads each file as a plugin — there is **no** `plugin:` config entry and no `npm install ecc-universal` needed. The plugin's `@opencode-ai/plugin` SDK import resolves against the SDK bundled with OpenCode itself.
+
+### Verifying ECC Is Loaded
+
+```bash
+opencode debug config
+```
+
+In the output, `plugin` and `plugin_origins` must list `ecc-hooks.ts` (scope: local). On a fresh session, the `session.created` hook logs `[ECC] Session started`.
+
+### Adding ECC Skills
+
+To add a skill, copy its directory into `skills/` and append the `SKILL.md` path to the `instructions` array in `opencode.json`.
+
 ### Available Commands
 
 | Command | Agent | Description |
@@ -72,6 +99,19 @@ Skills are loaded automatically. Key skills include:
 - `security-review` — Security checklist and patterns
 - `verification-loop` — Comprehensive verification system
 - `eval-harness` — Eval-driven development framework
+
+## Codespaces / Dev Container
+
+The repo ships a `.devcontainer/devcontainer.json` so a fresh GitHub Codespace is ready to go. Because ECC is committed repo files, it arrives automatically with the clone — the container only needs to install the runtimes.
+
+`postCreateCommand` runs:
+
+1. `npm install -g ctx7 opencode-ai` — global tools
+2. Install + init `rtk`
+3. `npm install` — project dependencies
+4. Verification — `opencode debug config` must show `ecc-hooks.ts`; prints `ECC plugin OK` / `ECC plugin MISSING`
+
+**Package manager:** npm everywhere (CI, devcontainer, local). `pnpm` is intentionally not used — the project is a single-package Next.js app on Vercel, and CI already caches `npm`, so a pnpm lockfile would add migration cost for no benefit.
 
 ## Context7 MCP
 
