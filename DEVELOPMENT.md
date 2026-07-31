@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- **Node.js** 20+ (LTS)
+- **Node.js** 22+ (`>=22.12.0` per `package.json` `engines`; also `.nvmrc` / `.tool-versions`)
 - **npm** 10+
 - **Git** 2.30+
 
@@ -54,10 +54,32 @@ OpenCode auto-scans `.opencode/plugins/*.{ts,js}` and loads each file as a plugi
 ### Verifying ECC Is Loaded
 
 ```bash
-opencode debug config
+# Redirect to a file — piping truncates the output at the 64KB pipe buffer,
+# so grepping for ecc-hooks.ts through a pipe will falsely report it missing.
+opencode debug config > /tmp/ecc-check.json 2>/dev/null
+grep -q 'ecc-hooks.ts' /tmp/ecc-check.json && echo 'ECC plugin OK' || echo 'ECC plugin MISSING'
 ```
 
 In the output, `plugin` and `plugin_origins` must list `ecc-hooks.ts` (scope: local). On a fresh session, the `session.created` hook logs `[ECC] Session started`.
+
+### Hook Profile & Tuning
+
+The ECC plugin behavior is controlled by two environment variables:
+
+| Variable | Values | Effect |
+|---|---|---|
+| `ECC_HOOK_PROFILE` | `minimal`, `standard` (default), `strict` | Higher profiles enable more hooks — e.g. auto-format on edit and `tsc --noEmit` after edits only run under `strict`; console.log warnings run from `standard` |
+| `ECC_DISABLED_HOOKS` | comma-separated hook IDs | Disable specific hooks, e.g. `post:edit:console-warn,pre:write:doc-file-warning` |
+
+### Building / Type-Checking the Plugin
+
+The plugin has its own package manifest under `.opencode/` (for `tsc`-level type-checking of the hooks and tools — **not** needed at runtime, since OpenCode bundles the SDK):
+
+```bash
+cd .opencode && npm install && npm run build
+```
+
+The compiled output goes to the gitignored `.opencode/dist/`.
 
 ### Adding ECC Skills
 
@@ -76,8 +98,21 @@ To add a skill, copy its directory into `skills/` and append the `SKILL.md` path
 | `/refactor-clean` | refactor-cleaner | Remove dead code and consolidate duplicates |
 | `/orchestrate` | planner | Multi-agent orchestration for complex tasks |
 | `/verify` | — | Run verification loop (build, types, lint, tests) |
+| `/quality-gate` | code-reviewer | Run ECC quality pipeline on a file or project |
+| `/test-coverage` | tdd-guide | Analyze and improve test coverage |
+| `/update-docs` | doc-updater | Update documentation |
+| `/update-codemaps` | doc-updater | Update codemaps |
+| `/loop-start` | loop-operator | Start a managed autonomous agent loop |
+| `/loop-status` | — | Inspect active loop state |
+| `/learn` | — | Extract patterns and learnings from session |
+| `/checkpoint` | — | Save verification state and progress |
+| `/eval` | — | Run evaluation against criteria |
+| `/setup-pm` | — | Configure package manager preference |
+| `/skill-create` | — | Generate skills from git history |
 
 ### Available Agents
+
+Only the agents defined in `opencode.json` are registered:
 
 - **planner** — Implementation planning for complex features
 - **architect** — System design and architectural decisions
@@ -86,19 +121,30 @@ To add a skill, copy its directory into `skills/` and append the `SKILL.md` path
 - **tdd-guide** — Test-driven development workflow enforcement
 - **build-error-resolver** — Build and TypeScript error resolution
 - **e2e-runner** — End-to-end testing with Playwright
-- **database-reviewer** — PostgreSQL/Supabase database optimization
 - **doc-updater** — Documentation and codemap updates
+- **docs-lookup** — Documentation specialist using Context7 MCP
 - **refactor-cleaner** — Dead code cleanup and consolidation
+- **harness-optimizer** — Agent harness configuration optimization
+- **loop-operator** — Autonomous agent loop operation
+
+Agents from the ECC catalog (e.g. `database-reviewer`, `go-reviewer`) are **not** registered unless added to `opencode.json` with a matching prompt file in `.opencode/prompts/agents/`.
 
 ### Available Skills
 
-Skills are loaded automatically. Key skills include:
+Skills are loaded automatically. The 11 installed skills are:
 - `coding-standards` — Naming, readability, immutability, code quality
+- `api-design` — REST conventions, validation, response formats
+- `backend-patterns` — Repository/service layers, backend architecture
 - `frontend-patterns` — React, Next.js, state management, performance
+- `frontend-slides` — Slide/deck build patterns
 - `tdd-workflow` — Test-driven development with 80%+ coverage
+- `e2e-testing` — End-to-end testing with Playwright
 - `security-review` — Security checklist and patterns
 - `verification-loop` — Comprehensive verification system
 - `eval-harness` — Eval-driven development framework
+- `strategic-compact` — Context-compaction guidance
+
+To add a skill: copy its directory into `skills/` and append the `SKILL.md` path to the `instructions` array in `opencode.json`.
 
 ## Codespaces / Dev Container
 
@@ -112,6 +158,25 @@ The repo ships a `.devcontainer/devcontainer.json` so a fresh GitHub Codespace i
 4. Verification — `opencode debug config` must show `ecc-hooks.ts`; prints `ECC plugin OK` / `ECC plugin MISSING`
 
 **Package manager:** npm everywhere (CI, devcontainer, local). `pnpm` is intentionally not used — the project is a single-package Next.js app on Vercel, and CI already caches `npm`, so a pnpm lockfile would add migration cost for no benefit.
+
+## Models & Providers (OpenCode)
+
+`opencode.json` configures the agents' model access:
+
+- **Default model:** `nvidia/deepseek-ai/deepseek-v4-pro` (small: `nvidia/stepfun-ai/step-3.7-flash`)
+- **Providers:** `nvidia` plus a `headroom` OpenAI-compatible proxy at `http://127.0.0.1:8787/v1`
+
+The `headroom` proxy is a **local process** — it does not exist in a fresh Codespace. If agent sessions hang or error with "provider unavailable," one of these is needed:
+
+1. Start the local headroom proxy (used when developing on the host machine), or
+2. Override the provider/model for the environment, e.g.:
+
+```bash
+export OPENCODE_PROVIDER=nvidia
+opencode
+```
+
+or point `opencode.json`'s `headroom` baseURL at a reachable endpoint. Model/provider changes are intentionally environment-specific and should not be hardcoded into the repo.
 
 ## Context7 MCP
 
@@ -205,6 +270,8 @@ lexpertz-ai-portfolio/
 │       ├── design-tokens.ts  # HSL color tokens
 │       ├── motion-tokens.ts  # Animation tokens
 │       └── utils/        # Utility functions
+├── .opencode/            # ECC plugin (plugins/, tools/, prompts/, commands/)
+├── .devcontainer/        # GitHub Codespaces dev container
 ├── skills/               # OpenCode agent skills
 ├── public/               # Static assets
 ├── AGENTS.md             # Agent guide (commands, architecture, tools)
