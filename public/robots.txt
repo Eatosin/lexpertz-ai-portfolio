@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # The Map Location
-Sitemap: https://lexpertz-ai.vercel.app/sitemap.xml
+Sitemap: https://lexpertzai.cc/sitemap.xml
