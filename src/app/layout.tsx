@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -18,6 +19,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -48,6 +56,10 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  icons: {
+    icon: [{ url: "/logo-icon.png", type: "image/png" }],
+    apple: [{ url: "/logo-icon.png" }],
+  },
 };
 
 export default function RootLayout({
@@ -58,17 +70,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
         <ThemeProvider>
           <MotionProvider>
-            <TooltipProvider delayDuration={200}>
-              <div className="relative flex min-h-screen flex-col">
-                <Navbar />
-                <main className="flex-1 pt-16">{children}</main>
-                <Footer />
-              </div>
-            </TooltipProvider>
+            <SmoothScrollProvider>
+              <TooltipProvider delayDuration={200}>
+                <div className="relative flex min-h-screen flex-col">
+                  <Navbar />
+                  <main className="flex-1 pt-16">{children}</main>
+                  <Footer />
+                </div>
+              </TooltipProvider>
+            </SmoothScrollProvider>
           </MotionProvider>
         </ThemeProvider>
       </body>

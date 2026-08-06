@@ -3,17 +3,17 @@
 import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { StatCard } from "@/components/ui/stat-card";
-import { SlideUp } from "@/components/motion";
+import { CountUp, SlideUp } from "@/components/motion";
 
 /**
  * StatsBar — top-line metric strip used on Homepage and About.
  * Numbers are static placeholders — align with real engagements before launch.
  */
 const stats = [
-  { label: "Citation accuracy", value: "99.9%", hint: "Axiom Engine adversarial verification" },
-  { label: "GitHub stars", value: "69+", hint: "Across 19 open-source projects" },
-  { label: "Agent speed", value: "<60s", hint: "End-to-end content creation pipeline" },
-  { label: "Detection accuracy", value: "100%", hint: "Spectre deepfake audio detection" },
+  { label: "Citation accuracy", value: 99.9, decimals: 1, suffix: "%", hint: "Axiom Engine adversarial verification" },
+  { label: "GitHub stars", value: 69, suffix: "+", hint: "Across 19 open-source projects" },
+  { label: "Agent speed", value: 60, prefix: "<", suffix: "s", hint: "End-to-end content creation pipeline" },
+  { label: "Detection accuracy", value: 100, suffix: "%", hint: "Spectre deepfake audio detection" },
 ];
 
 export function StatsBar() {
@@ -23,7 +23,19 @@ export function StatsBar() {
         <SlideUp>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
-              <StatCard key={stat.label} {...stat} />
+              <StatCard
+                key={stat.label}
+                label={stat.label}
+                value={
+                  <CountUp
+                    value={stat.value}
+                    decimals={stat.decimals ?? 0}
+                    prefix={stat.prefix ?? ""}
+                    suffix={stat.suffix ?? ""}
+                  />
+                }
+                hint={stat.hint}
+              />
             ))}
           </div>
         </SlideUp>

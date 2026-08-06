@@ -1,9 +1,12 @@
 "use client";
 
+import * as React from "react";
+import { useScroll, useSpring } from "framer-motion";
+
 import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
-import { StaggerContainer, StaggerItem } from "@/components/motion";
+import { ScrollTransform, StaggerContainer, StaggerItem } from "@/components/motion";
 
 /** ProcessTimeline — left-aligned phases with numeric markers. */
 const phases = [
@@ -34,6 +37,18 @@ const phases = [
 ];
 
 export function ProcessTimeline() {
+  const listRef = React.useRef<HTMLDivElement>(null);
+
+  // Draws the connector as the phase list scrolls into view.
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 0.85", "end 0.55"],
+  });
+  const lineScale = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 22,
+  });
+
   return (
     <Section id="process">
       <Container>
@@ -41,29 +56,44 @@ export function ProcessTimeline() {
           <Badge variant="outline" className="w-fit">
             How we work
           </Badge>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="heading-section">
             From discovery to handoff, in four phases.
           </h2>
         </div>
-        <StaggerContainer className="flex flex-col gap-6">
-          {phases.map((phase) => (
-            <StaggerItem key={phase.n}>
-              <div className="flex gap-6 rounded-lg border border-border bg-card p-6">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-cyan/40 bg-brand-cyan/10 text-base font-bold text-brand-cyan">
+
+        <div ref={listRef} className="relative">
+          {/* Track + animated progress connector behind the number markers */}
+          <div
+            aria-hidden="true"
+            className="absolute bottom-8 left-5 top-8 w-px bg-border"
+          />
+          <ScrollTransform
+            aria-hidden="true"
+            scaleY={lineScale}
+            className="absolute bottom-8 left-5 top-8 w-px origin-top bg-gradient-to-b from-brand-cyan to-brand-blue"
+          />
+
+          <StaggerContainer className="relative flex flex-col gap-6">
+            {phases.map((phase) => (
+              <StaggerItem
+                key={phase.n}
+                className="relative grid grid-cols-[40px_1fr] gap-6"
+              >
+                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-cyan/40 bg-background font-mono text-sm font-semibold text-brand-cyan">
                   {String(phase.n).padStart(2, "0")}
                 </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-foreground">
+                <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-6">
+                  <h3 className="heading-card">
                     {phase.title}
                   </h3>
                   <p className="max-w-2xl text-sm text-muted-foreground">
                     {phase.body}
                   </p>
                 </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
       </Container>
     </Section>
   );

@@ -14,7 +14,7 @@ export function CTASection() {
     <Section variant="hero">
       <Container className="flex max-w-3xl flex-col items-start gap-4">
         <Badge variant="brand">Let&apos;s ship</Badge>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+        <h2 className="heading-section lg:text-5xl">
           Let&apos;s Architect Your Intelligence.
         </h2>
         <p className="max-w-2xl text-lg text-muted-foreground">
@@ -27,6 +27,7 @@ export function CTASection() {
             asChild
             variant="brand"
             size="lg"
+            className="cta-pulse"
             onClick={() => trackCTA("closing_cta_primary", "/contact")}
           >
             <Link href="/contact">Book A Free Call</Link>

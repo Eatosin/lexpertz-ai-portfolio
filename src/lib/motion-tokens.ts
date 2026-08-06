@@ -15,6 +15,8 @@ export const duration = {
   base: 0.3,
   slow: 0.5,
   hero: 0.8,
+  /** Stat counter runs. */
+  counter: 1.2,
 } as const;
 
 /** Cubic-bezier easings standardized across the design system. */
