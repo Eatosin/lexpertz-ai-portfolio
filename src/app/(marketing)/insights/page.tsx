@@ -16,7 +16,7 @@ export default function InsightsPage() {
     <Container className="py-16 md:py-24">
       <SlideUp className="mb-10">
         <Badge variant="outline" className="mb-4 w-fit">Field notes</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="heading-page">
           Engineering notes from production ML.
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
@@ -35,7 +35,7 @@ export default function InsightsPage() {
               <Badge variant="outline" className="w-fit">
                 {insight.category}
               </Badge>
-              <h2 className="text-lg font-semibold text-foreground">
+              <h2 className="heading-card">
                 {insight.title}
               </h2>
               <p className="text-sm text-muted-foreground">{insight.summary}</p>

@@ -11,8 +11,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";

@@ -32,6 +32,13 @@
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 222 47% 11%;
+    --border-strong: 214 32% 84%;
+    --surface-raised: 0 0% 96%;
+    --scrim: 0 0% 100% / 0.7;
+
+    /* Semantic accents */
+    --success: 152 55% 38%;
+    --success-foreground: 0 0% 100%;
 
     --radius: 0.5rem;
 
@@ -72,9 +79,16 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5% 10%;         /* #1a1a1a thin borders */
+    --border: 240 6% 14%;         /* #212127 — crisp hairline */
     --input: 240 5% 15%;          /* #262626 inputs */
     --ring: 187 92% 43%;          /* brand-cyan for focus */
+    --border-strong: 240 5% 22%;  /* #38383b — emphasis borders */
+    --surface-raised: 240 5% 8%;  /* #141417 — card hover surface */
+    --scrim: 240 8% 2% / 0.8;     /* text-over-3D overlay */
+
+    /* Semantic accents — success used only for positive outcomes */
+    --success: 152 48% 55%;       /* restrained emerald */
+    --success-foreground: 240 10% 4%;
 
     /* Brand tokens (same HSL in dark, intended to pop) */
     --brand-cyan: 187 92% 43%;    /* #06b6d4 */
@@ -98,6 +112,17 @@
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Display font for all headings, centralized in one place */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+    text-wrap: balance;
+  }
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -112,6 +137,31 @@
 }
 
 @layer utilities {
+  /* ============================================================
+   * Type scale — the single source of hierarchy for the site.
+   * Sizes/weights/tracking are documented in `src/lib/design-tokens.ts`.
+   * ============================================================ */
+
+  /* Mono technical label (eyebrows, indexes, micro-headers) */
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  /* Page title (h1 on detail pages) */
+  .heading-page {
+    @apply font-display text-4xl font-bold tracking-[-0.025em] text-foreground sm:text-5xl;
+  }
+
+  /* Section title (h2) */
+  .heading-section {
+    @apply font-display text-3xl font-semibold tracking-[-0.02em] text-foreground sm:text-4xl;
+  }
+
+  /* Card title (h3) */
+  .heading-card {
+    @apply font-display text-lg font-semibold tracking-[-0.01em] text-foreground sm:text-xl;
+  }
+
   /* Brand gradient utility (for text-clips and buttons) */
   .text-gradient-brand {
     @apply bg-gradient-to-r from-brand-cyan to-brand-blue bg-clip-text text-transparent;
@@ -160,5 +210,19 @@
   }
   .glow-border:hover::after {
     opacity: 1;
+  }
+
+  /* Soft idle pulse for the closing CTA (killed by the reduced-motion block). */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--brand-cyan) / 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 10px hsl(var(--brand-cyan) / 0);
+    }
+  }
+  .cta-pulse {
+    animation: pulse-glow 3s ease-in-out infinite;
   }
 }

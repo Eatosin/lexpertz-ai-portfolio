@@ -1,12 +1,10 @@
 import Link from "next/link";
 
 import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
 import { Badge } from "@/components/ui/badge";
 import { BentoCard } from "@/components/ui/bento-card";
 import { SlideUp } from "@/components/motion";
 import { caseStudies } from "@/content/case-studies";
-import { siteConfig } from "@/lib/constants";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,7 +18,7 @@ export default function CaseStudiesPage() {
     <Container className="py-16 md:py-24">
       <SlideUp className="mb-10">
         <Badge variant="outline" className="mb-4 w-fit">Receipts</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="heading-page">
           Real work. Real metrics.
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
@@ -35,7 +33,7 @@ export default function CaseStudiesPage() {
             <Link href={`/case-studies/${cs.slug}`} className="block h-full">
               <BentoCard className="h-full">
                 <Badge variant="outline" className="w-fit">{cs.industry}</Badge>
-                <h2 className="mt-4 text-xl font-semibold text-foreground">
+                <h2 className="heading-card mt-4">
                   {cs.title}
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -44,7 +42,7 @@ export default function CaseStudiesPage() {
                 <div className="mt-6 grid grid-cols-3 gap-3">
                   {cs.metrics.map((m) => (
                     <div key={m.label} className="flex flex-col gap-1">
-                      <span className="text-lg font-bold text-brand-cyan">{m.value}</span>
+                      <span className="font-mono text-lg font-semibold text-brand-cyan">{m.value}</span>
                       <span className="text-xs text-muted-foreground">{m.label}</span>
                     </div>
                   ))}

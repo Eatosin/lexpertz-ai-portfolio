@@ -28,7 +28,7 @@ const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
       <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {label}
       </span>
-      <span className="text-2xl font-bold tracking-tight text-foreground">
+      <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">
         {value}
       </span>
       {hint ? (

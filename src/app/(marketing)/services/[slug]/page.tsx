@@ -5,8 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SlideUp } from "@/components/motion";
-import { siteConfig } from "@/lib/constants";
-import { services, getServiceBySlug } from "@/content/services";
+import { getServiceBySlug } from "@/content/services";
 import type { Metadata } from "next";
 
 // generateStaticParams for SSG if desired in future — no-op for now.
@@ -42,13 +41,13 @@ export default async function ServiceDetailPage({
           <Badge variant="outline" className="mb-4 w-fit">
             Practice
           </Badge>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+          <h1 className="heading-page">
             {service.title}
           </h1>
           <p className="mt-3 text-xl text-muted-foreground">{service.summary}</p>
 
           <div className="mt-8 rounded-lg border border-border bg-card p-6">
-            <h2 className="mb-4 text-lg font-semibold">
+            <h2 className="heading-card mb-4">
               What you&apos;ll walk away with
             </h2>
             <ul className="flex flex-col gap-2">

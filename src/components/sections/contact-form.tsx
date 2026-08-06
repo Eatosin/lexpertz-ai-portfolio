@@ -36,8 +36,6 @@ export function ContactForm() {
     // TODO: route to a server action / emails API — leave as a simulated success for now.
     await new Promise((r) => setTimeout(r, 800));
     setSubmitted(true);
-     
-    console.info("contact submit", { ...values, consent: "[redacted]" });
   };
 
   return (
@@ -47,7 +45,7 @@ export function ContactForm() {
           <Badge variant="outline" className="w-fit">
             Start a conversation
           </Badge>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="heading-page">
             Let&apos;s architect your intelligence.
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -57,8 +55,8 @@ export function ContactForm() {
         </div>
 
         {submitted ? (
-          <div className="rounded-lg border border-brand-cyan/40 bg-brand-cyan/10 p-6">
-            <h2 className="text-xl font-semibold text-foreground">
+          <div className="rounded-lg border border-success/40 bg-success/10 p-6">
+            <h2 className="heading-card">
               Got it — we&apos;ll be in touch.
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">

@@ -32,7 +32,7 @@ export default async function InsightDetailPage({
     <Container className="py-16 md:py-24">
       <FadeIn className="mx-auto max-w-3xl">
         <Badge variant="outline" className="mb-4 w-fit">{insight.category}</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="heading-page">
           {insight.title}
         </h1>
         <p className="mt-3 text-xl text-muted-foreground">{insight.summary}</p>
@@ -43,7 +43,7 @@ export default async function InsightDetailPage({
         </div>
 
         <div className="mt-10 rounded-lg border border-border bg-card p-6">
-          <h2 className="text-lg font-semibold mb-3">Article body (placeholder)</h2>
+          <h2 className="heading-card mb-3">Article body (placeholder)</h2>
           <p className="text-sm text-muted-foreground">
             The full markdown body for &quot;{insight.title}&quot; will be rendered
             here when it&rsquo;s ready to publish. For now, this page demonstrates the

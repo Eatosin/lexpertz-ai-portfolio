@@ -33,7 +33,7 @@ export default async function CaseStudyDetailPage({
     <Container className="py-16 md:py-24">
       <FadeIn className="mx-auto max-w-3xl">
         <Badge variant="outline" className="mb-4 w-fit">{cs.industry} • {cs.client}</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="heading-page">
           {cs.title}
         </h1>
         <p className="mt-3 text-xl text-muted-foreground">{cs.summary}</p>

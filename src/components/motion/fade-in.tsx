@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { MotionProps, Variants } from "framer-motion";
+import type { MotionProps } from "framer-motion";
 
 import { m } from "framer-motion";
 

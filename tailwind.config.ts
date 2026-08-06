@@ -45,6 +45,13 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        "border-strong": "hsl(var(--border-strong))",
+        "surface-raised": "hsl(var(--surface-raised))",
+        scrim: "hsl(var(--scrim))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
 
         // Brand tokens (cyan/blue logo colors)
         brand: {
@@ -71,6 +78,13 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        display: [
+          "var(--font-display)",
+          "var(--font-geist-sans)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
       },
       keyframes: {
         "fade-in": {

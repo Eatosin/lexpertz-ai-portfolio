@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { primaryNav, siteConfig } from "@/lib/constants";
+import { primaryNav } from "@/lib/constants";
 import { services } from "@/content/services";
 import { cn } from "@/lib/utils";
 import { trackCTA } from "@/lib/analytics";

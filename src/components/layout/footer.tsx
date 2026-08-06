@@ -40,7 +40,7 @@ export function Footer() {
 
           {/* Quick links */}
           <nav className="flex flex-col gap-3 md:items-center">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="eyebrow">
               Sitemap
             </h3>
             <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
@@ -60,7 +60,7 @@ export function Footer() {
 
           {/* Contact CTA */}
           <div className="flex flex-col gap-3 md:items-end">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="eyebrow">
               Talk to us
             </h3>
             <a

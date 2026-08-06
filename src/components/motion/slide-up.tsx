@@ -4,7 +4,7 @@ import * as React from "react";
 import { m } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import { transitionPreset, variants, viewportOnce } from "@/lib/motion-tokens";
+import { transitionPreset, viewportOnce } from "@/lib/motion-tokens";
 
 type SlideUpProps = {
   children: React.ReactNode;

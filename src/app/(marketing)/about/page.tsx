@@ -28,7 +28,7 @@ export default function AboutPage() {
     <Container className="py-16 md:py-24">
       <SlideUp className="mx-auto max-w-3xl">
         <Badge variant="outline" className="mb-4 w-fit">Founder & Lead AI Engineer</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="heading-page">
           Built by a physicist who makes AI systems reason, act, and self-correct.
         </h1>
       </SlideUp>
@@ -48,7 +48,6 @@ export default function AboutPage() {
         <h2 className="text-2xl font-bold text-foreground">{founder.name}</h2>
         <p className="text-sm text-muted-foreground">{founder.role}</p>
         <p className="mt-4 text-lg text-muted-foreground">{founder.bio}</p>
-
         <div className="mt-8 flex flex-wrap gap-3">
           {founder.socials?.github ? (
             <Button asChild variant="outline" size="sm">
@@ -69,7 +68,7 @@ export default function AboutPage() {
       </FadeIn>
 
       <Section id="mission" className="mx-auto max-w-3xl">
-        <h2 className="text-2xl font-bold text-foreground">Physics-Informed Intelligence</h2>
+        <h2 className="heading-section">Physics-Informed Intelligence</h2>
         <p className="mt-4 text-lg text-muted-foreground">
           Lexpertz exists because standard LLMs hallucinate, drift, and break silently in production. I bridge theoretical physics and production MLOps — building deterministic multi-agent LangGraph systems with adversarial verification, physics-informed anomaly detection, and enterprise RAG pipelines that cite their sources line-by-line. Every system I ship is measured against RAGAS telemetry and validated by a prosecutor node that forces retries until faithfulness exceeds 90%. No black boxes. No magic. Just verifiable, auditable intelligence.
         </p>
@@ -77,7 +76,7 @@ export default function AboutPage() {
 
       <Section id="evolution" className="mx-auto max-w-3xl">
         <Badge variant="outline" className="mb-6 w-fit">The Evolution Journey</Badge>
-        <h2 className="text-2xl font-bold text-foreground">
+        <h2 className="heading-section">
           From digital marketing to Physics-informed AI architecture.
         </h2>
         <StaggerContainer className="mt-8 flex flex-col gap-6">
@@ -105,7 +104,7 @@ export default function AboutPage() {
           ].map((phase) => (
             <StaggerItem key={phase.year}>
               <div className="flex gap-6 rounded-lg border border-border bg-card p-6">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-cyan/40 bg-brand-cyan/10 text-base font-bold text-brand-cyan">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-cyan/40 bg-brand-cyan/10 font-mono text-sm font-semibold text-brand-cyan">
                   {phase.year}
                 </div>
                 <div className="flex flex-col gap-2">

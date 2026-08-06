@@ -28,6 +28,11 @@ export type ColorToken =
   | "border"
   | "input"
   | "ring"
+  | "borderStrong"
+  | "surfaceRaised"
+  | "scrim"
+  | "success"
+  | "successForeground"
   | "brandCyan"
   | "brandBlue"
   | "brandCyanForeground"
@@ -55,6 +60,11 @@ export const colors = {
   border: "hsl(var(--border))",
   input: "hsl(var(--input))",
   ring: "hsl(var(--ring))",
+  borderStrong: "hsl(var(--border-strong))",
+  surfaceRaised: "hsl(var(--surface-raised))",
+  scrim: "hsl(var(--scrim))",
+  success: "hsl(var(--success))",
+  successForeground: "hsl(var(--success-foreground))",
   brandCyan: "hsl(var(--brand-cyan))",
   brandBlue: "hsl(var(--brand-blue))",
   brandCyanForeground: "hsl(var(--brand-cyan-foreground))",
@@ -104,3 +114,35 @@ export const breakpoints = {
 export type SpacingToken = keyof typeof spacing;
 export type RadiusToken = keyof typeof radii;
 export type BreakpointToken = keyof typeof breakpoints;
+
+/**
+ * Typography system — families, weights and the documented type scale.
+ * Mirrors the CSS in `globals.css` and the font loading in `layout.tsx`.
+ *
+ * Families:
+ * - `display`  → Space Grotesk (variable, weights 500/600/700) — headlines
+ * - `sans`     → Geist Sans (variable) — body, UI, buttons
+ * - `mono`     → Geist Mono (variable) — technical labels, metrics, indexes
+ */
+export const typography = {
+  families: {
+    display: "var(--font-display)",
+    sans: "var(--font-geist-sans)",
+    mono: "var(--font-geist-mono)",
+  } as const,
+  weights: {
+    display: ["500", "600", "700"],
+    sans: ["variable"],
+    mono: ["variable"],
+  } as const,
+  /** The standard scale. `label` is the mono eyebrow treatment. */
+  scale: {
+    hero: { size: "clamp(2.5rem, 5vw, 4rem)", weight: 700, tracking: "-0.03em", lineHeight: 1.06 },
+    pageTitle: { size: "2.25rem / 3rem", weight: 700, tracking: "-0.025em" },
+    sectionTitle: { size: "1.875rem / 2.25rem", weight: 600, tracking: "-0.02em" },
+    cardTitle: { size: "1.125rem / 1.25rem", weight: 600, tracking: "-0.01em" },
+    lede: { size: "1.125rem / 1.25rem", weight: 400, lineHeight: 1.6 },
+    body: { size: "0.875rem / 1rem", weight: 400, lineHeight: 1.6 },
+    label: { size: "0.75rem", weight: 500, tracking: "0.14em", transform: "uppercase" },
+  } as const,
+} as const;
