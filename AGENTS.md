@@ -1,6 +1,8 @@
 ## Lexpertz AI Portfolio — Repo Guide
 
-**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion · Zod + react-hook-form · TypeScript 5 strict
+**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion · Three.js + @react-three/fiber (hero WebGL) · Lenis (smooth scroll) · Zod + react-hook-form · TypeScript 5 strict
+
+**Fonts:** Space Grotesk (display) · Geist Sans (body) · Geist Mono (technical labels) — loaded via `next/font/google` in `src/app/layout.tsx`. See `docs/design-system.md` for the full token system.
 
 ### Commands
 
@@ -17,9 +19,11 @@ No test framework is installed — `npm test` will fail. `npm run build` is the 
 
 - **Path alias:** `@/` maps to `./src/*`
 - **Pages:** Homepage is a single-page marketing site. Section components live in `src/components/sections/`. Other routes under `src/app/(marketing)/` (about, case-studies, contact, insights, services) and `src/app/products/axiom-verify/`.
-- **Content:** `src/content/` holds static TypeScript data files (services, case-studies, team, insights) — not backed by a CMS or database.
-- **UI components:** shadcn/ui primitives in `src/components/ui/`. Custom layout in `src/components/layout/`. Framer Motion wrappers in `src/components/motion/`.
-- **Design tokens:** HSL CSS vars in `src/app/globals.css`. Mirror types in `src/lib/design-tokens.ts`. Motion tokens in `src/lib/motion-tokens.ts`.
+- **Content:** `src/content/` holds static TypeScript data files (services, case-studies, team, insights) — not backed by a CMS or database. Drives the generated sitemap (`src/app/sitemap.ts`).
+- **UI components:** shadcn/ui primitives in `src/components/ui/`. Custom layout in `src/components/layout/`. Motion primitives in `src/components/motion/` (FadeIn/SlideUp/Stagger + CountUp, ScrollTransform, TiltCard).
+- **3D scene:** `src/components/three/` — client-only WebGL hero. `SceneCanvas` is the production gate: dynamically imported (`ssr: false`), unmounted off-screen (IntersectionObserver), disabled under `prefers-reduced-motion` (CSS gradient poster fallback), `frameloop="demand"`, DPR-capped. Tune density/motion in `particle-config.ts` (per-tier `mobile`/`desktop`). Never render 3D when the section is out of view; never put critical text inside the canvas.
+- **Providers:** `src/components/providers/` — ThemeProvider, MotionProvider (LazyMotion strict — components must use `<m.div>`), SmoothScrollProvider (Lenis, reduced-motion aware).
+- **Design tokens:** HSL CSS vars in `src/app/globals.css` (colors + type-scale utilities `.heading-page`/`.heading-section`/`.heading-card`/`.eyebrow`). Mirror types in `src/lib/design-tokens.ts` (colors + typography). Motion tokens in `src/lib/motion-tokens.ts`. Full documentation in `docs/design-system.md`.
 - **Forms:** Zod schemas in `src/lib/validators/`. useForm + zodResolver pattern (see `src/components/sections/contact-form.tsx`).
 - **Barrel exports:** Each module dir has `index.ts` re-exporting public API.
 - **Stale code:** `src/components/.old/` — do not import from.

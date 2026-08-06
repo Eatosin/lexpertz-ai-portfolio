@@ -28,9 +28,7 @@ npm run build
 | `npm run dev` | Start Turbopack dev server (port 3000) |
 | `npm run build` | Build + typecheck (Vercel CI path) |
 | `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Run ESLint with auto-fix |
-| `npm run format` | Format with Prettier |
-| `npm run format:check` | Check formatting |
+| `npm run start` | Serve the production build |
 
 ## Agent Harness (ECC)
 
@@ -182,16 +180,6 @@ or point `opencode.json`'s `headroom` baseURL at a reachable endpoint. Model/pro
 
 [Context7](https://context7.com) provides up-to-date library documentation for AI coding assistants.
 
-### CLI Commands
-
-```bash
-# Search for libraries
-ctx7 library "next.js" "middleware authentication"
-
-# Fetch documentation
-ctx7 docs /vercel/next.js "middleware authentication redirect"
-```
-
 ### MCP Tools
 
 - `resolve-library-id` — Resolve a library name to a Context7 library ID
@@ -199,12 +187,35 @@ ctx7 docs /vercel/next.js "middleware authentication redirect"
 
 ### Setup
 
+Context7 runs via remote HTTP transport (defined in `opencode.json`) to avoid
+local `npx` STDIO issues in GitHub Codespaces containers:
+
+```json
+"context7": {
+  "type": "remote",
+  "url": "https://mcp.context7.com/mcp",
+  "enabled": true,
+  "oauth": false,
+  "headers": {
+    "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+  }
+}
+```
+
+The `CONTEXT7_API_KEY` secret is read from the environment (`~/.bashrc` or a
+Codespaces secret) and is never committed to the repo.
+
+The standalone CLI remains available:
+
 ```bash
 # Install CLI
 npm install -g ctx7
 
-# Configure for OpenCode
-npx ctx7 setup --opencode --mcp --yes
+# Search for libraries
+ctx7 library "next.js" "middleware authentication"
+
+# Fetch documentation
+ctx7 docs /vercel/next.js "middleware authentication redirect"
 ```
 
 ## Coding Standards
@@ -256,28 +267,63 @@ lexpertz-ai-portfolio/
 │   ├── app/              # Next.js App Router (layouts, pages, route groups)
 │   │   ├── (marketing)/  # Marketing routes (about, case-studies, contact, etc.)
 │   │   ├── products/     # Product pages (axiom-verify)
-│   │   └── globals.css   # Global styles with HSL design tokens
+│   │   ├── sitemap.ts    # Generated sitemap (all routes, incl. content slugs)
+│   │   └── globals.css   # Global styles: HSL design tokens + type-scale utilities
 │   ├── components/
 │   │   ├── ui/           # shadcn/ui primitives
-│   │   ├── layout/       # Custom layout components
+│   │   ├── layout/       # Custom layout components (navbar, footer, mobile-menu)
 │   │   ├── sections/     # Homepage section components
-│   │   ├── motion/       # Framer Motion wrappers
+│   │   ├── motion/       # Motion primitives (FadeIn, SlideUp, Stagger, CountUp, ScrollTransform, TiltCard)
+│   │   ├── three/        # WebGL hero scene (SceneCanvas gate, ParticleField, tier config)
 │   │   ├── forms/        # Form components
-│   │   └── providers/    # Context providers
+│   │   └── providers/    # Theme, Motion (LazyMotion), SmoothScroll (Lenis)
 │   ├── content/          # Static TypeScript data (services, case-studies, team, insights)
 │   └── lib/
 │       ├── validators/   # Zod schemas
-│       ├── design-tokens.ts  # HSL color tokens
+│       ├── design-tokens.ts  # Color + typography token mirrors
 │       ├── motion-tokens.ts  # Animation tokens
 │       └── utils/        # Utility functions
+├── docs/                 # Design system documentation (design-system.md)
 ├── .opencode/            # ECC plugin (plugins/, tools/, prompts/, commands/)
 ├── .devcontainer/        # GitHub Codespaces dev container
 ├── skills/               # OpenCode agent skills
-├── public/               # Static assets
+├── public/               # Static assets (robots.txt — sitemap.xml is generated)
 ├── AGENTS.md             # Agent guide (commands, architecture, tools)
 ├── DEVELOPMENT.md        # This file
 └── README.md             # Project overview
 ```
+
+## 3D Scene (Hero)
+
+The hero WebGL particle field lives in `src/components/three/` and is strictly
+an enhancement layer — all hero copy is real DOM:
+
+- **Gate:** `SceneCanvas` dynamically imports the scene (`ssr: false`), mounts
+  it only when the hero is in/approaching the viewport (IntersectionObserver),
+  and unmounts it off-screen (zero GPU cost when hidden).
+- **Fallbacks:** `prefers-reduced-motion` → static CSS gradient poster (always
+  painted first); mobile (`< md`) → reduced particle tier; WebGL failure →
+  error boundary renders nothing.
+- **Performance:** `frameloop="demand"` (renders only while animating), DPR
+  capped `[1, 1.5]`, no MSAA, two draw calls, O(n) per-frame updates.
+- **Tuning:** particle counts, spread, drift amplitude, and line density per
+  tier in `src/components/three/particle-config.ts`. Swapping the hero asset
+  later = replace `ParticleField`'s JSX; the gating/fallback layers stay valid.
+- **Scroll exit:** the hero wrapper fades/scales via `ScrollTransform`
+  (framer-motion `useScroll`, compositor-only — no full-viewport blur).
+
+The 3D chunk is lazy-loaded: it contributes **0 KB** to the initial page load
+(~230 KB gzipped, fetched only when the hero is visible).
+
+## Design System
+
+Dark-first typography + color tokens. Display font is Space Grotesk
+(headlines), body is Geist Sans, technical labels/metrics are Geist Mono.
+Single-cyan accent discipline (`#06b6d4`) with blue reserved for brand
+gradients and the 3D field. Type-scale utilities (`.heading-page`,
+`.heading-section`, `.heading-card`, `.eyebrow`) are defined in
+`src/app/globals.css`; typed mirrors live in `src/lib/design-tokens.ts`.
+Full documentation: [`docs/design-system.md`](docs/design-system.md).
 
 ## Deployment
 
@@ -293,5 +339,8 @@ Connected to Vercel for CI/CD:
 - [shadcn/ui](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Framer Motion](https://www.framer.com/motion/)
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
+- [Three.js](https://threejs.org)
+- [Lenis (smooth scroll)](https://lenis.darkroom.engineering)
 - [ECC Repository](https://github.com/affaan-m/ECC)
 - [Context7](https://context7.com)
