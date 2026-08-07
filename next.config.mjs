@@ -2,8 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Allows loading images from external sources if needed later
-    remotePatterns: [],
+    // Unsplash is the stock source for the hero card field
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
   },
 };
 

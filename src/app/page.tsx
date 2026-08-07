@@ -1,7 +1,6 @@
 import { Metadata } from "next";
-import { Hero } from "@/components/sections/hero";
+import { HeroScrollMorph } from "@/components/sections/hero-scroll-morph";
 import { ServicesGrid } from "@/components/sections/services-grid";
-import { StatsBar } from "@/components/sections/stats-bar";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { TeamSection } from "@/components/sections/team-section";
 import { CaseStudiesPreview } from "@/components/sections/case-study-card";
@@ -15,8 +14,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Hero />
-      <StatsBar />
+      <HeroScrollMorph />
       <ServicesGrid />
       <ProcessTimeline />
       <CaseStudiesPreview />
