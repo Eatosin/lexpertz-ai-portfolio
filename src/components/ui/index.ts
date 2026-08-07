@@ -44,4 +44,5 @@ export { ScrollArea, ScrollBar } from "./scroll-area";
 export { Container } from "./container";
 export { Section } from "./section";
 export { StatCard } from "./stat-card";
+export { GrowthChart } from "./growth-chart";
 export { ScrollMorphHero, type ScrollMorphHeroProps } from "./scroll-morph-hero";
