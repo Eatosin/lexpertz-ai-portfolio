@@ -1,6 +1,6 @@
 ## Lexpertz AI Portfolio — Repo Guide
 
-**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion · Three.js + @react-three/fiber (hero WebGL) · Lenis (smooth scroll) · Zod + react-hook-form · TypeScript 5 strict
+**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion (LazyMotion strict) · recharts (stats area chart) · Lenis (smooth scroll) · Zod + react-hook-form · TypeScript 5 strict
 
 **Fonts:** Space Grotesk (display) · Geist Sans (body) · Geist Mono (technical labels) — loaded via `next/font/google` in `src/app/layout.tsx`. See `docs/design-system.md` for the full token system.
 
@@ -19,9 +19,11 @@ No test framework is installed — `npm test` will fail. `npm run build` is the 
 
 - **Path alias:** `@/` maps to `./src/*`
 - **Pages:** Homepage is a single-page marketing site. Section components live in `src/components/sections/`. Other routes under `src/app/(marketing)/` (about, case-studies, contact, insights, services) and `src/app/products/axiom-verify/`.
-- **Content:** `src/content/` holds static TypeScript data files (services, case-studies, team, insights) — not backed by a CMS or database. Drives the generated sitemap (`src/app/sitemap.ts`).
-- **UI components:** shadcn/ui primitives in `src/components/ui/`. Custom layout in `src/components/layout/`. Motion primitives in `src/components/motion/` (FadeIn/SlideUp/Stagger + CountUp, ScrollTransform, TiltCard).
-- **3D scene:** `src/components/three/` — client-only WebGL hero. `SceneCanvas` is the production gate: dynamically imported (`ssr: false`), unmounted off-screen (IntersectionObserver), disabled under `prefers-reduced-motion` (CSS gradient poster fallback), `frameloop="demand"`, DPR-capped. Tune density/motion in `particle-config.ts` (per-tier `mobile`/`desktop`). Never render 3D when the section is out of view; never put critical text inside the canvas.
+- **Content:** `src/content/` holds static TypeScript data files (services, case-studies, team, insights, featured-stats) — not backed by a CMS or database. Drives the generated sitemap (`src/app/sitemap.ts`).
+- **UI components:** shadcn/ui primitives in `src/components/ui/` (Button, Badge, Card, BentoCard, Container, Section, StatCard, GrowthChart, ScrollMorphHero). Custom layout in `src/components/layout/`. Motion primitives in `src/components/motion/` (FadeIn/SlideUp/Stagger + CountUp, ScrollTransform, TiltCard).
+- **Hero:** `src/components/sections/hero-scroll-morph.tsx` (content + reduced-motion poster) wraps `ScrollMorphHero` in `src/components/ui/scroll-morph-hero.tsx`. Client-only Framer Motion scene: 20 flip-cards assemble scatter → line → circle, morph to a bottom arc on a captured virtual scroll (wheel/touch, released at bounds so the page scrolls on), then shuffle. Cards use `next/image` against `images.unsplash.com` (see `next.config.mjs` remotePatterns). Must stay `m.div` (LazyMotion strict). `prefers-reduced-motion` → static gradient poster, no JS scene.
+- **Charts:** recharts powers `GrowthChart` (`src/components/ui/growth-chart.tsx`) — brand-gradient area chart + custom token-styled tooltip. Data comes from `src/content/featured-stats.ts`; see `FeaturedStatsSection`.
+- **3D scene (dormant):** `src/components/three/` — WebGL particle field (`SceneCanvas`) previously used by the hero. No longer mounted; kept for a possible future ambient layer. If reintroduced: dynamically import (`ssr: false`), unmount off-screen, respect `prefers-reduced-motion`, `frameloop="demand"`, DPR-capped.
 - **Providers:** `src/components/providers/` — ThemeProvider, MotionProvider (LazyMotion strict — components must use `<m.div>`), SmoothScrollProvider (Lenis, reduced-motion aware).
 - **Design tokens:** HSL CSS vars in `src/app/globals.css` (colors + type-scale utilities `.heading-page`/`.heading-section`/`.heading-card`/`.eyebrow`). Mirror types in `src/lib/design-tokens.ts` (colors + typography). Motion tokens in `src/lib/motion-tokens.ts`. Full documentation in `docs/design-system.md`.
 - **Forms:** Zod schemas in `src/lib/validators/`. useForm + zodResolver pattern (see `src/components/sections/contact-form.tsx`).

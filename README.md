@@ -13,8 +13,9 @@ Live at **[lexpertzai.cc](https://lexpertzai.cc)**.
 ### The Stack
 - **Framework:** [Next.js 16](https://nextjs.org) (App Router, Turbopack, Server Components)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (base-nova)
-- **Animations:** [Framer Motion](https://www.framer.com/motion/) + [Lenis](https://lenis.darkroom.engineering) (smooth scroll)
-- **3D Hero:** [Three.js](https://threejs.org) + [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber) (lazy-loaded, reduced-motion aware)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/) (LazyMotion strict) + [Lenis](https://lenis.darkroom.engineering) (smooth scroll)
+- **Hero:** scroll-morph flip-card scene (Framer Motion, reduced-motion aware)
+- **Charts:** [Recharts](https://recharts.org) (brand-gradient growth chart)
 - **Typography:** Space Grotesk (display) · Geist Sans (body) · Geist Mono (technical labels)
 - **Type Safety:** TypeScript 5 (Strict Mode)
 - **Validation:** Zod (Runtime Schema Validation)
@@ -24,7 +25,9 @@ Live at **[lexpertzai.cc](https://lexpertzai.cc)**.
 
 Dark-first typography + color system: near-void background, single cyan accent
 (`#06b6d4`), mono technical labels. Full tokens, type scale, and decisions are
-documented in [`docs/design-system.md`](docs/design-system.md).
+documented in [`docs/design-system.md`](docs/design-system.md). The component
+concept roadmap (shipped vs. pending) lives in
+[`docs/design-concepts.md`](docs/design-concepts.md).
 
 ## Project Structure
 
@@ -32,11 +35,11 @@ documented in [`docs/design-system.md`](docs/design-system.md).
 lexpertz-ai-portfolio/
 ├── src/
 │   ├── app/            # Next.js App Router (layouts, pages, route groups, sitemap)
-│   ├── components/     # UI (ui, layout, sections, motion, three, forms, providers)
-│   ├── content/        # Static TypeScript data (services, case-studies, team, insights)
+│   ├── components/     # UI (ui, layout, sections, motion, forms, providers)
+│   ├── content/        # Static TypeScript data (services, case-studies, team, insights, featured-stats)
 │   └── lib/            # Utilities, hooks, validators, design tokens, analytics
 ├── public/             # Static assets (optimized via Next.js Image)
-├── docs/               # Design system documentation
+├── docs/               # Design system + design concept docs
 └── skills/             # OpenCode agent skills (coding-standards, frontend, tdd, security)
 ```
 

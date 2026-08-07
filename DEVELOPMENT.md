@@ -270,20 +270,20 @@ lexpertz-ai-portfolio/
 │   │   ├── sitemap.ts    # Generated sitemap (all routes, incl. content slugs)
 │   │   └── globals.css   # Global styles: HSL design tokens + type-scale utilities
 │   ├── components/
-│   │   ├── ui/           # shadcn/ui primitives
+│   │   ├── ui/           # shadcn/ui primitives (+ ScrollMorphHero, GrowthChart)
 │   │   ├── layout/       # Custom layout components (navbar, footer, mobile-menu)
 │   │   ├── sections/     # Homepage section components
 │   │   ├── motion/       # Motion primitives (FadeIn, SlideUp, Stagger, CountUp, ScrollTransform, TiltCard)
-│   │   ├── three/        # WebGL hero scene (SceneCanvas gate, ParticleField, tier config)
+│   │   ├── three/        # Dormant WebGL particle scene (no longer mounted)
 │   │   ├── forms/        # Form components
 │   │   └── providers/    # Theme, Motion (LazyMotion), SmoothScroll (Lenis)
-│   ├── content/          # Static TypeScript data (services, case-studies, team, insights)
+│   ├── content/          # Static TypeScript data (services, case-studies, team, insights, featured-stats)
 │   └── lib/
 │       ├── validators/   # Zod schemas
 │       ├── design-tokens.ts  # Color + typography token mirrors
 │       ├── motion-tokens.ts  # Animation tokens
 │       └── utils/        # Utility functions
-├── docs/                 # Design system documentation (design-system.md)
+├── docs/                 # Design docs (design-system.md, design-concepts.md)
 ├── .opencode/            # ECC plugin (plugins/, tools/, prompts/, commands/)
 ├── .devcontainer/        # GitHub Codespaces dev container
 ├── skills/               # OpenCode agent skills
@@ -293,37 +293,47 @@ lexpertz-ai-portfolio/
 └── README.md             # Project overview
 ```
 
-## 3D Scene (Hero)
+## Hero (Scroll-Morph)
 
-The hero WebGL particle field lives in `src/components/three/` and is strictly
-an enhancement layer — all hero copy is real DOM:
+The homepage hero is a client-only Framer Motion scene, composed as:
 
-- **Gate:** `SceneCanvas` dynamically imports the scene (`ssr: false`), mounts
-  it only when the hero is in/approaching the viewport (IntersectionObserver),
-  and unmounts it off-screen (zero GPU cost when hidden).
-- **Fallbacks:** `prefers-reduced-motion` → static CSS gradient poster (always
-  painted first); mobile (`< md`) → reduced particle tier; WebGL failure →
-  error boundary renders nothing.
-- **Performance:** `frameloop="demand"` (renders only while animating), DPR
-  capped `[1, 1.5]`, no MSAA, two draw calls, O(n) per-frame updates.
-- **Tuning:** particle counts, spread, drift amplitude, and line density per
-  tier in `src/components/three/particle-config.ts`. Swapping the hero asset
-  later = replace `ParticleField`'s JSX; the gating/fallback layers stay valid.
-- **Scroll exit:** the hero wrapper fades/scales via `ScrollTransform`
-  (framer-motion `useScroll`, compositor-only — no full-viewport blur).
+- **`sections/hero-scroll-morph.tsx`** — owns content (badge, headline, copy,
+  CTAs) and swaps the whole scene for a static CSS gradient poster under
+  `prefers-reduced-motion`.
+- **`ui/scroll-morph-hero.tsx`** — the animation engine. 20 flip-cards
+  assemble **scatter → line → circle**, morph to a **bottom arc** on a
+  captured virtual scroll (wheel/touch on the container, `{ passive: false }`),
+  then shuffle. Virtual scroll is **released at bounds** so the page scrolls
+  on after the morph plays out.
 
-The 3D chunk is lazy-loaded: it contributes **0 KB** to the initial page load
-(~230 KB gzipped, fetched only when the hero is visible).
+Key invariants:
+
+- Components must use `m.div` (LazyMotion strict `domAnimation` bundle).
+- Card images are `next/image` from `images.unsplash.com` (allowlisted in
+  `next.config.mjs` remotePatterns).
+- Motion values are subscribed once (`on("change", ...)`) and pushed into
+  React state to drive card targets; springs are compositor-friendly.
+- Scatter positions use a deterministic seeded PRNG (render-pure, SSR-safe).
+
+## Charts
+
+`recharts` powers the `GrowthChart` primitive (`ui/growth-chart.tsx`): a
+brand-gradient area chart with a custom token-styled tooltip. The homepage
+stats strip (`sections/featured-stats-section.tsx`) consumes the typed data in
+`content/featured-stats.ts`. Pass a stable `gradientId` when mounting more
+than one chart.
 
 ## Design System
 
 Dark-first typography + color tokens. Display font is Space Grotesk
 (headlines), body is Geist Sans, technical labels/metrics are Geist Mono.
 Single-cyan accent discipline (`#06b6d4`) with blue reserved for brand
-gradients and the 3D field. Type-scale utilities (`.heading-page`,
+gradients. Type-scale utilities (`.heading-page`,
 `.heading-section`, `.heading-card`, `.eyebrow`) are defined in
 `src/app/globals.css`; typed mirrors live in `src/lib/design-tokens.ts`.
 Full documentation: [`docs/design-system.md`](docs/design-system.md).
+Concept roadmap and shipped/pending designs:
+[`docs/design-concepts.md`](docs/design-concepts.md).
 
 ## Deployment
 
@@ -339,8 +349,7 @@ Connected to Vercel for CI/CD:
 - [shadcn/ui](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Framer Motion](https://www.framer.com/motion/)
-- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
-- [Three.js](https://threejs.org)
+- [Recharts](https://recharts.org)
 - [Lenis (smooth scroll)](https://lenis.darkroom.engineering)
 - [ECC Repository](https://github.com/affaan-m/ECC)
 - [Context7](https://context7.com)

@@ -53,14 +53,37 @@ differentiator.
 | `--scrim` | bg @ 0.8 | Text-over-3D overlays |
 
 **Accent discipline:** cyan is the only accent used for text/interactive
-elements (links, key metrics, focus ring, 3D emissive). Blue appears only
+elements (links, key metrics, focus ring, chart stroke). Blue appears only
 inside the cyan→blue gradient (brand identity: buttons, badges, glow, hero
-gradient text) and the 3D particle field — it harmonizes with the existing
-scenes by construction; no particle recolors were needed.
+gradient text) and the scroll-morph hero card back-face — it harmonizes with
+the existing scenes by construction.
 
 **Success token** is defined and used only where a positive outcome reads
 semantically (contact-form confirmation). Homepage metrics stay cyan to
 preserve single-accent restraint.
+
+## Hero (scroll-morph)
+
+`ScrollMorphHero` (`src/components/ui/scroll-morph-hero.tsx`) drives the
+homepage hero: 20 flip-cards assemble **scatter → line → circle**, morph into
+a **bottom arc** on a captured virtual scroll, then shuffle. Composition:
+
+- `sections/hero-scroll-morph.tsx` owns content (badge, headline, copy, CTAs)
+  and swaps to a static gradient poster under `prefers-reduced-motion`.
+- Cards are `m.div` (LazyMotion strict) with a 3D hover flip; images are
+  `next/image` from `images.unsplash.com` (allowlisted in `next.config.mjs`).
+- Virtual scroll is wheel/touch captured on the container and **released at
+  bounds** so the page scrolls on after the morph plays out.
+- Content opacity is driven by the morph spring: intro text fades out as the
+  arc forms; the top overlay (copy + CTAs) fades in at `morph ≥ 0.8`.
+
+## Growth chart
+
+`GrowthChart` (`src/components/ui/growth-chart.tsx`) renders a recharts
+`AreaChart` with a cyan→transparent gradient fill and a token-styled tooltip
+(`popover` surface, mono value). Data and height sizing come from the caller
+(`sections/featured-stats-section.tsx` consumes `content/featured-stats.ts`).
+Pass a stable `gradientId` when more than one chart mounts.
 
 ## Conventions
 
