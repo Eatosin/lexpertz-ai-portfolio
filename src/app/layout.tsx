@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { MotionProvider } from "@/components/providers/MotionProvider";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -74,15 +73,13 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <MotionProvider>
-            <SmoothScrollProvider>
-              <TooltipProvider delayDuration={200}>
+            <TooltipProvider delayDuration={200}>
                 <div className="relative flex min-h-screen flex-col">
                   <Navbar />
                   <main className="flex-1 pt-16">{children}</main>
                   <Footer />
                 </div>
-              </TooltipProvider>
-            </SmoothScrollProvider>
+            </TooltipProvider>
           </MotionProvider>
         </ThemeProvider>
       </body>

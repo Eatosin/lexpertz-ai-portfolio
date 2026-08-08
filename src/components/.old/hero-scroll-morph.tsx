@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { ScrollMorphHero } from "@/components/ui/scroll-morph-hero";
+import { ScrollMorphHero } from "./scroll-morph-hero";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

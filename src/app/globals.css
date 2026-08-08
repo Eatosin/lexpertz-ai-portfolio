@@ -225,4 +225,204 @@
   .cta-pulse {
     animation: pulse-glow 3s ease-in-out infinite;
   }
+
+  /* ============================================================
+   * Cinematic hero (GSAP pinned scene) — scoped material styles.
+   * All rules are scoped under `.cinematic-hero` to avoid leaking
+   * into the rest of the site.
+   * ============================================================ */
+
+  .cinematic-hero .gsap-reveal {
+    visibility: hidden;
+  }
+
+  /* Environment overlays */
+  .cinematic-hero .film-grain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+  }
+
+  .cinematic-hero .bg-grid-theme {
+    background-size: 60px 60px;
+    background-image:
+      linear-gradient(
+          to right,
+          hsl(var(--foreground) / 0.05) 1px,
+          transparent 1px
+        ),
+      linear-gradient(
+          to bottom,
+          hsl(var(--foreground) / 0.05) 1px,
+          transparent 1px
+        );
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      black 0%,
+      transparent 70%
+    );
+  }
+
+  /* Theme-aware text (outside the card) */
+  .cinematic-hero .text-3d-matte {
+    color: hsl(var(--foreground));
+    text-shadow:
+      0 10px 30px hsl(var(--foreground) / 0.2),
+      0 2px 4px hsl(var(--foreground) / 0.1);
+  }
+
+  .cinematic-hero .text-silver-matte {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--foreground) / 0.4) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: translateZ(0); /* Prevent WebKit clipping bug */
+    filter: drop-shadow(0px 10px 20px hsl(var(--foreground) / 0.15))
+      drop-shadow(0px 2px 4px hsl(var(--foreground) / 0.1));
+  }
+
+  /* Hardcoded silver for text inside the deep-blue card */
+  .cinematic-hero .text-card-silver-matte {
+    background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: translateZ(0);
+    filter: drop-shadow(0px 12px 24px rgba(0, 0, 0, 0.8))
+      drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.6));
+  }
+
+  /* Deep physical card with dynamic mouse lighting */
+  .cinematic-hero .premium-depth-card {
+    background: linear-gradient(145deg, #162c6d 0%, #0a101d 100%);
+    box-shadow:
+      0 40px 100px -20px rgba(0, 0, 0, 0.9),
+      0 20px 40px -20px rgba(0, 0, 0, 0.8),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    position: relative;
+  }
+
+  .cinematic-hero .card-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 50;
+    background: radial-gradient(
+      800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.06) 0%,
+      transparent 40%
+    );
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Realistic iPhone mockup hardware */
+  .cinematic-hero .iphone-bezel {
+    background-color: #111;
+    box-shadow:
+      inset 0 0 0 2px #52525b,
+      inset 0 0 0 7px #000,
+      0 40px 80px -15px rgba(0, 0, 0, 0.9),
+      0 15px 25px -5px rgba(0, 0, 0, 0.7);
+    transform-style: preserve-3d;
+  }
+
+  .cinematic-hero .hardware-btn {
+    background: linear-gradient(90deg, #404040 0%, #171717 100%);
+    box-shadow:
+      -2px 0 5px rgba(0, 0, 0, 0.8),
+      inset -1px 0 1px rgba(255, 255, 255, 0.15),
+      inset 1px 0 2px rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .cinematic-hero .screen-glare {
+    background: linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0) 45%
+    );
+  }
+
+  .cinematic-hero .widget-depth {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.05),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .cinematic-hero .floating-ui-badge {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 25px 50px -12px rgba(0, 0, 0, 0.8),
+      inset 0 1px 1px rgba(255, 255, 255, 0.2),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Tactile skeuomorphic CTAs (layered on top of the shadcn Button) */
+  .btn-tactile-brand {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.05),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 12px 24px -4px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.06);
+  }
+  .btn-tactile-brand:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.05),
+      0 6px 12px -2px rgba(0, 0, 0, 0.15),
+      0 20px 32px -6px rgba(0, 0, 0, 0.4),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.06);
+  }
+  .btn-tactile-brand:active {
+    transform: translateY(1px);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.1),
+      inset 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-tactile-outline {
+    box-shadow:
+      0 0 0 1px hsl(var(--border)),
+      0 2px 4px rgba(0, 0, 0, 0.06),
+      0 12px 24px -4px rgba(0, 0, 0, 0.12),
+      inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  }
+  .btn-tactile-outline:hover {
+    transform: translateY(-3px);
+  }
+  .btn-tactile-outline:active {
+    transform: translateY(1px);
+  }
 }
