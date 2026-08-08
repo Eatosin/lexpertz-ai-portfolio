@@ -97,7 +97,7 @@ export const siteConfig = {
     github: "https://github.com/Eatosin",
     linkedin: "https://www.linkedin.com/in/owadokun-tosin-tobi-6159091a3",
     x: "https://x.com/TosinOwadokun",
-    email: "tosinowadokun11@gmail.com",
+    email: "lexpertzai@cc.cc",
   },
 } as const;
 

@@ -63,10 +63,10 @@ export function ContactForm() {
               Check your inbox for a confirmation email and a Calendly link.
               Want to fast-track? Email{" "}
               <a
-                href="mailto:tosinowadokun11@gmail.com"
+                href="mailto:lexpertzai@cc.cc"
                 className="text-brand-cyan underline"
               >
-                tosinowadokun11@gmail.com
+                lexpertzai@cc.cc
               </a>
               .
             </p>

@@ -176,7 +176,7 @@ export function CinematicHero({
     <div
       ref={containerRef}
       className={cn(
-        "cinematic-hero relative h-screen w-full overflow-hidden bg-background text-foreground",
+        "cinematic-hero relative flex h-screen w-full items-center justify-center overflow-hidden bg-background text-foreground",
         className
       )}
       style={{ perspective: "1500px" }}

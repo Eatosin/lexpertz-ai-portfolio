@@ -46,21 +46,17 @@ export function Navbar() {
         {/* Brand */}
         <Link
           href="/"
-          className="flex items-center gap-3"
+          className="flex items-center"
           onClick={() => trackCTA("logo", "/")}
         >
           <Image
             src={siteConfig.logoIcon}
             alt={`${siteConfig.name} logo`}
-            width={32}
-            height={32}
+            width={36}
+            height={36}
             priority
-            className="h-8 w-8"
+            className="h-9 w-9"
           />
-          <span className="text-base font-semibold tracking-tight text-foreground">
-            {siteConfig.shortName}
-            <span className="text-brand-cyan">.</span>
-          </span>
         </Link>
 
         {/* Desktop navigation */}

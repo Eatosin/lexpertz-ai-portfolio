@@ -18,20 +18,16 @@ export function Footer() {
           <div className="flex flex-col gap-4">
             <Link
               href="/"
-              className="flex items-center gap-3"
+              className="flex items-center"
               onClick={() => trackCTA("footer_logo", "/")}
             >
               <Image
-                src={siteConfig.logoIcon}
+                src={siteConfig.logoFull}
                 alt={`${siteConfig.name} logo`}
-                width={28}
-                height={28}
-                className="h-7 w-7"
+                width={545}
+                height={310}
+                className="h-10 w-auto"
               />
-              <span className="text-sm font-semibold tracking-tight text-foreground">
-                {siteConfig.shortName}
-                <span className="text-brand-cyan">.</span>
-              </span>
             </Link>
             <p className="text-sm text-muted-foreground">
               {siteConfig.description}
@@ -64,11 +60,11 @@ export function Footer() {
               Talk to us
             </h3>
             <a
-              href="mailto:tosinowadokun11@gmail.com"
+              href={`mailto:${siteConfig.founder.email}`}
               className="text-sm text-foreground hover:text-brand-cyan"
-              onClick={() => trackCTA("footer_email", "mailto:tosinowadokun11@gmail.com")}
+              onClick={() => trackCTA("footer_email", `mailto:${siteConfig.founder.email}`)}
             >
-              tosinowadokun11@gmail.com
+              {siteConfig.founder.email}
             </a>
             <p className="text-sm text-muted-foreground">
               Lagos • Remote-first • Serving global clients
