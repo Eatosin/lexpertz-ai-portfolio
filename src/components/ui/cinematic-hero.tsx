@@ -175,10 +175,14 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("cinematic-hero relative h-full w-full overflow-hidden bg-background text-foreground", className)}
+      className={cn(
+        "cinematic-hero relative h-screen w-full overflow-hidden bg-background text-foreground",
+        className
+      )}
       style={{ perspective: "1500px" }}
       {...props}
     >
+      <div className="bg-brand-mesh absolute inset-0" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 

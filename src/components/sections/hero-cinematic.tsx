@@ -44,11 +44,7 @@ function BrandGlowMesh() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10"
-      style={{
-        backgroundImage:
-          "radial-gradient(at 30% 20%, hsl(187 92% 43% / 0.16) 0px, transparent 50%), radial-gradient(at 70% 80%, hsl(221 83% 53% / 0.16) 0px, transparent 50%)",
-      }}
+      className="bg-brand-mesh pointer-events-none absolute inset-0 -z-10"
     />
   );
 }
@@ -115,11 +111,7 @@ export function HeroCinematic() {
   }
 
   return (
-    <section
-      aria-label="Hero"
-      className="relative -mt-16 h-screen w-full overflow-hidden bg-background"
-    >
-      <BrandGlowMesh />
+    <section aria-label="Hero" className="relative -mt-16">
       <CinematicHero
         brandName="Lexpertz"
         tagline1={taglineCopy[0]}
@@ -132,7 +124,6 @@ export function HeroCinematic() {
         primaryCtaHref="/contact"
         secondaryCtaLabel="View Solutions"
         secondaryCtaHref="/case-studies"
-        className="absolute inset-0"
       />
     </section>
   );

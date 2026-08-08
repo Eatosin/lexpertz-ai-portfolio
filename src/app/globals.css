@@ -184,6 +184,20 @@
     );
   }
 
+  /* Brand mesh — dual radial glow used behind the cinematic hero and posters */
+  .bg-brand-mesh {
+    background-image: radial-gradient(
+        at 30% 20%,
+        hsl(var(--brand-cyan) / 0.16) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 70% 80%,
+        hsl(var(--brand-blue) / 0.16) 0px,
+        transparent 50%
+      );
+  }
+
   /* Neon hover-glow border (used by bento cards) */
   .glow-border {
     position: relative;
