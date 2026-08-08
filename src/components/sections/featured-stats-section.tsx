@@ -12,9 +12,14 @@ import { featuredStats } from "@/content/featured-stats";
  */
 export function FeaturedStatsSection() {
   return (
-    <Section variant="muted" id="impact">
+    <Section
+      variant="muted"
+      id="impact"
+      className="pt-20 lg:pt-32"
+    >
       <Container>
         <FadeIn>
+          <p className="eyebrow mb-5">By the numbers</p>
           <h2 className="heading-section">
             {featuredStats.heading}{" "}
             <span className="text-lg font-normal leading-relaxed text-muted-foreground sm:text-xl lg:text-2xl">
