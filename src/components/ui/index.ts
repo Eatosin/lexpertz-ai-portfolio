@@ -32,7 +32,13 @@ export {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "./navigation-menu";
-export { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "./dialog";
+export {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "./dialog";
 export {
   Tooltip,
   TooltipTrigger,
@@ -53,3 +59,4 @@ export {
   type Milestone,
   type MilestoneStatus,
 } from "./animated-roadmap";
+export { SocialCloud, type SocialCloudProps } from "./social-cloud";

@@ -22,42 +22,63 @@ export const primaryNav: NavGroup[] = [
       {
         label: "Enterprise RAG & Auditing",
         href: "/services/enterprise-rag",
-        description: "Evidence-gated retrieval with zero-hallucination guarantees.",
+        description:
+          "Evidence-gated retrieval with zero-hallucination guarantees.",
       },
       {
         label: "Agentic Workflows",
         href: "/services/agentic-workflows",
-        description: "Autonomous multi-agent systems with self-correction loops.",
+        description:
+          "Autonomous multi-agent systems with self-correction loops.",
       },
       {
         label: "MLOps & Self-Healing Infra",
         href: "/services/mlops-infrastructure",
-        description: "Physics-informed monitoring that detects drift before it breaks.",
+        description:
+          "Physics-informed monitoring that detects drift before it breaks.",
       },
       {
         label: "AI Evaluation & Testing",
         href: "/services/ai-evaluation",
-        description: "Risk-aware automated QA that finds edge cases humans miss.",
+        description:
+          "Risk-aware automated QA that finds edge cases humans miss.",
       },
       {
         label: "Specialized AI Systems",
         href: "/services/specialized-ai",
-        description: "Purpose-built AI for deepfake detection, quant arbitrage, and more.",
+        description:
+          "Purpose-built AI for deepfake detection, quant arbitrage, and more.",
       },
     ],
   },
   {
     label: "Work",
     items: [
-      { label: "Case Studies", href: "/case-studies", description: "Real client engagements and outcomes." },
-      { label: "Insights", href: "/insights", description: "Technical blog and engineering notes." },
+      {
+        label: "Case Studies",
+        href: "/case-studies",
+        description: "Real client engagements and outcomes.",
+      },
+      {
+        label: "Insights",
+        href: "/insights",
+        description: "Technical blog and engineering notes.",
+      },
     ],
   },
   {
     label: "Company",
     items: [
-      { label: "About", href: "/about", description: "Founder, mission, and the Lexpertz story." },
-      { label: "Contact", href: "/contact", description: "Start a conversation or book a call." },
+      {
+        label: "About",
+        href: "/about",
+        description: "Founder, mission, and the Lexpertz story.",
+      },
+      {
+        label: "Contact",
+        href: "/contact",
+        description: "Start a conversation or book a call.",
+      },
     ],
   },
 ];
@@ -72,13 +93,57 @@ export const footerNav: NavItem[] = [
   { label: "Axiom Verify", href: "/products/axiom-verify" },
 ];
 
+/** Grouped footer link columns (drives the light card in the footer). */
+export const footerColumns: NavGroup[] = [
+  {
+    label: "Services",
+    items: [
+      { label: "Enterprise RAG & Auditing", href: "/services/enterprise-rag" },
+      { label: "Agentic Workflows", href: "/services/agentic-workflows" },
+      {
+        label: "MLOps & Self-Healing Infra",
+        href: "/services/mlops-infrastructure",
+      },
+      { label: "AI Evaluation & Testing", href: "/services/ai-evaluation" },
+      { label: "Specialized AI Systems", href: "/services/specialized-ai" },
+    ],
+  },
+  {
+    label: "Work",
+    items: [
+      { label: "Case Studies", href: "/case-studies" },
+      { label: "Insights", href: "/insights" },
+    ],
+  },
+  {
+    label: "Company",
+    items: [
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Axiom Verify", href: "/products/axiom-verify" },
+    ],
+  },
+];
+
 /** Pricing config placeholder — replace with real tiers when product launches. */
 export const pricing = {
   currency: "USD" as const,
   tiers: [
-    { name: "Starter", price: 0, description: "For solo developers kicking the tires." },
-    { name: "Growth", price: 499, description: "For teams shipping AI features to production." },
-    { name: "Enterprise", price: null, description: "Custom deployments and SLAs." },
+    {
+      name: "Starter",
+      price: 0,
+      description: "For solo developers kicking the tires.",
+    },
+    {
+      name: "Growth",
+      price: 499,
+      description: "For teams shipping AI features to production.",
+    },
+    {
+      name: "Enterprise",
+      price: null,
+      description: "Custom deployments and SLAs.",
+    },
   ],
 };
 
@@ -99,6 +164,15 @@ export const siteConfig = {
     x: "https://x.com/TosinOwadokun",
     email: "lexpertzai@cc.cc",
   },
+  /** Company social links — surfaced by the footer SocialCloud. */
+  socials: {
+    github: "https://github.com/lexpertzAI",
+    linkedin: "https://www.linkedin.com/company/lexpertzai/",
+    x: "https://x.com/Lexpertz_tech",
+    facebook: "https://www.facebook.com/Lexpertztech/",
+  },
+  /** Official Substack signup embed (publication settings snippet). */
+  newsletterEmbedUrl: "https://tosinowadokun.substack.com/embed",
 } as const;
 
 export type SiteConfig = typeof siteConfig;
