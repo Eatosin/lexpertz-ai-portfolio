@@ -2,6 +2,8 @@
 
 **Model:** DeepSeek V4 Flash (`deepseek/deepseek-v4-flash`) via direct DeepSeek API. Be concise; the instruction budget is tight. Skills are lazy-loaded — invoke them via the skill tool only when the task matches.
 
+**Harness:** OpenCode V2. Config lives in `opencode.json` + auto-discovered `.opencode/{agents,commands,skills}/`. No plugin, no build step. Project instructions go in `AGENTS.md` — the `instructions` config field is accepted but not resolved by V2. See `DEVELOPMENT.md` and `.opencode/README.md`.
+
 **Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion (LazyMotion strict) · recharts · Lenis · Zod + react-hook-form · TypeScript 5 strict
 
 **Fonts:** Space Grotesk (display) · Geist Sans (body) · Geist Mono (labels) — loaded via `next/font/google` in `src/app/layout.tsx`. See `docs/design-system.md`.
@@ -13,7 +15,7 @@
 | Dev server | `npm run dev` (port 3000) |
 | Build + typecheck | `npm run build` |
 | Lint | `npm run lint` |
-| Add shadcn/ui component | `npx shadcn@latest add <name>` |
+| Add shadcn/ui component | `npx shadcn add <name>` (local devDependency; `npm install` first) |
 
 **No test framework is installed — `npm test` fails.** `npm run build` is the ONLY typecheck path (no `tsc --noEmit`).
 
@@ -43,7 +45,8 @@ Before writing any new section/page block, check `docs/reusable-blocks.md`. If a
 ### Skills & MCP
 
 - Skills load on demand via the skill tool (paths registered: `skills/`, `.opencode/skills/`). Do not dump skill contents into output unless loaded.
-- **shadcn** + **Context7** MCP servers available (permission `ask`).
+- **Context7** MCP server, configured globally (OAuth — sign in via `/mcps`). Permission `ask`.
+- **shadcn**: use the CLI, not MCP. `shadcn` is a devDependency, so run `npm install` then `npx shadcn add <name>`. The shadcn MCP server is defined in `opencode.json` with `disabled: true` — it only wrapped the CLI in an extra hop and timed out on cold `npx` download.
 - Available workflow commands: `/plan`, `/tdd`, `/code-review`, `/security`, `/build-fix`, `/refactor-clean`, `/quality-gate`, `/update-docs`, `/verify`, `/checkpoint`, `/learn`.
 
 ## Responsive Requirements (MANDATORY — mobile + desktop)
