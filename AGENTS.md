@@ -34,6 +34,16 @@
 - **Barrels:** each module dir has `index.ts` re-exporting the public API.
 - **Stale code:** `src/components/.old/` — never import from it.
 
+### Code Floor (MANDATORY)
+
+These three were previously enforced by ECC plugin hooks, which do not run under OpenCode V2. They are unconditional here — not gated behind a lazy-loaded skill.
+
+- **No hardcoded secrets.** Keys, passwords, and tokens only via `process.env`, read through a throw-if-missing guard. Never commit a `.env`, never log secrets, tokens, or stack traces. Validate all user input with Zod (`src/lib/validators/`).
+- **Immutability (CRITICAL).** Spread or copy — never `obj.x = y`, never `arr.push()`. Create new objects and arrays. No deep nesting beyond 4 levels; functions under 50 lines.
+- **No `console.log`.** Zero occurrences in `src/` today; keep it that way. Use the project's logger if one is added.
+
+Detailed checklists for each live in the lazy-loaded `security-review` and `coding-standards` skills.
+
 ### Reusability Mandate (MANDATORY)
 
 Before writing any new section/page block, check `docs/reusable-blocks.md`. If a primitive exists, **reuse it** — compose, don't rewrite.
