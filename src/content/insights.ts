@@ -1,47 +1,49 @@
+/**
+ * Backwards-compatible accessor for the insights catalog.
+ *
+ * The catalog is now derived from markdown files in `content/insights/` (see
+ * `@/lib/insights`) rather than being hand-maintained here. This module keeps the
+ * original `getInsights` / `getInsightBySlug` surface so existing consumers —
+ * `/insights`, `sitemap.ts`, and the homepage preview — keep working unchanged.
+ *
+ * `InsightPost` extends `InsightSurface` with the compiled `html` body and a
+ * `draft` flag. Neither belongs in a list view or a sitemap entry, so this
+ * module projects down to the metadata-only shape.
+ */
+
 import type { InsightSurface } from "./types";
+import type { InsightPost } from "@/lib/insights";
 
-export const insights: InsightSurface[] = [
-  {
-    slug: "architecture-of-axiom-engine",
-    title: "The Architecture of Axiom Engine: Building a Zero-Hallucination RAG Pipeline",
-    summary:
-      "A deep dive into the 4-node LangGraph circuit powering Axiom Engine V4 — how the Librarian, Editor, Architect, and Prosecutor nodes collaborate to achieve 99.9% verifiable output with adversarial self-correction.",
-    author: "Owadokun Tosin Tobi",
-    publishedAt: "2026-06-10",
-    category: "Engineering",
-    readingTimeMinutes: 12,
-  },
-  {
-    slug: "physics-informed-mlops",
-    title: "Physics-Informed MLOps: Using Z-Scores to Detect Drift Before It Breaks Prod",
-    summary:
-      "Why I use 2.5σ thresholds instead of arbitrary alert rules. A practical guide to building self-healing monitoring with physics-grounded anomaly detection and automated RAG-powered root cause analysis.",
-    author: "Owadokun Tosin Tobi",
-    publishedAt: "2026-03-18",
-    category: "Engineering",
-    readingTimeMinutes: 8,
-  },
-  {
-    slug: "mcp-protocol-ides",
-    title: "Bridging IDEs to Cloud AI with the Model Context Protocol",
-    summary:
-      "How MCP lets Claude and Cursor talk directly to a FastAPI cloud backend — enabling secure, context-aware AI architectures without fragile prompt engineering or manual context stuffing.",
-    author: "Owadokun Tosin Tobi",
-    publishedAt: "2026-02-05",
-    category: "Research",
-    readingTimeMinutes: 9,
-  },
-  {
-    slug: "agentic-self-correction",
-    title: "Why Your AI Agent Needs a Critic: Self-Correction Loops in Production",
-    summary:
-      "Practical patterns for building agentic workflows that don't silently fail. From NewsAgent Pro's 5-node pipeline to Axiom's adversarial prosecutor — how to bake verification into your LangGraph architecture.",
-    author: "Owadokun Tosin Tobi",
-    publishedAt: "2026-01-22",
-    category: "Architecture",
-    readingTimeMinutes: 10,
-  },
-];
+import { getInsightPosts } from "@/lib/insights";
 
-export const getInsightBySlug = (slug: string) =>
-  insights.find((i) => i.slug === slug);
+/** Drop build-time-only fields to get the metadata-only catalog shape. */
+const toSurface = (post: InsightPost): InsightSurface => ({
+  slug: post.slug,
+  title: post.title,
+  summary: post.summary,
+  author: post.author,
+  publishedAt: post.publishedAt,
+  category: post.category,
+  coverImage: post.coverImage,
+  tags: post.tags,
+  readingTimeMinutes: post.readingTimeMinutes,
+});
+
+/** Every post on disk, metadata only, newest first. */
+export const getInsights = async (): Promise<InsightSurface[]> => {
+  const posts = await getInsightPosts();
+  return posts.map(toSurface);
+};
+
+/** Posts rendered on the index page — drafts are excluded in production. */
+export const getPublishedInsights = getInsights;
+
+export const getInsightBySlug = async (
+  slug: string,
+): Promise<InsightSurface | undefined> => {
+  const posts = await getInsightPosts();
+  const post = posts.find((p) => p.slug === slug);
+  return post ? toSurface(post) : undefined;
+};
+
+export type { InsightPost };
