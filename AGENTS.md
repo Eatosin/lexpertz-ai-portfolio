@@ -23,7 +23,7 @@
 
 - **Path alias:** `@/` maps to `./src/*`
 - **Pages:** Homepage is a single-page marketing site; sections in `src/components/sections/`. Other routes: `src/app/(marketing)/` (about, case-studies, contact, insights, services), `src/app/products/axiom-verify/`.
-- **Content:** `src/content/` = static TS data files (services, case-studies, team, insights, featured-stats). No CMS. Drives `src/app/sitemap.ts`.
+- **Content:** `src/content/` = static TS data files (services, case-studies, team, featured-stats). No CMS. Drives `src/app/sitemap.ts`. **Insights/blog posts are markdown** in `content/insights/*.md` (frontmatter → `InsightSurface`), loaded server-side by `src/lib/insights.ts`; `src/content/insights.ts` is a metadata-only projection. The loader uses `fs`, so client components must receive posts as props. Blog authoring is driven by the vendored `claude-blog` skill suite — see `docs/blog-pipeline.md`.
 - **UI primitives:** `src/components/ui/` (Button, Badge, Card, BentoCard, Container, Section, StatCard, GrowthChart, ScrollMorphHero). Layout in `src/components/layout/`. Motion primitives in `src/components/motion/` (FadeIn/SlideUp/Stagger + CountUp, ScrollTransform, TiltCard).
 - **Hero:** `src/components/sections/hero-scroll-morph.tsx` wraps `ScrollMorphHero`. Client-only Framer Motion scene (20 flip-cards: scatter → line → circle → bottom arc → shuffle). Must stay `m.div` (LazyMotion strict). `next/image` against `images.unsplash.com` (see `next.config.mjs` remotePatterns). `prefers-reduced-motion` → static gradient poster, no JS scene.
 - **Charts:** recharts in `GrowthChart` — brand-gradient area chart, token-styled tooltip, data from `src/content/featured-stats.ts`.
@@ -48,6 +48,7 @@ Before writing any new section/page block, check `docs/reusable-blocks.md`. If a
 - **Context7** MCP server, configured globally (OAuth — sign in via `/mcps`). Permission `ask`.
 - **shadcn**: use the CLI, not MCP. `shadcn` is a devDependency, so run `npm install` then `npx shadcn add <name>`. The shadcn MCP server is defined in `opencode.json` with `disabled: true` — it only wrapped the CLI in an extra hop and timed out on cold `npx` download.
 - Available workflow commands: `/plan`, `/tdd`, `/code-review`, `/security`, `/build-fix`, `/refactor-clean`, `/quality-gate`, `/update-docs`, `/verify`, `/checkpoint`, `/learn`.
+- **Blog skills:** 31 `blog-*` skills from `claude-blog` are vendored to `.opencode/vendor/claude-blog/` (gitignored) and registered in `opencode.json`. Re-clone after a fresh checkout: `git clone --depth 1 https://github.com/AgriciDaniel/claude-blog .opencode/vendor/claude-blog`. Invoke flat (`/blog-write`), not `/blog write`. Output must land in `content/insights/*.md` — see `docs/blog-pipeline.md`.
 
 ## Responsive Requirements (MANDATORY — mobile + desktop)
 
