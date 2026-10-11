@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { SlideUp, StaggerContainer, StaggerItem } from "@/components/motion";
-import { insights } from "@/content/insights";
+import { getPublishedInsights } from "@/content/insights";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   description: "Sharp opinions on RAG, evals, and agents — mostly after we ship them.",
 };
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const insights = await getPublishedInsights();
   return (
     <Container className="py-16 md:py-24">
       <SlideUp className="mb-10">

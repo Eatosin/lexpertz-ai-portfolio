@@ -1,16 +1,20 @@
 import type { MetadataRoute } from "next";
 
+import { getPublishedInsights } from "@/content/insights";
 import { caseStudies } from "@/content/case-studies";
-import { insights } from "@/content/insights";
 import { services } from "@/content/services";
 import { siteConfig } from "@/lib/constants";
 
 /**
  * Generated sitemap covering every route, including detail pages derived
  * from the content data files — kept in sync automatically as content grows.
+ *
+ * Async because the insights catalog is read from markdown on disk at build
+ * time (see `@/lib/insights`); the static imports above remain synchronous.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
+  const insights = await getPublishedInsights();
 
   const routes: Array<{ path: string; priority: number }> = [
     { path: "", priority: 1.0 },

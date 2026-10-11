@@ -6,11 +6,18 @@ import { Section } from "@/components/ui/section";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { StaggerContainer, StaggerItem } from "@/components/motion";
-import { insights } from "@/content/insights";
 import { trackCTA } from "@/lib/analytics";
+import type { InsightSurface } from "@/content/types";
 
-/** InsightsPreview — published technical blog tiles on the homepage. */
-export function InsightsPreview() {
+/**
+ * InsightsPreview — published technical blog tiles on the homepage.
+ *
+ * Posts arrive as props rather than being read here: the catalog is read from
+ * markdown on the filesystem (`@/lib/insights`), and this is a client
+ * component for `trackCTA`, so the server component that renders it
+ * (`app/page.tsx`) does the read and passes the result down.
+ */
+export function InsightsPreview({ insights }: { insights: InsightSurface[] }) {
   return (
     <Section id="insights">
       <Container>
