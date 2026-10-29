@@ -77,6 +77,7 @@ export function Footer() {
                 twitterUrl={siteConfig.socials.x}
                 linkedinUrl={siteConfig.socials.linkedin}
                 facebookUrl={siteConfig.socials.facebook}
+                substackUrl={siteConfig.substackUrl}
                 emailUrl={`mailto:${siteConfig.founder.email}`}
               />
               <p className="text-xs text-white/60">

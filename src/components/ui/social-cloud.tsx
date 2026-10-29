@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { Facebook, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Facebook, Github, Linkedin, Mail, Rss, Twitter } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -18,6 +18,8 @@ export interface SocialCloudProps extends React.HTMLAttributes<HTMLDivElement> {
   twitterUrl?: string;
   linkedinUrl?: string;
   facebookUrl?: string;
+  /** Substack publication. Uses an RSS glyph — lucide has no Substack mark. */
+  substackUrl?: string;
   /** Mailto address — rendered without `target="_blank"`. */
   emailUrl?: string;
 }
@@ -25,6 +27,7 @@ export interface SocialCloudProps extends React.HTMLAttributes<HTMLDivElement> {
 const SOCIAL_ITEMS = [
   { icon: Linkedin, key: "linkedinUrl", label: "LinkedIn" },
   { icon: Twitter, key: "twitterUrl", label: "X" },
+  { icon: Rss, key: "substackUrl", label: "Substack" },
   { icon: Facebook, key: "facebookUrl", label: "Facebook" },
   { icon: Github, key: "githubUrl", label: "GitHub" },
   { icon: Mail, key: "emailUrl", label: "Email" },
@@ -36,10 +39,18 @@ export function SocialCloud({
   twitterUrl,
   linkedinUrl,
   facebookUrl,
+  substackUrl,
   emailUrl,
   ...props
 }: SocialCloudProps) {
-  const urls = { githubUrl, twitterUrl, linkedinUrl, facebookUrl, emailUrl };
+  const urls = {
+    githubUrl,
+    twitterUrl,
+    linkedinUrl,
+    facebookUrl,
+    substackUrl,
+    emailUrl,
+  };
 
   const items = SOCIAL_ITEMS.filter(({ key }) => {
     const url = urls[key];

@@ -173,6 +173,8 @@ export const siteConfig = {
   },
   /** Official Substack signup embed (publication settings snippet). */
   newsletterEmbedUrl: "https://tosinowadokun.substack.com/embed",
+  /** Public Substack publication — the citable link, not the embed. */
+  substackUrl: "https://tosinowadokun.substack.com/",
 } as const;
 
 export type SiteConfig = typeof siteConfig;
