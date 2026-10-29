@@ -7,7 +7,8 @@
  * `dangerouslySetInnerHTML` after sanitization guarantees are documented.
  *
  * Chain: remark-parse → remark-gfm → remark-rehype → rehype-slug →
- *        rehype-autolink-headings → rehype-stringify
+ *        rehype-autolink-headings → rehype-external-links →
+ *        rehype-wrap-tables → rehype-stringify
  *
  * `remark-rehype` runs WITHOUT `allowDangerousHtml`, so raw HTML in a post is
  * dropped rather than passed through. That is the primary XSS guarantee for
@@ -20,7 +21,7 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
-import { visit } from "unist-util-visit";
+import { visit, SKIP } from "unist-util-visit";
 import type { Root, Element } from "hast";
 
 /**
@@ -45,6 +46,36 @@ function rehypeExternalLinks() {
 }
 
 /**
+ * Wrap tables in a scroll container.
+ *
+ * A wide table (four or more columns) cannot fit a 375px viewport, and because
+ * `table` is a block-level element with intrinsic min-width, it pushes the whole
+ * page into horizontal scroll rather than shrinking. Wrapping each table in an
+ * overflow container keeps the page width intact and lets the table scroll on
+ * its own axis. Done here rather than in CSS-only so `.prose table` styling
+ * keeps applying to the table itself.
+ */
+function rehypeWrapTables() {
+  return (tree: Root) => {
+    visit(tree, "element", (node: Element, index, parent) => {
+      if (node.tagName !== "table" || !parent || typeof index !== "number") {
+        return;
+      }
+
+      const wrapper: Element = {
+        type: "element",
+        tagName: "div",
+        properties: { className: ["table-wrap"] },
+        children: [node],
+      };
+
+      parent.children[index] = wrapper;
+      return SKIP;
+    });
+  };
+}
+
+/**
  * Render a markdown body to sanitized HTML.
  */
 export async function renderMarkdown(markdown: string): Promise<string> {
@@ -59,6 +90,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
       },
     })
     .use(rehypeExternalLinks)
+    .use(rehypeWrapTables)
     .use(rehypeStringify)
     .process(markdown);
 
