@@ -20,12 +20,32 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
+import { visit } from "unist-util-visit";
+import type { Root, Element } from "hast";
+
+/**
+ * Open outbound links in a new tab with `rel="noopener noreferrer"`.
+ *
+ * Only absolute `http(s)` links are touched — relative anchors and `mailto:`
+ * links keep their default behavior. `noopener` prevents the destination from
+ * retaining a `window.opener` handle; `noreferrer` also strips the Referer
+ * header, which keeps internal URLs out of third-party logs.
+ */
+function rehypeExternalLinks() {
+  return (tree: Root) => {
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName !== "a") return;
+      const href = node.properties?.href;
+      if (typeof href !== "string" || !/^https?:\/\//i.test(href)) return;
+
+      node.properties.target = "_blank";
+      node.properties.rel = ["noopener", "noreferrer"];
+    });
+  };
+}
 
 /**
  * Render a markdown body to sanitized HTML.
- *
- * Links authored in posts get `target="_blank"` + `rel="noopener noreferrer"`
- * so outbound references can't reach back through `window.opener`.
  */
 export async function renderMarkdown(markdown: string): Promise<string> {
   const file = await remark()
@@ -38,6 +58,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
         className: ["heading-anchor"],
       },
     })
+    .use(rehypeExternalLinks)
     .use(rehypeStringify)
     .process(markdown);
 
