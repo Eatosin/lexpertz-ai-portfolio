@@ -135,7 +135,13 @@ export default async function InsightDetailPage({ params }: PageProps) {
             <h1 className="heading-page">{post.title}</h1>
             <p className="mt-3 text-xl text-muted-foreground">{post.summary}</p>
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-              <span>{post.author}</span>
+              <Link
+                href="/about"
+                className="transition-colors [@media(hover:hover)]:hover:text-foreground"
+                aria-label={`About ${post.author}`}
+              >
+                {post.author}
+              </Link>
               <span>·</span>
               <time dateTime={post.publishedAt}>
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
