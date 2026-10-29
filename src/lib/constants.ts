@@ -175,6 +175,8 @@ export const siteConfig = {
   newsletterEmbedUrl: "https://tosinowadokun.substack.com/embed",
   /** Public Substack publication — the citable link, not the embed. */
   substackUrl: "https://tosinowadokun.substack.com/",
+  /** Founder's X handle, without the @. Used for share intent attribution. */
+  xHandle: "TosinOwadokun",
 } as const;
 
 export type SiteConfig = typeof siteConfig;

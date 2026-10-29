@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    creator: "@TosinOwadokun",
+    creator: `@${siteConfig.xHandle}`,
     images: [{ url: "/logo-icon.png", width: 512, height: 512 }],
   },
   robots: {

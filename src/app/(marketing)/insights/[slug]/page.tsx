@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/motion";
+import { AuthorCard, ShareRow } from "@/components/blog";
 import { getPostBySlug, getPublishedPosts } from "@/lib/insights";
 import { siteConfig } from "@/lib/constants";
 
@@ -48,6 +49,10 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
+      // Attribution on the card itself. This does not add followers on its
+      // own; it makes the handle visible where the link is shared.
+      creator: `@${siteConfig.xHandle}`,
+      site: `@${siteConfig.xHandle}`,
       images: post.coverImage ? [post.coverImage] : undefined,
     },
   };
@@ -66,8 +71,54 @@ export default async function InsightDetailPage({ params }: PageProps) {
       ? posts[currentIndex + 1]
       : undefined;
 
+  const url = `${siteConfig.url}/insights/${post.slug}`;
+
+  /**
+   * BlogPosting structured data. `sameAs` ties the author entity to the real
+   * profiles, which is the machine-readable half of identity; the visible
+   * follow card below is the half that actually converts.
+   *
+   * Serialization escapes `<` so a title containing `</script>` cannot break
+   * out of the tag.
+   */
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+      url: `${siteConfig.url}/about`,
+      sameAs: [
+        siteConfig.founder.x,
+        siteConfig.founder.linkedin,
+        siteConfig.founder.github,
+      ],
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/logo-icon.png`,
+      },
+    },
+    image: post.coverImage ? `${siteConfig.url}${post.coverImage}` : undefined,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    keywords: post.tags?.join(", "),
+  };
+
   return (
     <Container className="py-16 md:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       {/*
         Animation is scoped to the header, not the whole article. `FadeIn` uses
         `viewport.amount: 0.25`, and a long post is many times taller than the
@@ -128,6 +179,16 @@ export default async function InsightDetailPage({ params }: PageProps) {
             ))}
           </div>
         ) : null}
+
+        <FadeIn className="mt-10 border-t border-border pt-8">
+          <ShareRow
+            title={post.title}
+            url={url}
+            via={siteConfig.xHandle}
+          />
+        </FadeIn>
+
+        <AuthorCard className="mt-8" />
 
         {(newer || older) ? (
           <nav
