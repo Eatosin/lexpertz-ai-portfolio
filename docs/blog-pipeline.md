@@ -11,8 +11,7 @@ Posts are **markdown files with frontmatter**, one per post:
 
 ```
 content/insights/
-├── architecture-of-axiom-engine.md
-├── physics-informed-mlops.md
+├── ai-powered-security-agents.md
 └── my-new-post.md
 ```
 
