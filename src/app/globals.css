@@ -170,6 +170,43 @@
   .prose .table-wrap > table {
     margin-block: 0;
   }
+
+  /*
+   * Figures produced by the markdown renderer. Diagrams are authored at 1200px
+   * and scale down to the prose column; the border keeps them from blending
+   * into the page in light mode, where the artwork is still dark.
+   */
+  .prose .figure {
+    margin-block: 2.25em;
+  }
+
+  .prose .figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    border: 1px solid hsl(var(--border));
+    background-color: #070709;
+  }
+
+  .prose .figure .figure-link {
+    display: block;
+    cursor: zoom-in;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: border-color 200ms ease;
+  }
+
+  .prose .figure .figure-link:hover img {
+    border-color: hsl(var(--brand-cyan) / 0.5);
+  }
+
+  .prose .figure figcaption {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: hsl(var(--muted-foreground));
+  }
 }
 
 @layer utilities {

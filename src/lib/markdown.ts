@@ -76,6 +76,76 @@ function rehypeWrapTables() {
 }
 
 /**
+ * Wrap body images in a figure with an optional caption.
+ *
+ * Markdown image titles become captions: `![alt](/x.svg "Figure 1 — ...")`.
+ * The title is removed from the `img` so it does not render twice (browsers
+ * show `title` as a tooltip). Images are marked lazy + async-decoding so a
+ * long post with several diagrams does not block the text.
+ */
+function rehypeFigures() {
+  return (tree: Root) => {
+    visit(tree, "element", (node: Element, index, parent) => {
+      if (node.tagName !== "img" || !parent || typeof index !== "number") {
+        return;
+      }
+
+      const title = node.properties?.title;
+      const caption =
+        typeof title === "string" && title.trim().length > 0 ? title : undefined;
+
+      node.properties = {
+        ...node.properties,
+        loading: "lazy",
+        decoding: "async",
+      };
+      delete node.properties.title;
+
+      // Link the image to its own source file so a reader on a 375px screen can
+      // open the diagram at full resolution. Vector diagrams scale cleanly when
+      // opened directly in the browser.
+      const src = node.properties?.src;
+      const imageNode =
+        typeof src === "string"
+          ? {
+              type: "element" as const,
+              tagName: "a",
+              properties: {
+                href: src,
+                target: "_blank",
+                rel: ["noopener", "noreferrer"],
+                className: ["figure-link"],
+                "aria-label": "Open this diagram at full size",
+              },
+              children: [node],
+            }
+          : node;
+
+      parent.children[index] = {
+        type: "element",
+        tagName: "figure",
+        properties: { className: ["figure"] },
+        children: [
+          imageNode,
+          ...(caption
+            ? [
+                {
+                  type: "element" as const,
+                  tagName: "figcaption",
+                  properties: {},
+                  children: [{ type: "text" as const, value: caption }],
+                },
+              ]
+            : []),
+        ],
+      };
+
+      return SKIP;
+    });
+  };
+}
+
+/**
  * Render a markdown body to sanitized HTML.
  */
 export async function renderMarkdown(markdown: string): Promise<string> {
@@ -91,6 +161,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     })
     .use(rehypeExternalLinks)
     .use(rehypeWrapTables)
+    .use(rehypeFigures)
     .use(rehypeStringify)
     .process(markdown);
 
