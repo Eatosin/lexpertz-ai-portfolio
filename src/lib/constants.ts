@@ -150,7 +150,7 @@ export const pricing = {
 export const siteConfig = {
   name: "Lexpertz AI",
   shortName: "Lexpertz",
-  url: "https://lexpertzai.cc",
+  url: "https://www.lexpertzai.cc",
   description:
     "Precision AI & Logic Assurance. Enterprise RAG pipelines, agentic workflows, MLOps, and physics-informed AI auditing — engineered by a physicist who ships.",
   tagline: "Architecting Intelligence Through Physics-Based MLOps and LLMs.",

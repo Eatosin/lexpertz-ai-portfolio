@@ -5,4 +5,6 @@ User-agent: *
 Allow: /
 
 # The Map Location
-Sitemap: https://lexpertzai.cc/sitemap.xml
+# Must match the canonical host: lexpertzai.cc 308-redirects to www, and a
+# sitemap URL that redirects is a needless hop for every crawler.
+Sitemap: https://www.lexpertzai.cc/sitemap.xml
