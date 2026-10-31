@@ -1,4 +1,4 @@
-# Development Guide
+# Development guide — setup, harness, and the repo layout
 
 ## Prerequisites
 
@@ -269,13 +269,16 @@ lexpertz-ai-portfolio/
 │       ├── design-tokens.ts  # Color + typography token mirrors
 │       ├── motion-tokens.ts  # Animation tokens
 │       └── utils/        # Utility functions
-├── docs/                 # Design docs (design-system.md, design-concepts.md)
-├── .opencode/            # ECC plugin (plugins/, tools/, prompts/, commands/)
+├── content/insights/     # Published markdown posts (filename = slug)
+├── docs/                 # Factory reference: design/, process/, standards/
+├── map/                  # System map (objects/, processes/, effects/)
+├── _archive/             # Dead code, kept and excluded from the build
+├── .opencode/            # Native V2 skills, agents, commands (no plugin)
 ├── .devcontainer/        # GitHub Codespaces dev container
-├── skills/               # OpenCode agent skills
+├── skills/               # OpenCode agent skills (repo root)
 ├── public/               # Static assets (robots.txt — sitemap.xml is generated)
-├── AGENTS.md             # Agent guide (commands, architecture, tools)
-├── DEVELOPMENT.md        # This file
+├── AGENTS.md             # Entry file: identity, commands, routing
+├── CONTEXT.md            # How the repo is organised
 └── README.md             # Project overview
 ```
 

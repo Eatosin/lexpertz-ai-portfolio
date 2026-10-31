@@ -31,7 +31,7 @@ rtk grep <import-name> src/     # check import usage
 - Commented-out code
 - Unreachable code
 - Unused CSS classes
-- Files in `src/components/.old/` (never import from them)
+- Files in `_archive/src-components-old/` (dead code; never import from it)
 
 ## Removal Phase
 
@@ -60,7 +60,7 @@ rtk grep <import-name> src/     # check import usage
 ### Consolidation Strategies
 
 1. **Extract utility function** — for repeated logic (put in `src/lib/`)
-2. **Reuse existing primitives** — check `docs/reusable-blocks.md` before writing new components
+2. **Reuse existing primitives** — check `docs/standards/reusable-blocks.md` before writing new components
 3. **Create shared constants** — for magic values
 
 ## Verification

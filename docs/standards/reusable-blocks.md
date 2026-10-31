@@ -58,7 +58,7 @@ stack, or proof metric — one of these blocks already does it. Reuse it.
    primitives. See `/about` as the reference example (ProfileCard + StatCard +
    CountUp + BentoCard + TiltCard + ProcessSteps + CTASection, zero new code).
 3. **Keep the catalog in sync** — add a row when a primitive ships or gains a
-   new call site, and mark it in `docs/design-concepts.md`.
+   new call site, and mark it in `docs/design/design-concepts.md`.
 4. **Brand discipline** — primitives use design tokens (cyan accent, brand
    gradients); concept files get adapted to `m.div` (LazyMotion strict) and
    repo tokens on import.

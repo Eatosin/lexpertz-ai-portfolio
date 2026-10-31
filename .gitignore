@@ -36,7 +36,7 @@ coverage/
 # serena (local LSP state — not committed)
 .serena/
 
-# vendored third-party skill suites (cloned, not committed — see docs/blog-pipeline.md)
+# vendored third-party skill suites (cloned, not committed — see docs/process/blog-pipeline.md)
 .opencode/vendor/
 
 # editor / ide

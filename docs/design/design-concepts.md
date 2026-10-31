@@ -197,4 +197,4 @@ a row to the Roadmap. Keep this file in sync when a PR ships — update status
 to ✅ with the commit hash.
 
 **Reusable blocks:** shipped primitives and their call sites are cataloged in
-`docs/reusable-blocks.md` — check it before building any new page block.
+`docs/standards/reusable-blocks.md` — check it before building any new page block.

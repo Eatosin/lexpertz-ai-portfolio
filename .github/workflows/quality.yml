@@ -47,3 +47,23 @@ jobs:
 
       - name: Run Linter
         run: npm run lint
+
+  links:
+    name: Map & Docs Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Fails when a relative link, card input, or doc path no longer resolves.
+      # Third-party skill suites are skipped: they reference their upstream repo.
+      - name: Check relative links and map inputs
+        run: >-
+          python3 -I map/_tools/links.py .
+          --skip node_modules --skip skills --skip .opencode

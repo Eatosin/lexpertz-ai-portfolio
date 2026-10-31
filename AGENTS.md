@@ -1,107 +1,44 @@
-## Lexpertz AI Portfolio — Repo Guide
+# Lexpertz AI Portfolio
 
-**Model:** DeepSeek V4 Flash (`deepseek/deepseek-v4-flash`) via direct DeepSeek API. Be concise; the instruction budget is tight. Skills are lazy-loaded — invoke them via the skill tool only when the task matches.
+Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in `src/`, published insights in `content/insights/`, and an OpenCode V2 harness. This file routes; content lives one hop away.
 
-**Harness:** OpenCode V2. Config lives in `opencode.json` + auto-discovered `.opencode/{agents,commands,skills}/`. No plugin, no build step. Project instructions go in `AGENTS.md` — the `instructions` config field is accepted but not resolved by V2. See `DEVELOPMENT.md` and `.opencode/README.md`.
+## Where things live
 
-**Stack:** Next.js 16 (App Router, Turbopack) · shadcn/ui (base-nova) · Tailwind CSS 3 · Framer Motion (LazyMotion strict) · recharts · Lenis · Zod + react-hook-form · TypeScript 5 strict
+| Path | Holds |
+|---|---|
+| `src/` | app: routes, components, content modules, lib |
+| `content/insights/` | published markdown posts |
+| `map/` | System map: what each part is and what a change hits |
+| `docs/` | factory: `design/`, `process/`, `standards/` |
+| `skills/`, `.opencode/` | harness: skills, commands, subagents |
+| `_archive/` | dead code, kept, never imported |
 
-**Fonts:** Space Grotesk (display) · Geist Sans (body) · Geist Mono (labels) — loaded via `next/font/google` in `src/app/layout.tsx`. See `docs/design-system.md`.
+## Route by task
 
-### Commands
+| If | Go to |
+|---|---|
+| understand the repo, or ask "what does this change hit?" | [map/AGENTS.md](map/AGENTS.md), then [map/effects/CONTEXT.md](map/effects/CONTEXT.md) |
+| change a route, page, section, or component | [map/objects/component-library/CONTEXT.md](map/objects/component-library/CONTEXT.md), [app-shell](map/objects/app-shell/CONTEXT.md) |
+| publish or fix an insight | [map/processes/publish-insight.md](map/processes/publish-insight.md), then [blog-pipeline](docs/process/blog-pipeline.md) |
+| change color, type, or spacing | [map/objects/design-system/CONTEXT.md](map/objects/design-system/CONTEXT.md), then [design-system](docs/design/design-system.md) |
+| harness, skills, commands | [map/objects/agent-tooling/CONTEXT.md](map/objects/agent-tooling/CONTEXT.md), then [development](docs/process/development.md) |
+| run or verify the build | [map/processes/dev-and-build.md](map/processes/dev-and-build.md) |
+
+## Commands
 
 | Action | Command |
 |---|---|
-| Dev server | `npm run dev` (port 3000) |
-| Build + typecheck | `npm run build` |
+| Dev server (port 3000) | `npm run dev` |
+| Build + typecheck — the only typecheck path | `npm run build` |
 | Lint | `npm run lint` |
-| Add shadcn/ui component | `npx shadcn add <name>` (local devDependency; `npm install` first) |
+| Add shadcn/ui component | `npm install` then `npx shadcn add <name>` |
+| Check map links | `python -I map/_tools/links.py` |
+| Sync the map after a change | `/map-update` |
 
-**No test framework is installed — `npm test` fails.** `npm run build` is the ONLY typecheck path (no `tsc --noEmit`).
+No test framework is installed: `npm test` fails. There is no `tsc --noEmit` path.
 
-### Architecture
+## Non-negotiables (full text in `docs/standards/`)
 
-- **Path alias:** `@/` maps to `./src/*`
-- **Pages:** Homepage is a single-page marketing site; sections in `src/components/sections/`. Other routes: `src/app/(marketing)/` (about, case-studies, contact, insights, services), `src/app/products/axiom-verify/`.
-- **Content:** `src/content/` = static TS data files (services, case-studies, team, featured-stats). No CMS. Drives `src/app/sitemap.ts`. **Insights/blog posts are markdown** in `content/insights/*.md` (frontmatter → `InsightSurface`), loaded server-side by `src/lib/insights.ts`; `src/content/insights.ts` is a metadata-only projection. The loader uses `fs`, so client components must receive posts as props. Blog authoring is driven by the vendored `claude-blog` skill suite — see `docs/blog-pipeline.md`.
-- **UI primitives:** `src/components/ui/` (Button, Badge, Card, BentoCard, Container, Section, StatCard, GrowthChart, ScrollMorphHero). Layout in `src/components/layout/`. Motion primitives in `src/components/motion/` (FadeIn/SlideUp/Stagger + CountUp, ScrollTransform, TiltCard).
-- **Hero:** `src/components/sections/hero-scroll-morph.tsx` wraps `ScrollMorphHero`. Client-only Framer Motion scene (20 flip-cards: scatter → line → circle → bottom arc → shuffle). Must stay `m.div` (LazyMotion strict). `next/image` against `images.unsplash.com` (see `next.config.mjs` remotePatterns). `prefers-reduced-motion` → static gradient poster, no JS scene.
-- **Charts:** recharts in `GrowthChart` — brand-gradient area chart, token-styled tooltip, data from `src/content/featured-stats.ts`.
-- **3D (dormant):** `src/components/three/` — not mounted. If reintroduced: dynamic import (`ssr: false`), unmount off-screen, reduced-motion, `frameloop="demand"`, DPR-capped.
-- **Providers:** `src/components/providers/` — ThemeProvider, MotionProvider (LazyMotion), SmoothScrollProvider (Lenis, reduced-motion aware).
-- **Design tokens:** HSL CSS vars in `src/app/globals.css` + `.heading-page`/`.heading-section`/`.heading-card`/`.eyebrow` utilities. Mirror types in `src/lib/design-tokens.ts`. Motion tokens in `src/lib/motion-tokens.ts`. See `docs/design-system.md`.
-- **Forms:** Zod schemas in `src/lib/validators/`; useForm + zodResolver (see `src/components/sections/contact-form.tsx`).
-- **Barrels:** each module dir has `index.ts` re-exporting the public API.
-- **Stale code:** `src/components/.old/` — never import from it.
-
-### Reusability Mandate (MANDATORY)
-
-Before writing any new section/page block, check `docs/reusable-blocks.md`. If a primitive exists, **reuse it** — compose, don't rewrite.
-
-- New reusable component → generic primitive: `src/components/ui/` (UI) or `src/components/motion/` (motion), exported from the dir barrel, content driven from `src/content/*` (never inline page data).
-- Page sections are thin wrappers composing primitives + content (reference: `CTASection`, `TeamSection`, `/about` page).
-- Keep `docs/reusable-blocks.md` in sync when a primitive ships or gains a call site.
-
-### Skills & MCP
-
-- Skills load on demand via the skill tool (paths registered: `skills/`, `.opencode/skills/`). Do not dump skill contents into output unless loaded.
-- **Context7** MCP server, configured globally (OAuth — sign in via `/mcps`). Permission `ask`.
-- **shadcn**: use the CLI, not MCP. `shadcn` is a devDependency, so run `npm install` then `npx shadcn add <name>`. The shadcn MCP server is defined in `opencode.json` with `disabled: true` — it only wrapped the CLI in an extra hop and timed out on cold `npx` download.
-- Available workflow commands: `/plan`, `/tdd`, `/code-review`, `/security`, `/build-fix`, `/refactor-clean`, `/quality-gate`, `/update-docs`, `/verify`, `/checkpoint`, `/learn`.
-- **Blog skills:** 31 `blog-*` skills from `claude-blog` are vendored to `.opencode/vendor/claude-blog/` (gitignored) and registered in `opencode.json`. Re-clone after a fresh checkout: `git clone --depth 1 https://github.com/AgriciDaniel/claude-blog .opencode/vendor/claude-blog`. Invoke flat (`/blog-write`), not `/blog write`. Output must land in `content/insights/*.md` — see `docs/blog-pipeline.md`.
-
-## Responsive Requirements (MANDATORY — mobile + desktop)
-
-Every component/design ships **mobile-first** and is verified at both ~375px and ≥1280px before done.
-
-- **Mobile-first**: base Tailwind classes = mobile layout; `sm:`/`md:`/`lg:` are progressive upgrades. Never desktop-first then squeeze down.
-- **Mandatory two-breakpoint check**: verify visually at ~375px and ≥1280px before marking complete.
-- **Touch targets ≥ 44px**; no hover-dependent UI without `[@media(hover:hover)]:` gating.
-- **Never let fixed/absolute positioning leak**: absolute/fixed children with explicit `top`/`height` must be contained by a real height on their parent (inline `height`, `md:h-[...]`) or they paint over adjacent sections. This bug class has bitten the hero pin and process zigzag — always confirm the container grows. See `docs/lessons-learned.md`.
-- **Viewport units**: prefer `svh`/`dvh` over `vh` for above-the-fold/pinned sections.
-- **Responsive scroll animations**: `gsap.matchMedia()` (or `useMediaGreaterThan`) for per-breakpoint scroll distances; never compute `isMobile` once at mount.
-- **Decorative layers** (gradients, textures, connector SVGs): `hidden md:block`.
-- **Reduced motion** stays gated everywhere (`prefers-reduced-motion` / `useReducedMotion`) at every breakpoint.
-
-<!-- headroom:rtk-instructions -->
-# RTK (Rust Token Killer) - Token-Optimized Commands
-
-When running shell commands, **always prefix with `rtk`**. This reduces context
-usage by 60-90% with zero behavior change. If rtk has no filter for a command,
-it passes through unchanged — so it is always safe to use.
-
-## Key Commands
-```bash
-# Git (59-80% savings)
-rtk git status          rtk git diff            rtk git log
-
-# Files & Search (60-75% savings)
-rtk ls <path>           rtk read <file>         rtk grep <pattern>
-rtk find <pattern>      rtk diff <file>
-
-# Test (90-99% savings) — shows failures only
-rtk pytest tests/       rtk cargo test          rtk test <cmd>
-
-# Build & Lint (80-90% savings) — shows errors only
-rtk tsc                 rtk lint                rtk cargo build
-rtk prettier --check    rtk mypy                rtk ruff check
-
-# Analysis (70-90% savings)
-rtk err <cmd>           rtk log <file>          rtk json <file>
-rtk summary <cmd>       rtk deps                rtk env
-
-# GitHub (26-87% savings)
-rtk gh pr view <n>      rtk gh run list         rtk gh issue list
-
-# Infrastructure (85% savings)
-rtk docker ps           rtk kubectl get         rtk docker logs <c>
-
-# Package managers (70-90% savings)
-rtk pip list            rtk pnpm install        rtk npm run <script>
-```
-
-## Rules
-- In command chains, prefix each segment: `rtk git add . && rtk git commit -m "msg"`
-- For debugging, use raw command without rtk prefix
-- `rtk proxy <cmd>` runs command without filtering but tracks usage
-<!-- /headroom:rtk-instructions -->
+- Mobile-first; verified at ~375px and ≥1280px; touch targets ≥44px; reduced motion gated everywhere → [responsive](docs/standards/responsive.md)
+- Reuse before writing: check [reusable-blocks](docs/standards/reusable-blocks.md) first. Page data goes in `src/content/*`, never inline.
+- Prefix shell commands with `rtk` → [rtk](docs/standards/rtk.md)

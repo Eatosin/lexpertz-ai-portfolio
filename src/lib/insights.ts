@@ -3,7 +3,7 @@
  *
  * Posts live as markdown files in `content/insights/` so they can be written
  * and edited without touching TypeScript. Each file carries frontmatter that
- * maps onto `InsightSurface` — see `docs/blog-pipeline.md` for the contract.
+ * maps onto `InsightSurface` — see `docs/process/blog-pipeline.md` for the contract.
  *
  * Posts without a `draft: true` flag are included in production builds; draft
  * posts are visible in `next dev` so they can be previewed, and are excluded

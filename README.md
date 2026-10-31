@@ -25,9 +25,9 @@ Live at **[lexpertzai.cc](https://lexpertzai.cc)**.
 
 Dark-first typography + color system: near-void background, single cyan accent
 (`#06b6d4`), mono technical labels. Full tokens, type scale, and decisions are
-documented in [`docs/design-system.md`](docs/design-system.md). The component
+documented in [`docs/design/design-system.md`](docs/design/design-system.md). The component
 concept roadmap (shipped vs. pending) lives in
-[`docs/design-concepts.md`](docs/design-concepts.md).
+[`docs/design/design-concepts.md`](docs/design/design-concepts.md).
 
 ## Project Structure
 
@@ -38,9 +38,14 @@ lexpertz-ai-portfolio/
 │   ├── components/     # UI (ui, layout, sections, motion, forms, providers)
 │   ├── content/        # Static TypeScript data (services, case-studies, team, insights, featured-stats)
 │   └── lib/            # Utilities, hooks, validators, design tokens, analytics
+├── content/insights/   # Published markdown posts (the filename is the slug)
 ├── public/             # Static assets (optimized via Next.js Image)
-├── docs/               # Design system + design concept docs
-└── skills/             # OpenCode agent skills (coding-standards, frontend, tdd, security)
+├── docs/               # Factory reference: design/, process/, standards/
+├── map/                # System map: what each part is and what a change hits
+├── skills/             # OpenCode agent skills (coding-standards, frontend, tdd, security)
+├── _archive/           # Dead code, kept and excluded from the build
+├── AGENTS.md           # Entry file: identity, commands, routing
+└── CONTEXT.md          # How the repo is organised, and how a change flows
 ```
 
 ## Deployment
