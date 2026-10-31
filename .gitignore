@@ -39,6 +39,9 @@ coverage/
 # vendored third-party skill suites (cloned, not committed — see docs/process/blog-pipeline.md)
 .opencode/vendor/
 
+# installed third-party marketing skills (npx skills add — see docs/process/development.md)
+.agents/skills/
+
 # editor / ide
 .vscode/
 .idea/

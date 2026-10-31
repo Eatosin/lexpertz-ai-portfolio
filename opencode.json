@@ -9,7 +9,8 @@
   },
   "skills": [
     "skills",
-    ".opencode/vendor/claude-blog/skills"
+    ".opencode/vendor/claude-blog/skills",
+    ".agents/skills"
   ],
   "permissions": [
     {

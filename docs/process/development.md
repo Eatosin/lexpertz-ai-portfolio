@@ -70,6 +70,21 @@ description: When the model should reach for this
 
 The `description` is the only part advertised up front; the model loads the body when relevant. A skill with no description is never advertised. The skill ID is the path-derived directory name, not the frontmatter `name`.
 
+### Marketing skills (third-party, installed not committed)
+
+Ten skills from [`coreyhaines31/marketingskills`](https://github.com/coreyhaines31/marketingskills) live in `.agents/skills/` (gitignored). Install or restore them with the Vercel `skills` CLI, targeting OpenCode explicitly:
+
+```bash
+npx skills add coreyhaines31/marketingskills -a opencode -y --copy \
+  -s product-marketing social content-strategy copywriting ad-creative \
+     marketing-psychology analytics conversion-tracking ai-seo marketing-loops
+```
+
+- `-a opencode` is required: it installs to `.agents/skills/`, which `opencode.json` lists as a skill root. Run non-interactively, the CLI has no `opencode` target and falls back to a universal directory.
+- The list is deliberate. Every skill's description is advertised in the system prompt up front; installing all 60 would tax the instruction budget for skills this site never uses.
+- `skills-lock.json` records the source and content hash of each installed skill — commit it. Re-run the command after a fresh clone; nothing in CI needs these skills.
+- Do **not** commit `.agents/skills/` (third-party, ~2 MB). The one file that is ours is `.agents/product-marketing.md`, the positioning context every marketing skill reads first. Keep it current with `/product-marketing`.
+
 ### Why no plugin
 
 The upstream ECC distribution ships `plugins/` and `tools/`. Neither is installed:
@@ -94,6 +109,7 @@ To reintroduce them, port the plugin per <https://opencode.ai/v2/docs/build/plug
 | `/update-docs` | doc-updater | Update documentation |
 | `/learn` | — | Extract patterns and learnings from session |
 | `/checkpoint` | — | Save verification state and progress |
+| `/map-update` | — | Bring the System map in sync after a change |
 
 ### Available Agents
 

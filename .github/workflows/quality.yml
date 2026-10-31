@@ -66,4 +66,4 @@ jobs:
       - name: Check relative links and map inputs
         run: >-
           python3 -I map/_tools/links.py .
-          --skip node_modules --skip skills --skip .opencode
+          --skip node_modules --skip skills --skip .opencode --skip .agents
