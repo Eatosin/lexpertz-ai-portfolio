@@ -8,6 +8,7 @@ Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in 
 |---|---|
 | `src/` | app: routes, components, content modules, lib |
 | `content/insights/` | published markdown posts |
+| `marketing/` | campaign briefs, calendars, post drafts, results |
 | `map/` | System map: what each part is and what a change hits |
 | `docs/` | factory: `design/`, `process/`, `standards/` |
 | `skills/`, `.opencode/` | harness: skills, commands, subagents |

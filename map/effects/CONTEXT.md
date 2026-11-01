@@ -18,7 +18,7 @@ Open this before editing. It answers one question: **I am changing X, which card
 | markdown output, tables, figures, reading time | [markdown-rendering](../objects/content-and-insights/markdown-rendering.md) | [insight-posts](../objects/content-and-insights/insight-posts.md) |
 | the model, skill roots, MCP, permissions | [harness-config](../objects/agent-tooling/harness-config.md) | [add-skill-command](../processes/add-skill-command.md) |
 | a skill, command, or subagent | [skills-and-commands](../objects/agent-tooling/skills-and-commands.md) | [add-skill-command](../processes/add-skill-command.md) |
-| campaign copy, social posts, or positioning | [skills-and-commands](../objects/agent-tooling/skills-and-commands.md) | `.agents/product-marketing.md`, then `docs/design/design-system.md` for voice/UI fit |
+| campaign copy, social posts, or positioning | [skills-and-commands](../objects/agent-tooling/skills-and-commands.md) | `.agents/product-marketing.md`, then `marketing/CONTEXT.md` |
 
 ## First-order "does not hit", the wrong next noun
 

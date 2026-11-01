@@ -8,6 +8,7 @@ One tree, three kinds of work: the site (`src/`), the published posts (`content/
 |---|---|---|
 | App code — source of truth | `src/` | per feature |
 | Content — published posts | `content/insights/` | per post |
+| Campaigns — briefs and drafts | `marketing/campaigns/` | per campaign |
 | Factory — rules, reference, harness | `docs/`, `skills/`, `.opencode/`, `opencode.json` | rarely |
 
 `docs/` is itself a shelf with a router: [docs/CONTEXT.md](docs/CONTEXT.md).

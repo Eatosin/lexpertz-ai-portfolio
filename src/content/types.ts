@@ -11,11 +11,10 @@
  */
 
 export type ServiceSlug =
-  | "enterprise-rag"
-  | "agentic-workflows"
-  | "mlops-infrastructure"
-  | "ai-evaluation"
-  | "specialized-ai";
+  | "ai-proof-audit"
+  | "evidence-gated-rag"
+  | "agent-authority"
+  | "assurance-retainer";
 
 export type ServiceSurface = {
   slug: ServiceSlug;
@@ -26,12 +25,18 @@ export type ServiceSurface = {
   summary: string;
   /** Optional hero visual (icon name or image path). */
   icon?: string;
-  /** Detailed markdown body for the service detail page. */
+  /** Detailed prose for the service detail page; blank lines separate paragraphs. */
   body?: string;
   /** Known deliverables (e.g., "Architecture diagram", "Reference implementation"). */
   deliverables?: string[];
-  /** Optional estimated engagement length. */
+  /** Optional estimated engagement length in weeks. Omit for ongoing work. */
   durationWeeks?: number;
+  /** Human-readable engagement shape, e.g. "2 weeks, fixed price". */
+  engagement?: string;
+  /** Who the engagement is for; one sentence, shown on the detail page. */
+  forWhom?: string;
+  /** How the engagement is priced; no numbers until pricing is validated. */
+  investment?: string;
 };
 
 export type CaseStudySurface = {

@@ -14,7 +14,7 @@ The URL surface: one page file per route, one `(marketing)` group for shared chr
 
 ## Why this shape
 
-The App Router maps files to URLs, so the route table *is* the file tree. A single `(marketing)` group keeps its URL prefix empty while still giving those pages a shared segment. Everything that repeats per item — service, case study, insight — is a `[slug]` page reading a content module, so adding an entry publishes a page without touching `src/app/`. Only insights are prerendered: their `[slug]` page exports `generateStaticParams`, while services and case studies render on demand.
+The App Router maps files to URLs, so the route table *is* the file tree. A single `(marketing)` group keeps its URL prefix empty while still giving those pages a shared segment. Everything that repeats per item — service, case study, insight — is a `[slug]` page reading a content module, so adding an entry publishes a page without touching `src/app/`. Insights and services are prerendered (`generateStaticParams`); case studies still render on demand.
 
 ## Shape
 
@@ -22,7 +22,7 @@ The App Router maps files to URLs, so the route table *is* the file tree. A sing
 |---|---|---|
 | `/` | `src/app/page.tsx:16` | static; top 3 insights |
 | `/services` | `src/app/(marketing)/services/page.tsx` | static |
-| `/services/[slug]` | `src/app/(marketing)/services/[slug]/page.tsx` | dynamic; no `generateStaticParams` |
+| `/services/[slug]` | `src/app/(marketing)/services/[slug]/page.tsx:13` | `generateStaticParams` over the 4 services |
 | `/case-studies` | `src/app/(marketing)/case-studies/page.tsx` | static |
 | `/case-studies/[slug]` | `src/app/(marketing)/case-studies/[slug]/page.tsx` | dynamic; no `generateStaticParams` |
 | `/insights` | `src/app/(marketing)/insights/page.tsx:14` | static |

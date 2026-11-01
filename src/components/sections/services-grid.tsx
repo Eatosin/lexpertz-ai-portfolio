@@ -27,12 +27,13 @@ export function ServicesGrid() {
               What we ship
             </h5>
             <h2 className="mb-4 mt-1 text-4xl font-bold tracking-tight">
-              <span className="text-indigo-500">Five practices.</span> One
-              engineering culture.
+              <span className="text-indigo-500">Four ways in.</span> One
+              standard of proof.
             </h2>
             <p className="max-w-prose text-sm text-muted-foreground/80">
-              Pick a single engagement or compose them into a quarterly program —
-              every effort ends with your team owning the system.
+              Start with the audit, continue into a build, keep it honest with a
+              retainer. Every engagement ends with your team owning the system
+              and the evidence.
             </p>
           </div>
 
@@ -55,7 +56,7 @@ export function ServicesGrid() {
                     </h3>
                   </div>
                   <span className="font-mono text-xs uppercase tracking-wide text-cyan-400">
-                    ~{service.durationWeeks ?? 6} weeks
+                    {service.engagement ?? `~${service.durationWeeks ?? 6} weeks`}
                   </span>
                 </div>
 

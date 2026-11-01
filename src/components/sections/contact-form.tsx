@@ -14,9 +14,63 @@ import { ErrorMessage } from "@/components/forms/error-message";
 import { contactSchema, type ContactInput } from "@/lib/validators";
 import { track } from "@/lib/analytics";
 
+const UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+] as const;
+
+const CONTACT_EMAIL = "lexpertzai@cc.cc";
+
+/** First-touch attribution: keep the first UTM set this session, ignore later ones. */
+function readUtm(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    const stored = window.sessionStorage.getItem("lexpertz_utm");
+    if (stored) return JSON.parse(stored) as Record<string, string>;
+
+    const params = new URLSearchParams(window.location.search);
+    const found: Record<string, string> = {};
+    for (const key of UTM_KEYS) {
+      const value = params.get(key);
+      if (value) found[key] = value;
+    }
+    if (Object.keys(found).length > 0) {
+      window.sessionStorage.setItem("lexpertz_utm", JSON.stringify(found));
+    }
+    return found;
+  } catch {
+    return {};
+  }
+}
+
+function mailtoLink(values: ContactInput, utm: Record<string, string>) {
+  const subject = `[${values.projectType}] ${values.company || values.name}`;
+  const body = [
+    values.message,
+    "",
+    `Name: ${values.name}`,
+    `Email: ${values.email}`,
+    `Company: ${values.company || "—"}`,
+    Object.entries(utm)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("\n"),
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+}
+
 /** ContactForm — Zod-validated, react-hook-form driven, accessible TRI pattern. */
 export function ContactForm() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [fallbackHref, setFallbackHref] = React.useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -32,10 +86,46 @@ export function ContactForm() {
   });
 
   const onSubmit = async (values: ContactInput) => {
-    track({ name: "contact_submit", category: "conversion", label: values.projectType });
-    // TODO: route to a server action / emails API — leave as a simulated success for now.
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitted(true);
+    setErrorMessage(null);
+    setFallbackHref(null);
+    const utm = readUtm();
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          values,
+          utm,
+          page: window.location.pathname,
+        }),
+      });
+
+      if (response.ok) {
+        track({
+          name: "contact_submit",
+          category: "conversion",
+          label: values.projectType,
+        });
+        setSubmitted(true);
+        return;
+      }
+
+      if (response.status === 503) {
+        const href = mailtoLink(values, utm);
+        setFallbackHref(href);
+        window.location.assign(href);
+        return;
+      }
+
+      setErrorMessage(
+        "The message did not send. Email lexpertzai@cc.cc and I will pick it up there."
+      );
+    } catch {
+      setErrorMessage(
+        "The network dropped the message. Email lexpertzai@cc.cc and I will pick it up there."
+      );
+    }
   };
 
   return (
@@ -56,23 +146,42 @@ export function ContactForm() {
 
         {submitted ? (
           <div className="rounded-lg border border-success/40 bg-success/10 p-6">
-            <h2 className="heading-card">
-              Got it — we&apos;ll be in touch.
-            </h2>
+            <h2 className="heading-card">Got it — we&apos;ll be in touch.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Check your inbox for a confirmation email and a Calendly link.
-              Want to fast-track? Email{" "}
+              Your brief is in. I reply within one business day. Want to
+              fast-track? Email{" "}
               <a
-                href="mailto:lexpertzai@cc.cc"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="text-brand-cyan underline"
               >
-                lexpertzai@cc.cc
+                {CONTACT_EMAIL}
               </a>
               .
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
+            {errorMessage ? (
+              <ErrorMessage>
+                {errorMessage}{" "}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="underline">
+                  Send it by email
+                </a>
+                .
+              </ErrorMessage>
+            ) : null}
+
+            {fallbackHref ? (
+              <div className="rounded-md border border-border bg-background p-4 text-sm text-muted-foreground">
+                Your email app should be opening with the brief filled in. If it
+                did not,{" "}
+                <a href={fallbackHref} className="text-brand-cyan underline">
+                  open it here
+                </a>
+                .
+              </div>
+            ) : null}
+
             <FormField id="name" label="Name" error={errors.name?.message}>
               <Input id="name" placeholder="Your name" {...register("name")} />
             </FormField>
@@ -110,12 +219,11 @@ export function ContactForm() {
                 {...register("projectType")}
               >
                 <option value="">Select…</option>
-                <option value="rag">RAG pipelines</option>
-                <option value="agent">Agentic workflows</option>
-                <option value="eval">Model evaluation</option>
-                <option value="mlops">MLOps</option>
-                <option value="strategy">AI strategy</option>
-                <option value="other">Other</option>
+                <option value="audit">AI proof audit</option>
+                <option value="rag">Evidence-gated RAG</option>
+                <option value="agent">Agent authority & integration</option>
+                <option value="retainer">Assurance retainer</option>
+                <option value="other">Something else</option>
               </select>
             </FormField>
 

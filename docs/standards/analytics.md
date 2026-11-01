@@ -8,21 +8,26 @@ every call site goes through one function.
 
 ## Current status — read this first
 
-**The dispatcher has no sink installed.** `src/lib/analytics/index.ts` forwards
-to `window.va` (Vercel Analytics) or `window.dataLayer` (GTM), and neither is
-present in this project:
+**A sink is installed: Vercel Analytics.** `@vercel/analytics` is a dependency,
+`<Analytics />` is rendered in `src/app/layout.tsx`, and `src/lib/analytics/index.ts`
+forwards custom events through the injected `window.va('event', ...)` client.
+GTM/`dataLayer` forwarding is still wired, so adding a container later needs no
+code change.
 
-- `@vercel/analytics` is not a dependency
-- `<Analytics />` is not rendered in `src/app/layout.tsx`
-- No GTM container is loaded
+Why Vercel first and not GA4:
 
-So in production `track()` runs, finds neither global, and returns. The events
-below are **inert** until one of the two sinks is added. The code is correct;
-the pipe is not connected.
+- No cookie banner, no consent-mode work, and no third-party script for a site
+  with global traffic.
+- Page views, referrers, countries and devices are enough for a baseline.
+- Campaign attribution is handled **in the lead**, not in analytics: the contact
+  form stores the first-touch UTM set and includes it in the email
+  (`src/components/sections/contact-form.tsx`, `src/lib/analytics`).
+- GA4 becomes worth the consent work when you run paid ads or need multi-step
+  funnels. Add GTM then; the dispatcher already pushes to `dataLayer`.
 
-Pick one:
+Options if you outgrow the default:
 
-### Option A — Vercel Analytics (least setup)
+### Option A — Vercel Analytics (current default)
 
 ```bash
 npm i @vercel/analytics
@@ -30,7 +35,7 @@ npm i @vercel/analytics
 
 ```tsx
 // src/app/layout.tsx
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 
 // inside <body>, after the providers:
 <Analytics />

@@ -20,34 +20,24 @@ export const primaryNav: NavGroup[] = [
     label: "Services",
     items: [
       {
-        label: "Enterprise RAG & Auditing",
-        href: "/services/enterprise-rag",
-        description:
-          "Evidence-gated retrieval with zero-hallucination guarantees.",
+        label: "AI Proof Audit",
+        href: "/services/ai-proof-audit",
+        description: "Two weeks to find out what your AI cannot prove.",
       },
       {
-        label: "Agentic Workflows",
-        href: "/services/agentic-workflows",
-        description:
-          "Autonomous multi-agent systems with self-correction loops.",
+        label: "Evidence-Gated RAG",
+        href: "/services/evidence-gated-rag",
+        description: "Retrieval that cites, and refuses when it cannot.",
       },
       {
-        label: "MLOps & Self-Healing Infra",
-        href: "/services/mlops-infrastructure",
-        description:
-          "Physics-informed monitoring that detects drift before it breaks.",
+        label: "Agent Authority",
+        href: "/services/agent-authority",
+        description: "Agents with a scoped identity and an audit trail.",
       },
       {
-        label: "AI Evaluation & Testing",
-        href: "/services/ai-evaluation",
-        description:
-          "Risk-aware automated QA that finds edge cases humans miss.",
-      },
-      {
-        label: "Specialized AI Systems",
-        href: "/services/specialized-ai",
-        description:
-          "Purpose-built AI for deepfake detection, quant arbitrage, and more.",
+        label: "Assurance Retainer",
+        href: "/services/assurance-retainer",
+        description: "Evaluation and drift monitoring that stays current.",
       },
     ],
   },
@@ -98,14 +88,10 @@ export const footerColumns: NavGroup[] = [
   {
     label: "Services",
     items: [
-      { label: "Enterprise RAG & Auditing", href: "/services/enterprise-rag" },
-      { label: "Agentic Workflows", href: "/services/agentic-workflows" },
-      {
-        label: "MLOps & Self-Healing Infra",
-        href: "/services/mlops-infrastructure",
-      },
-      { label: "AI Evaluation & Testing", href: "/services/ai-evaluation" },
-      { label: "Specialized AI Systems", href: "/services/specialized-ai" },
+      { label: "AI Proof Audit", href: "/services/ai-proof-audit" },
+      { label: "Evidence-Gated RAG", href: "/services/evidence-gated-rag" },
+      { label: "Agent Authority", href: "/services/agent-authority" },
+      { label: "Assurance Retainer", href: "/services/assurance-retainer" },
     ],
   },
   {

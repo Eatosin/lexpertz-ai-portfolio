@@ -22,8 +22,20 @@ export function track(event: AnalyticsEvent): void {
 
   try {
     if (typeof window !== "undefined" && "va" in window) {
-      const va = (window as unknown as { va: (e: AnalyticsEvent) => void }).va;
-      va(event);
+      // Vercel's injected client queues `('event', { name, data })` calls.
+      const va = (
+        window as unknown as {
+          va: (event: "event", payload: { name: string; data?: Record<string, unknown> }) => void;
+        }
+      ).va;
+      va("event", {
+        name: event.name,
+        data: {
+          category: event.category ?? "general",
+          label: event.label,
+          value: event.value,
+        },
+      });
     }
   } catch {
     // never let analytics break the page

@@ -261,6 +261,22 @@ This project uses `npm run build` as the primary typecheck path. No separate tes
 
 For new features, use the `/tdd` command to enforce test-driven development with 80%+ coverage.
 
+## Environment variables
+
+Copy `.env.example` to `.env.local` for local work. Nothing here is required to
+build the site; each variable turns on a capability.
+
+| Variable | Turns on | Without it |
+|---|---|---|
+| `RESEND_API_KEY` | Contact form delivery through Resend | The form returns 503 and falls back to a pre-filled `mailto`, so the lead still reaches you |
+| `CONTACT_TO_EMAIL` | Where briefs land | Defaults to `lexpertzai@cc.cc` |
+| `CONTACT_FROM_EMAIL` | Verified Resend sender | Defaults to the Resend onboarding address, which only delivers to the account owner |
+| `NEXT_PUBLIC_ANALYTICS_ENABLED` | Custom events in local dev | Production is enabled by `NODE_ENV` automatically |
+
+Vercel Analytics needs no environment variable; enable Web Analytics for the
+project in the dashboard. Campaign attribution does not depend on it: the
+contact form stores the first-touch UTM set and includes it in the email.
+
 ## Project Structure
 
 ```

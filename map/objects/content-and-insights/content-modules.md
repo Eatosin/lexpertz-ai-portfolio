@@ -20,7 +20,7 @@ Content that ships with the code should be typechecked with the code. A `Service
 
 | Module | Export | Consumed by |
 |---|---|---|
-| `services.ts` | `services` (`:3`), `getServiceBySlug` (`:76`) | `/services`, `/services/[slug]`, sitemap |
+| `services.ts` | `services` (`:8`), `getServiceBySlug` (`:111`) | `/services`, `/services/[slug]`, sitemap |
 | `case-studies.ts` | `caseStudies` | `/case-studies`, `[slug]`, sitemap |
 | `team.ts` | team members | `sections/team-section.tsx` |
 | `featured-stats.ts` | stat series | `sections/featured-stats-section.tsx`, `GrowthChart` |

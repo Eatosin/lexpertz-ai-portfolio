@@ -1,75 +1,110 @@
 import type { ServiceSurface } from "./types";
 
+/**
+ * Four ways in. The audit is the wedge; the build and the retainer are what
+ * it leads to. Prices stay off the page until three engagements have closed —
+ * the shape and the fixed-scope promise do the qualifying instead.
+ */
 export const services: ServiceSurface[] = [
   {
-    slug: "enterprise-rag",
-    title: "Enterprise RAG & AI Auditing",
-    tagline: "Evidence-gated retrieval with zero-hallucination guarantees.",
+    slug: "ai-proof-audit",
+    title: "AI Proof Audit",
+    tagline: "Two weeks to find out what your AI cannot prove.",
     summary:
-      "Multi-agent LangGraph pipelines that cross-reference documents line-by-line. Our adversarial prosecutor node forces cyclical retries if faithfulness drops below 90% — delivering 99.9% verifiable output.",
+      "A fixed-scope audit of one AI system: what it does, what it may act on, what evidence exists, and where an independent review would fail. You get a ranked gap list, not a framework deck.",
+    icon: "ShieldCheck",
+    durationWeeks: 2,
+    engagement: "2 weeks, fixed price",
+    forWhom:
+      "Teams with a pilot heading into review, or a system already in production that nobody can fully explain.",
+    investment:
+      "Fixed price agreed before work starts. Credited toward a build if you continue within 90 days.",
+    deliverables: [
+      "System and data-flow inventory with an authority model for each agent",
+      "Eval coverage mapped to the decisions that actually matter",
+      "Evidence walkthrough: citations, action logs, access paths",
+      "Ranked gap list with an owner, an effort estimate, and the risk it carries",
+      "30-day remediation plan and a board-ready one-pager",
+    ],
+    body: `Most AI programmes fail review for the same reasons. The system cannot show what it retrieved, which identity acted, or which test would catch a regression. The model is rarely the weak point.
+
+We audit one system at a time. Interviews, a read of the code and configuration, and a run against your own corpus. No generic maturity questionnaire, no scorecard that could describe any company.
+
+The output is deliberately boring: a ranked list, each item with an owner and a test that proves it is fixed. If the gaps are small, the audit says so and you keep the difference.`,
+  },
+  {
+    slug: "evidence-gated-rag",
+    title: "Evidence-Gated RAG",
+    tagline: "Retrieval that cites, and refuses when it cannot.",
+    summary:
+      "A retrieval pipeline built around verification rather than vibes: hybrid search, line-level citations, and a faithfulness gate that blocks answers below threshold. Ships with the harness that keeps it honest.",
     icon: "Search",
-    deliverables: [
-      "Hybrid retrieval architecture (pgvector + semantic)",
-      "Adversarial verification node with RAGAS telemetry",
-      "CI regression hook for eval-first deployment",
-    ],
     durationWeeks: 8,
+    engagement: "6–10 weeks, fixed scope",
+    forWhom:
+      "Document-heavy teams where a plausible answer is not good enough: policy, claims, filings, contracts, KYC.",
+    investment:
+      "Fixed scope and price after the audit. No open-ended discovery phase.",
+    deliverables: [
+      "Hybrid retrieval architecture over your corpus",
+      "Citation enforcement and a faithfulness gate with a stated threshold",
+      "Golden set and evaluation harness wired into CI",
+      "Observability, runbook, and a handover session with your engineers",
+    ],
+    body: `A demo-grade retrieval stack answers every question. A production one has to know when it does not know.
+
+We build the verification path first: what counts as evidence, how a citation is checked, and what the system does when faithfulness drops. The retriever and the model are chosen after that decision, not before it.
+
+You keep the harness. The system is handed over with the tests that prove it still works after your team changes something.`,
   },
   {
-    slug: "agentic-workflows",
-    title: "Agentic Workflows",
-    tagline: "Autonomous multi-agent systems with self-correction loops.",
+    slug: "agent-authority",
+    title: "Agent Authority & Integration",
+    tagline: "An agent that can act is an identity, not a prompt.",
     summary:
-      "From research agents that write and design content in under 60 seconds to structured extraction agents that parse raw text into validated JSON — we build LangGraph-orchestrated systems with critic-agent feedback loops.",
+      "Multi-agent systems with a defined authority model: what each agent may observe, recommend, and change; a scoped identity per agent; and every action logged as a security event.",
     icon: "Workflow",
-    deliverables: [
-      "Agent orchestration design with tool registry",
-      "Critic-agent feedback loop for self-correction",
-      "Observability dashboard with trace-based monitoring",
-    ],
     durationWeeks: 8,
-  },
-  {
-    slug: "mlops-infrastructure",
-    title: "MLOps & Self-Healing Infra",
-    tagline: "Physics-informed monitoring that detects drift before it breaks.",
-    summary:
-      "Z-score thresholds (>2.5σ) for anomaly detection, automated RAG-powered root cause analysis, and containerized FastAPI microservices with lazy-loaded ML singletons — sub-second cold boots, 2.5GB container savings.",
-    icon: "Server",
+    engagement: "6–10 weeks, fixed scope",
+    forWhom:
+      "Teams putting an agent near money, tickets, infrastructure, or customer data.",
+    investment:
+      "Fixed scope after the audit. The audit decides which actions are safe to automate first.",
     deliverables: [
-      "Drift detection with physics-informed thresholds",
-      "Automated RAG investigation agent for root cause analysis",
-      "Optimized container orchestration + deployment topology",
+      "Authority model and autonomy ladder for every agent action",
+      "Per-agent identity, scoped credentials, and a tool registry",
+      "Action logging into your existing SIEM or SOAR path",
+      "Failure-mode tests and one incident response rehearsal",
     ],
-    durationWeeks: 6,
+    body: `A read-only agent that can call a ticketing API is not read-only. Authority is decided by the tools you grant and the identity you issue.
+
+We design the authority model before the workflow: what the agent may observe, what it may recommend, what it may change, and which actions must page a human every time.
+
+Then we wire the identity, the tool surface, and the audit trail, so an incident is explainable afterwards rather than reconstructed from memory.`,
   },
   {
-    slug: "ai-evaluation",
-    title: "AI Evaluation & Testing",
-    tagline: "Risk-aware automated QA that finds edge cases humans miss.",
+    slug: "assurance-retainer",
+    title: "Assurance Retainer",
+    tagline: "Keep the evidence current, not just the model.",
     summary:
-      "Gemini 2.5-powered test generation using Z-Score and Isolation Forest for risk prioritization. We build frameworks that evaluate chain-of-thought reasoning and validate model outputs against golden benchmarks.",
+      "Ongoing evaluation, drift monitoring, and quarterly audit packs for systems already in production. The deliverable is a standing answer to “how do you know it still works”.",
     icon: "Activity",
+    engagement: "Monthly",
+    forWhom:
+      "Teams that shipped a system and need to keep proving it, without hiring a full evaluation team.",
+    investment:
+      "Monthly, cancel with 30 days notice. Priced on system count and review cadence.",
     deliverables: [
-      "Automated test generation with risk-aware prioritization",
-      "Model evaluation rubric with golden dataset curation",
-      "CI/CD integration for pre-deploy regression testing",
+      "Evaluation regression runs on every release",
+      "Drift monitoring with thresholds tied to your data",
+      "Quarterly audit pack: coverage, incidents, changes, open gaps",
+      "Incident rehearsal and a named escalation path",
     ],
-    durationWeeks: 5,
-  },
-  {
-    slug: "specialized-ai",
-    title: "Specialized AI Systems",
-    tagline: "From deepfake detection to quant arbitrage — purpose-built AI.",
-    summary:
-      "Physics-informed CNNs for audio forensics, XGBoost models for prediction market arbitrage, and unbiased LLM-powered recruitment screening. We architect niche AI that solves problems general-purpose models can't touch.",
-    icon: "Brain",
-    deliverables: [
-      "Domain-specific model architecture",
-      "Training pipeline with evaluation benchmarks",
-      "API wrapping for production deployment",
-    ],
-    durationWeeks: 10,
+    body: `The first audit is a snapshot. Models, data, and prompts change; the evidence has to change with them.
+
+We run the evaluations, watch drift, and keep the audit pack current. You get a monthly review and a quarterly pack you can hand to a board or an external auditor.
+
+The retainer is deliberately narrow. If a release needs new architecture, that is a build, scoped separately.`,
   },
 ];
 
