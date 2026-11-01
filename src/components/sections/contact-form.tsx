@@ -22,7 +22,7 @@ const UTM_KEYS = [
   "utm_term",
 ] as const;
 
-const CONTACT_EMAIL = "lexpertzai@cc.cc";
+const CONTACT_EMAIL = "brief@mail.lexpertzai.cc";
 
 /** First-touch attribution: keep the first UTM set this session, ignore later ones. */
 function readUtm(): Record<string, string> {
@@ -119,11 +119,11 @@ export function ContactForm() {
       }
 
       setErrorMessage(
-        "The message did not send. Email lexpertzai@cc.cc and I will pick it up there."
+        "The message did not send. Email brief@mail.lexpertzai.cc and I will pick it up there."
       );
     } catch {
       setErrorMessage(
-        "The network dropped the message. Email lexpertzai@cc.cc and I will pick it up there."
+        "The network dropped the message. Email brief@mail.lexpertzai.cc and I will pick it up there."
       );
     }
   };

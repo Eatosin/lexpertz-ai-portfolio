@@ -44,9 +44,9 @@ export async function POST(request: Request) {
   const page = payload.page ?? "unknown";
 
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? "lexpertzai@cc.cc";
+  const to = process.env.CONTACT_TO_EMAIL ?? "brief@mail.lexpertzai.cc";
   const from =
-    process.env.CONTACT_FROM_EMAIL ?? "Lexpertz AI <onboarding@resend.dev>";
+    process.env.CONTACT_FROM_EMAIL ?? "Lexpertz AI <brief@mail.lexpertzai.cc>";
 
   if (!apiKey) {
     console.warn(
