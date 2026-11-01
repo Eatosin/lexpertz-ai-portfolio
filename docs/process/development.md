@@ -269,8 +269,8 @@ build the site; each variable turns on a capability.
 | Variable | Turns on | Without it |
 |---|---|---|
 | `RESEND_API_KEY` | Contact form delivery through Resend | The form returns 503 and falls back to a pre-filled `mailto`, so the lead still reaches you |
-| `CONTACT_TO_EMAIL` | Where briefs land | Defaults to `lexpertzai@cc.cc` |
-| `CONTACT_FROM_EMAIL` | Verified Resend sender | Defaults to the Resend onboarding address, which only delivers to the account owner |
+| `CONTACT_TO_EMAIL` | Where briefs land | Defaults to `brief@mail.lexpertzai.cc` |
+| `CONTACT_FROM_EMAIL` | Verified Resend sender | Defaults to `Lexpertz AI <brief@mail.lexpertzai.cc>`; the sender domain must be verified in Resend |
 | `NEXT_PUBLIC_ANALYTICS_ENABLED` | Custom events in local dev | Production is enabled by `NODE_ENV` automatically |
 
 Vercel Analytics needs no environment variable; enable Web Analytics for the

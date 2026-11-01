@@ -1,8 +1,8 @@
 ---
-status: proposed
+status: deferred
 date: 2026-11-01
 owner: Owadokun Tosin Tobi
-revisit: when the X developer tier and LinkedIn app approval are known, or 2026-11-15
+revisit: after the November campaign has results, or when scheduling volume exceeds ~10 posts/week
 ---
 
 # 0001 — Scheduler for the first social campaign
@@ -44,25 +44,30 @@ Two constraints are outside our control and decide the outcome.
 
 ## Decision
 
-**Not decided yet.** Two facts decide it:
+**Deferred on 2026-11-01. The first campaign is manual.**
 
-1. Does our X developer account allow OAuth2 write access at a cost we accept?
-2. Is LinkedIn company-page approval (Marketing Developer Platform) already in place, or do we start with the founder profile only?
+The trigger was not a technical failure; it was sequencing. Two facts still gate self-hosting (X write access, LinkedIn page approval), and the campaign starts before either is resolved. Twenty-eight posts across two weeks do not justify a new production service, a database to back up, and two platform app reviews.
 
-**Recommended path if both answers are workable:** self-host Option A on Standard 1, with a 2 GB swapfile, a nightly Postgres dump, and the Reverb rebuild. The MCP server is the differentiator: it lets `/social` push drafts into a queue instead of producing copy for a human to paste.
+**Interim path:** post manually from the founder profile, using `marketing/campaigns/2026-11-authority-not-autonomy.md` as the queue. Company page reshares follow. Links go in the first comment, not the body.
 
-**Recommended path if X write access is expensive or LinkedIn approval is pending:** Option D for week one (manual, from the campaign file), and deploy TryPost in parallel. The campaign must not wait for infrastructure.
+**Revisit when one of these is true:**
+- the posting volume passes roughly 10 posts/week, or more than one channel is active;
+- a second campaign needs the same posts on three or more networks;
+- LinkedIn page approval and X write access are both in place, so the tool is not blocked on someone else.
+
+**If it is revisited,** the recommendation stands: self-host Option A on Standard 1 with a swapfile, nightly Postgres dump, and the Reverb rebuild. The MCP server remains the differentiator.
 
 ## Consequences
 
-- Choosing A means owning OS updates, database backups, and major-version upgrades, plus one rebuild per domain change.
-- Choosing A adds a second production surface to maintain, next to the site. It should not share the Vercel deploy or CI.
-- Choosing B or C leaves the agent loop open: the campaign stays a document that a person publishes.
-- The decision does not block the campaign. Week one is manual in every option.
+- Deferring means no VPS, no database backups, no OS updates, and no second production surface this cycle. The cost is 15–20 minutes of manual posting per LinkedIn post and a few minutes per X post.
+- Manual posting is also a useful constraint: it forces the copy to be good enough to paste, and it produces real timing data before any scheduler is configured.
+- The campaign file is now the system of record. If a post is edited at publish time, edit it there too, or the next cycle repeats the wrong version.
+- Choosing B or C later still leaves the agent loop open: the campaign stays a document that a person publishes.
 
 ## Open questions
 
-- Subdomain: `post.lexpertzai.cc`?
+- Subdomain, if it is revisited: `post.lexpertzai.cc`?
 - X developer tier: free, Basic, or Pro, and what the monthly post/read caps are.
 - LinkedIn app: created? Products requested? Approval status?
 - Is the VPS only for TryPost, or does it host other tooling? (Mixed use changes the RAM math.)
+- Does manual posting actually cost what we think? Time it for the first week.

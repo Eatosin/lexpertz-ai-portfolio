@@ -27,7 +27,7 @@ Two weeks of founder-led posts built from the three published insights. The thro
 ## Assumptions to confirm
 
 - Posting from the founder profile (`@TosinOwadokun`), with the company page resharing. If it is company-page-first, the hooks need less first person.
-- No scheduler connected. If Typefully, Buffer, or similar is available, the drafts can be queued instead of copied.
+- Manual posting this cycle. TryPost is deferred until the campaign has results (`docs/decisions/0001-trypost-as-scheduler.md`); no scheduler is connected.
 - The offer in the final post is the two-week AI Proof Audit, fixed price, ranked gap list. Confirm that is what you want to sell.
 - No audience baseline exists yet, so week one is a baseline, not a test.
 
@@ -55,6 +55,26 @@ Two weeks of founder-led posts built from the three published insights. The thro
 | Wed Nov 11 | L5 regulatory reality | X7 Sentinel | Correct the August 2026 deadline story |
 | Thu Nov 12 | none | engagement | |
 | Fri Nov 13 | L6 proof audit offer | X8 single | CTA to `/contact` with UTMs |
+
+## Publishing (manual)
+
+Post from the founder profile. The company page reshares 30–60 minutes later, without edits.
+
+- **Time:** 13:30 UTC on posting days. That is mid-afternoon in the UK and EU, morning in the US east coast. Do not post after 18:00 UTC; the US is asleep and the EU is offline.
+- **Links:** body copy stays clean. Paste the matching link from the table below as the first comment within a minute of publishing.
+- **X:** links can stay inline; each post is written for the 280-character limit.
+- **Record it:** after publishing, add the date and URL to the checklist so the review has something to compare.
+
+| Post | Date | Published | URL |
+|---|---|---|---|
+| L1 | Mon Nov 2 | [ ] | |
+| L2 | Wed Nov 4 | [ ] | |
+| L3 | Fri Nov 6 | [ ] | |
+| L4 | Mon Nov 9 | [ ] | |
+| L5 | Wed Nov 11 | [ ] | |
+| L6 | Fri Nov 13 | [ ] | |
+
+If a post is edited at publish time, edit this file too. The next cycle should not inherit a version that never ran.
 
 ## LinkedIn drafts
 
@@ -278,5 +298,5 @@ Write results into this file under a `## Results` heading, set `status: reviewed
 
 1. Confirm founder profile vs company page as the primary account.
 2. Confirm the CTA: two-week AI Proof Audit, fixed price, or a different offer.
-3. Say whether a scheduler (Typefully, Buffer, or self-hosted TryPost) is connected, so these can be queued.
+3. Confirm the manual schedule (13:30 UTC, Mon/Wed/Fri) or move it.
 4. Approve week one before anything goes out.

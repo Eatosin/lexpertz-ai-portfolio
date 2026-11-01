@@ -8,7 +8,7 @@ Open and closed decisions, one file each. A decision here is a choice with a cos
 
 | Field | Meaning |
 |---|---|
-| `status` | `proposed`, `accepted`, `rejected`, `superseded` |
+| `status` | `proposed`, `accepted`, `deferred`, `rejected`, `superseded` |
 | `date` | when the status last changed |
 | `owner` | who decides |
 | `revisit` | the condition that reopens it |
