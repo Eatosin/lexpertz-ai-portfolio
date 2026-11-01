@@ -3,8 +3,8 @@ type: object
 cluster: app-shell
 universe: live
 status: verified
-verified: 2026-10-31
-commit: bdb621c
+verified: 2026-11-01
+commit: 5b7fcc2
 entity: src/app/layout.tsx
 ---
 
@@ -23,6 +23,7 @@ Every page needs the same three fonts, theme provider, motion provider, tooltip 
 - Chrome: `Navbar`, `Footer` (`src/app/layout.tsx:8-9`).
 - Site identity (`url`, name, social handles) is one object: `src/lib/constants.ts:150`.
 - Canonical URLs are built from `siteConfig.url` (`src/app/(marketing)/insights/[slug]/page.tsx:28,35`), never from a request header.
+- Analytics is mounted here too: `<Analytics />` from `@vercel/analytics/next` (`src/app/layout.tsx:3,86`). Custom events go through `src/lib/analytics`, which calls `window.va('event', ...)`. Campaign attribution does not depend on it: the contact form stores first-touch UTMs and puts them in the lead email.
 
 Citations: `src/app/layout.tsx:12`
 
@@ -35,7 +36,7 @@ Citations: `src/app/layout.tsx:12`
 
 ## If you change this
 
-- **Hits:** changing `siteConfig.url` changes every canonical URL, every Open Graph URL and every sitemap entry; changing a font variable name breaks `tailwind.config.ts:79-84` and `src/lib/design-tokens.ts:127`; adding a provider here loads it on every route.
+- **Hits:** changing `siteConfig.url` changes every canonical URL, every Open Graph URL and every sitemap entry; changing a font variable name breaks `tailwind.config.ts:79-84` and `src/lib/design-tokens.ts:127`; adding a provider here loads it on every route; removing `<Analytics />` stops page views and custom events (the lead email keeps its UTMs either way).
 - **Does not hit:** page bodies, `src/content/*` values, the markdown renderer.
 
 ## Surfaces

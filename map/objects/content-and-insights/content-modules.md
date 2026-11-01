@@ -3,8 +3,8 @@ type: object
 cluster: content-and-insights
 universe: live
 status: verified
-verified: 2026-10-31
-commit: bdb621c
+verified: 2026-11-01
+commit: 5b7fcc2
 entity: src/content
 ---
 
@@ -20,7 +20,7 @@ Content that ships with the code should be typechecked with the code. A `Service
 
 | Module | Export | Consumed by |
 |---|---|---|
-| `services.ts` | `services` (`:8`), `getServiceBySlug` (`:111`) | `/services`, `/services/[slug]`, sitemap |
+| `services.ts` | `services` (`:8`), `getServiceBySlug` (`:111`) — 4 offers: audit, evidence-gated RAG, agent authority, retainer | `/services`, `/services/[slug]`, sitemap |
 | `case-studies.ts` | `caseStudies` | `/case-studies`, `[slug]`, sitemap |
 | `team.ts` | team members | `sections/team-section.tsx` |
 | `featured-stats.ts` | stat series | `sections/featured-stats-section.tsx`, `GrowthChart` |

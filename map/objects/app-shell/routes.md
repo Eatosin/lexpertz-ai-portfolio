@@ -3,8 +3,8 @@ type: object
 cluster: app-shell
 universe: live
 status: verified
-verified: 2026-10-31
-commit: bdb621c
+verified: 2026-11-01
+commit: 5b7fcc2
 entity: src/app
 ---
 
@@ -29,7 +29,10 @@ The App Router maps files to URLs, so the route table *is* the file tree. A sing
 | `/insights/[slug]` | `src/app/(marketing)/insights/[slug]/page.tsx:16` | `generateStaticParams` from disk |
 | `/about`, `/contact` | `src/app/(marketing)/<name>/page.tsx` | static |
 | `/products/axiom-verify` | `src/app/products/axiom-verify/page.tsx` | static |
+| `/api/contact` | `src/app/api/contact/route.ts:1` | POST handler; validates and forwards the brief |
 | `/sitemap.xml` | `src/app/sitemap.ts:21` | generated |
+
+Old service slugs are redirected to the current offers in `next.config.mjs:12-40`; do not delete those without checking inbound links.
 
 Citations: `src/app/sitemap.ts:26-60`
 
