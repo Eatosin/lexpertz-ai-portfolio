@@ -23,9 +23,9 @@ export function ServicesGrid() {
       <Container>
         <div className="grid gap-10 md:grid-cols-2 md:gap-8 xl:gap-12">
           <div className="md:sticky md:top-16 md:flex md:h-[calc(100svh-4rem)] md:flex-col md:justify-center">
-            <h5 className="text-xs uppercase tracking-wide text-indigo-400">
+            <p className="text-xs uppercase tracking-wide text-indigo-400">
               What we ship
-            </h5>
+            </p>
             <h2 className="mb-4 mt-1 text-4xl font-bold tracking-tight">
               <span className="text-indigo-500">Four ways in.</span> One
               standard of proof.
@@ -37,12 +37,12 @@ export function ServicesGrid() {
             </p>
           </div>
 
-          <ContainerScroll className="min-h-[450vh] space-y-[40vh] py-12 md:min-h-[550vh] md:space-y-[65vh]">
+          <ContainerScroll className="min-h-[240vh] space-y-[30vh] py-12 md:min-h-[300vh] md:space-y-[44vh]">
             {services.map((service, index) => (
               <CardSticky
                 key={service.slug}
                 index={index}
-                incrementY={60}
+                incrementY={84}
                 incrementZ={5}
                 className="w-full overflow-hidden rounded-sm border border-x-indigo-900 border-y-indigo-500 bg-indigo-950"
               >

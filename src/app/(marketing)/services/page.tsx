@@ -9,13 +9,14 @@ import { Section } from "@/components/ui/section";
 import { SlideUp, StaggerContainer, StaggerItem } from "@/components/motion";
 import { CTASection } from "@/components/sections/cta-section";
 import { services } from "@/content/services";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Services",
   description:
     "Four ways to make an AI system provable: a two-week proof audit, evidence-gated retrieval, agent authority, and an assurance retainer.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 const ladder = [
   {

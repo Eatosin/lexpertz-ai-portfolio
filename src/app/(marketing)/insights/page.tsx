@@ -3,12 +3,15 @@ import { Badge } from "@/components/ui/badge";
 import { BlogPostCard } from "@/components/ui/blog-post-card";
 import { SlideUp, StaggerContainer, StaggerItem } from "@/components/motion";
 import { getPublishedInsights } from "@/content/insights";
+import { buildMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Insights",
-  description: "Sharp opinions on RAG, evals, and agents — mostly after we ship them.",
-};
+  description:
+    "Sharp opinions on RAG, evals, and agents — mostly after we ship them.",
+  path: "/insights",
+});
 
 export default async function InsightsPage() {
   const insights = await getPublishedInsights();

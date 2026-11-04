@@ -7,10 +7,11 @@ import { Github, Twitter, Youtube, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ProfileCardProps {
-  name?: string;
-  title?: string;
-  description?: string;
-  imageUrl?: string;
+  /** Required: the card is always a real person, never a placeholder. */
+  name: string;
+  title: string;
+  description: string;
+  imageUrl: string;
   githubUrl?: string;
   twitterUrl?: string;
   youtubeUrl?: string;
@@ -20,14 +21,14 @@ export interface ProfileCardProps {
 
 export function ProfileCard(props: ProfileCardProps) {
   const {
-    name = "Michael Chen",
-    title = "Senior Software Engineer, Cloud Infrastructure",
-    description = "Michael Chen is a seasoned software engineer at TechFlow Solutions with over 8 years of experience building scalable cloud infrastructure and microservices. He specializes in DevOps automation and leads the platform engineering team that serves millions of users daily.",
-    imageUrl = "https://plus.unsplash.com/premium_photo-1689977807477-a579eda91fa2?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    githubUrl = "#",
-    twitterUrl = "#",
-    youtubeUrl = "#",
-    linkedinUrl = "#",
+    name,
+    title,
+    description,
+    imageUrl,
+    githubUrl,
+    twitterUrl,
+    youtubeUrl,
+    linkedinUrl,
     className,
   } = props;
 
@@ -36,7 +37,9 @@ export function ProfileCard(props: ProfileCardProps) {
     { icon: Twitter, url: twitterUrl, label: "Twitter" },
     { icon: Youtube, url: youtubeUrl, label: "YouTube" },
     { icon: Linkedin, url: linkedinUrl, label: "LinkedIn" },
-  ].filter(({ url }) => url && url !== "#");
+  ].filter((item): item is { icon: typeof Github; url: string; label: string } =>
+    Boolean(item.url && item.url !== "#")
+  );
 
   return (
     <div className={cn("w-full max-w-5xl mx-auto px-4", className)}>

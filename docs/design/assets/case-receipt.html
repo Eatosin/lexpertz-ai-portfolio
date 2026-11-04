@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --ink: #08090a; --paper: #f2f1ee; --muted: #8b8f93;
+        --line: rgba(242,241,238,0.12); --line-soft: rgba(242,241,238,0.06);
+        --signal: #6ee7f2; --card: #0d0f10;
+      }
+      html, body { width: 1600px; height: 1000px; background: var(--ink); color: var(--paper); overflow: hidden; }
+      body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+      .mono { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+      .page { width: 1600px; height: 1000px; padding: 30px 44px; display: flex; flex-direction: column; }
+
+      .top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+      .top .back { color: var(--muted); text-decoration: none; }
+      .top .case { color: var(--signal); }
+
+      .head { padding: 44px 0 34px; display: grid; grid-template-columns: 1fr 470px; gap: 60px; align-items: end; }
+      .tags { display: flex; gap: 8px; margin-bottom: 20px; }
+      .tag { border: 1px solid var(--line); padding: 6px 10px; font-family: "Geist Mono"; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+      h1 { font-family: "Instrument Serif"; font-weight: 400; font-size: 58px; line-height: 1.02; letter-spacing: -0.015em; max-width: 900px; }
+      .lede { margin-top: 18px; color: #b7bbbd; font-weight: 300; font-size: 17px; line-height: 1.6; max-width: 780px; }
+
+      .receipt {
+        border: 1px solid var(--line); background: var(--card); padding: 0;
+        font-family: "Geist Mono"; font-size: 11px;
+      }
+      .receipt .r-head { display: flex; justify-content: space-between; padding: 14px 18px; border-bottom: 1px dashed rgba(242,241,238,0.18); }
+      .receipt .r-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 11px 18px; border-bottom: 1px solid var(--line-soft); }
+      .receipt .r-row span:first-child { color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-size: 9.5px; }
+      .receipt .r-row span:last-child { text-align: right; color: var(--paper); }
+      .receipt .r-foot { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
+      .verified { color: var(--signal); display: inline-flex; align-items: center; gap: 7px; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+      .verified i { width: 5px; height: 5px; background: var(--signal); border-radius: 50%; }
+
+      .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; border-top: 1px solid var(--line); padding-top: 34px; }
+      h2 { font-family: "Geist Mono"; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 400; margin-bottom: 16px; }
+      h2.signal { color: var(--signal); }
+      p { color: #c4c7c8; font-size: 15px; line-height: 1.7; font-weight: 300; margin-bottom: 14px; }
+      p b { color: var(--paper); font-weight: 400; }
+      ul { list-style: none; }
+      li { color: #b7bbbd; font-size: 14px; line-height: 1.7; padding-left: 18px; position: relative; }
+      li::before { content: "—"; position: absolute; left: 0; color: var(--muted); }
+
+      .limits li::before { content: "×"; color: #e2725b; }
+
+      .method { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 26px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 30px; }
+      .method .step b { display: block; font-family: "Geist Mono"; font-size: 9.5px; letter-spacing: 0.16em; color: var(--signal); margin-bottom: 8px; }
+      .method .step span { display: block; font-size: 14px; color: #d9dcdd; margin-bottom: 4px; }
+      .method .step em { font-style: normal; font-size: 12px; color: var(--muted); line-height: 1.5; }
+      .refusal { margin-top: 30px; border: 1px solid var(--line); background: var(--card); padding: 14px 18px; font-family: "Geist Mono"; font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+      .refusal b { color: #e2725b; font-weight: 400; }
+      .footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 14px; display: flex; justify-content: space-between; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="top">
+        <a class="back mono">← All cases</a>
+        <span class="mono">Case 002 / Legal · Fintech</span>
+        <span class="mono">Filed 2026-06-10</span>
+      </div>
+
+      <div class="head">
+        <div>
+          <div class="tags">
+            <span class="tag">RAG</span><span class="tag">LangGraph</span>
+            <span class="tag">MCP</span><span class="tag">pgvector</span>
+          </div>
+          <h1>Axiom Engine V4: zero-hallucination document auditing</h1>
+          <p class="lede">
+            A deterministic circuit with an adversarial prosecutor node, built for
+            review teams who need to know which sentence in which filing supports
+            which claim — and what the system does when it cannot find one.
+          </p>
+        </div>
+
+        <aside class="receipt">
+          <div class="r-head"><span>Claim ledger</span><span>003</span></div>
+          <div class="r-row"><span>Citation accuracy</span><span>99.9%</span></div>
+          <div class="r-row"><span>Evaluated on</span><span>SEC filings, MSAs</span></div>
+          <div class="r-row"><span>Gate</span><span>RAGAS faithfulness</span></div>
+          <div class="r-row"><span>Container</span><span>−2.5 GB</span></div>
+          <div class="r-row"><span>Cold boot</span><span>&lt;1 s</span></div>
+          <div class="r-foot">
+            <span class="mono">Method · v4 eval set</span>
+            <span class="verified"><i></i>Verified</span>
+          </div>
+        </aside>
+      </div>
+
+      <div class="cols">
+        <section>
+          <h2 class="signal">What this proves</h2>
+          <p>
+            The circuit can assemble an answer <b>and</b> defend it against the
+            retrieved passages. When faithfulness drops below the gate, it retries
+            with a narrower retrieval window rather than guessing.
+          </p>
+          <ul>
+            <li>Every claim traces to a cited passage.</li>
+            <li>Refusal is a first-class outcome, not an error.</li>
+            <li>Tool contracts are shared between IDE and backend via MCP.</li>
+          </ul>
+        </section>
+
+        <section class="limits">
+          <h2>What it does not prove</h2>
+          <p>
+            Accuracy is measured on the evaluation set, not on your corpus. A
+            missing document still yields a refusal — which is honest, but it is
+            not an answer.
+          </p>
+          <ul>
+            <li>No claim about unseen filing formats.</li>
+            <li>No guarantee against adversarial documents.</li>
+            <li>No live customer metric is published here.</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="method">
+        <div class="step"><b>01</b><span>Retrieve</span><em>Narrow window, per-claim passages</em></div>
+        <div class="step"><b>02</b><span>Prosecute</span><em>Second agent attacks the draft</em></div>
+        <div class="step"><b>03</b><span>Gate</span><em>RAGAS faithfulness threshold</em></div>
+        <div class="step"><b>04</b><span>Cite or refuse</span><em>No third option by design</em></div>
+      </div>
+
+      <div class="refusal">
+        <span><b>REFUSED</b> · claim “MSA §9.3 grants termination for convenience” — no supporting passage in retrieved set</span>
+        <span>retry · narrower window</span>
+      </div>
+
+      <div class="footer">
+        <span class="mono">Lexpertz AI · Evidence appendix</span>
+        <span class="mono">Next · Sentinel, MLOps →</span>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,6 +14,7 @@ import { FormField } from "@/components/forms/form-field";
 import { ErrorMessage } from "@/components/forms/error-message";
 import { contactSchema, type ContactInput } from "@/lib/validators";
 import { track } from "@/lib/analytics";
+import { siteConfig } from "@/lib/constants";
 
 const UTM_KEYS = [
   "utm_source",
@@ -22,7 +24,7 @@ const UTM_KEYS = [
   "utm_term",
 ] as const;
 
-const CONTACT_EMAIL = "brief@mail.lexpertzai.cc";
+const CONTACT_EMAIL = siteConfig.contactEmail;
 
 /** First-touch attribution: keep the first UTM set this session, ignore later ones. */
 function readUtm(): Record<string, string> {
@@ -71,6 +73,13 @@ export function ContactForm() {
   const [submitted, setSubmitted] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [fallbackHref, setFallbackHref] = React.useState<string | null>(null);
+  const successRef = React.useRef<HTMLDivElement>(null);
+
+  // Focus the confirmation once it replaces the form. Done in an effect (not
+  // in the submit handler) so the handler does not capture a ref during render.
+  React.useEffect(() => {
+    if (submitted) successRef.current?.focus();
+  }, [submitted]);
   const {
     register,
     handleSubmit,
@@ -85,17 +94,28 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = async (values: ContactInput) => {
+  const onSubmit = async (
+    values: ContactInput,
+    event?: React.BaseSyntheticEvent
+  ) => {
     setErrorMessage(null);
     setFallbackHref(null);
     const utm = readUtm();
+    // Read the honeypot from the submitted form data rather than a ref:
+    // bots fill the field programmatically (no React onChange), so state would
+    // stay empty, and reading a ref inside the submit closure trips the
+    // react-hooks/refs rule.
+    const formData = new FormData(event?.target as HTMLFormElement | undefined);
+    const website = String(formData.get("website") ?? "");
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          values,
+          // The honeypot lives outside react-hook-form: the zod resolver strips
+          // unknown keys, so registering it would mean it never reached the API.
+          values: { ...values, website },
           utm,
           page: window.location.pathname,
         }),
@@ -145,7 +165,12 @@ export function ContactForm() {
         </div>
 
         {submitted ? (
-          <div className="rounded-lg border border-success/40 bg-success/10 p-6">
+          <div
+            ref={successRef}
+            tabIndex={-1}
+            role="status"
+            className="rounded-lg border border-success/40 bg-success/10 p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <h2 className="heading-card">Got it — we&apos;ll be in touch.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Your brief is in. I reply within one business day. Want to
@@ -182,14 +207,32 @@ export function ContactForm() {
               </div>
             ) : null}
 
+            {/* Honeypot: visually hidden, unfocusable, never announced. */}
+            <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <FormField id="name" label="Name" error={errors.name?.message}>
-              <Input id="name" placeholder="Your name" {...register("name")} />
+              <Input
+                id="name"
+                autoComplete="name"
+                placeholder="Your name"
+                {...register("name")}
+              />
             </FormField>
 
             <FormField id="email" label="Work email" error={errors.email?.message}>
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="you@company.com"
                 {...register("email")}
               />
@@ -202,6 +245,7 @@ export function ContactForm() {
             >
               <Input
                 id="company"
+                autoComplete="organization"
                 placeholder="Company name"
                 {...register("company")}
               />
@@ -241,20 +285,33 @@ export function ContactForm() {
               />
             </FormField>
 
-            <label className="flex items-start gap-3 text-sm text-muted-foreground">
-              <input
-                type="checkbox"
-                className="mt-1 h-4 w-4 rounded border-input text-brand-cyan focus:ring-brand-cyan"
-                {...register("consent")}
-              />
-              <span>
-                I agree to be contacted about this engagement and accept the
-                privacy policy.
-              </span>
-            </label>
-            {errors.consent ? (
-              <ErrorMessage>{errors.consent.message as string}</ErrorMessage>
-            ) : null}
+            <div className="flex flex-col gap-2">
+              <label className="flex items-start gap-3 text-sm text-muted-foreground">
+                <input
+                  id="consent"
+                  type="checkbox"
+                  aria-invalid={errors.consent ? true : undefined}
+                  aria-describedby={errors.consent ? "consent-error" : undefined}
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-input text-brand-cyan focus:ring-brand-cyan"
+                  {...register("consent")}
+                />
+                <span>
+                  I agree to be contacted about this engagement and accept the{" "}
+                  <Link
+                    href="/privacy"
+                    className="text-brand-cyan underline underline-offset-4"
+                  >
+                    privacy policy
+                  </Link>
+                  .
+                </span>
+              </label>
+              {errors.consent ? (
+                <p id="consent-error" role="alert" className="text-sm font-medium text-destructive">
+                  {errors.consent.message as string}
+                </p>
+              ) : null}
+            </div>
 
             <Button type="submit" variant="brand" size="lg" disabled={isSubmitting}>
               {isSubmitting ? "Sending…" : "Send the brief"}

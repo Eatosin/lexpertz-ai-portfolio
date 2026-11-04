@@ -47,7 +47,7 @@ export function CTASection() {
                 className="cta-pulse"
                 onClick={() => trackCTA("closing_cta_primary", "/contact")}
               >
-                <Link href="/contact">Book A Free Call</Link>
+                <Link href="/contact">Book a call</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link

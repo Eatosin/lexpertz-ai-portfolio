@@ -4,7 +4,6 @@ import * as React from "react";
 import Image from "next/image";
 import { m, useScroll, useTransform } from "framer-motion";
 
-import { useMediaGreaterThan } from "@/lib/hooks/use-media";
 import { useReducedMotion } from "@/components/three/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -51,21 +50,30 @@ const statusDotClasses: Record<MilestoneStatus, string> = {
 
 function MilestoneMarker({
   milestone,
-  isDesktop,
   reduceMotion,
 }: {
   milestone: Milestone;
-  isDesktop: boolean;
   reduceMotion: boolean;
 }) {
+  // Positions are CSS custom properties applied by the `.roadmap-marker` rule
+  // at md+ only. The previous `isDesktop` boolean came from matchMedia, so the
+  // markers were laid out in flow on the server and jumped to absolute
+  // positions after hydration — a visible reflow of the whole section.
+  const positionVars = {
+    "--m-top": milestone.position.top,
+    "--m-left": milestone.position.left,
+    "--m-right": milestone.position.right,
+    "--m-bottom": milestone.position.bottom,
+  } as React.CSSProperties;
+
   return (
     <m.div
       initial={reduceMotion ? false : { opacity: 0, scale: 0.5 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: milestone.id * 0.15, ease: "easeOut" }}
       viewport={{ once: true, amount: 0.8 }}
-      className="flex items-center justify-center gap-4 md:absolute md:justify-start"
-      style={isDesktop ? milestone.position : undefined}
+      className="roadmap-marker flex items-center justify-center gap-4"
+      style={positionVars}
     >
       <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
         <div
@@ -86,7 +94,6 @@ function MilestoneMarker({
 const AnimatedRoadmap = React.forwardRef<HTMLDivElement, AnimatedRoadmapProps>(
   ({ className, milestones, mapImageSrc, ...props }, ref) => {
     const targetRef = React.useRef<HTMLDivElement>(null);
-    const isDesktop = useMediaGreaterThan("md");
     const reduceMotion = useReducedMotion();
 
     const setTargetRef = React.useCallback(
@@ -158,7 +165,6 @@ const AnimatedRoadmap = React.forwardRef<HTMLDivElement, AnimatedRoadmapProps>(
             <MilestoneMarker
               key={milestone.id}
               milestone={milestone}
-              isDesktop={isDesktop}
               reduceMotion={reduceMotion}
             />
           ))}

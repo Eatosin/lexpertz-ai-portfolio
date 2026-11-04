@@ -3,7 +3,7 @@ title: "Vertex AI Agent Builder Security Posture: What Changed, and What to Lock
 summary: "Vertex AI Agent Builder is now Gemini Enterprise Agent Platform, and the security model moved with it. Default-deny gateways, per-agent SPIFFE identity, and the three gaps the docs keep in separate pages."
 author: "Owadokun Tosin Tobi"
 publishedAt: "2026-10-30"
-category: "Architecture"
+category: "Cloud Security"
 coverImage: "/insights/vertex-ai-agent-builder-security.png"
 tags: ["google-cloud", "vertex-ai", "agents", "security"]
 ---

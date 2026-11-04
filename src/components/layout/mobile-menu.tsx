@@ -49,7 +49,7 @@ export function MobileMenu() {
           </svg>
         </Button>
       </DialogTrigger>
-      <DialogContent className="top-0 translate-y-0 rounded-none border-x-0 border-t-0 p-6 pt-20 sm:max-w-none">
+      <DialogContent className="top-0 flex h-[100dvh] translate-y-0 flex-col overflow-y-auto rounded-none border-0 p-6 pt-20 sm:max-w-none">
         <DialogTitle className="sr-only">Navigation</DialogTitle>
         <nav className="flex flex-col gap-6">
           {primaryNav.map((group) => (
@@ -67,7 +67,7 @@ export function MobileMenu() {
                         setOpen(false);
                       }}
                       className={cn(
-                        "rounded-md p-2 text-sm text-foreground transition-colors",
+                        "flex min-h-11 items-center rounded-md px-3 text-sm text-foreground transition-colors",
                         "hover:bg-accent"
                       )}
                     >
@@ -83,7 +83,7 @@ export function MobileMenu() {
                         setOpen(false);
                       }}
                       className={cn(
-                        "rounded-md p-2 text-sm text-foreground transition-colors",
+                        "flex min-h-11 items-center rounded-md px-3 text-sm text-foreground transition-colors",
                         "hover:bg-accent"
                       )}
                     >
@@ -95,7 +95,7 @@ export function MobileMenu() {
           <Button
             asChild
             variant="brand"
-            className="mt-4 w-full"
+            className="mt-4 h-12 w-full"
             onClick={() => {
               trackCTA("mobile_cta", "/contact");
               setOpen(false);

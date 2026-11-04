@@ -19,16 +19,19 @@ import {
 } from "@/components/motion";
 import { team } from "@/content/team";
 import { siteConfig } from "@/lib/constants";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "About",
   description: `${siteConfig.founderName} — Physics undergraduate turned AI Architect. Building deterministic LangGraph systems, physics-informed MLOps, and zero-hallucination RAG pipelines.`,
-  openGraph: {
-    title: "About Lexpertz",
-    description: siteConfig.description,
-    images: [{ url: "/founder.jpg", width: 800, height: 800 }],
+  path: "/about",
+  image: {
+    url: "/founder.jpg",
+    width: 1024,
+    height: 1024,
+    alt: siteConfig.founderName,
   },
-};
+});
 
 /** Proof metrics — mirror the homepage statbar values for consistency. */
 const PROOF_STATS = [

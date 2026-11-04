@@ -5,13 +5,15 @@ import { Badge } from "@/components/ui/badge";
 import { BentoCard } from "@/components/ui/bento-card";
 import { SlideUp } from "@/components/motion";
 import { caseStudies } from "@/content/case-studies";
+import { buildMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Case Studies",
-  description: "Anonymized engagements — real metrics, real clients.",
-  openGraph: { title: "Case Studies", description: "Anonymized engagements — real metrics, real clients." },
-};
+  description:
+    "Anonymized engagements with real metrics: agent pipelines, evidence-gated RAG, MLOps drift detection, and deepfake audio work.",
+  path: "/case-studies",
+});
 
 export default function CaseStudiesPage() {
   return (

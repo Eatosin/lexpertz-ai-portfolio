@@ -6,7 +6,6 @@ import { CinematicHero } from "@/components/ui/cinematic-hero";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useReducedMotion } from "@/components/three/use-reduced-motion";
 import { trackCTA } from "@/lib/analytics";
 
 /**
@@ -92,10 +91,18 @@ function StaticCinematicHero() {
       <div className="film-grain" aria-hidden="true" />
       <Container className="relative flex max-w-3xl flex-col items-start gap-6">
         <Badge variant="brand">{badgeCopy}</Badge>
-        <h1 className="text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+        {/* Styled as the page heading and exposed as one, but kept as a <p>
+            so the document only ever contains a single <h1> — the animated
+            hero's. Both variants are server-rendered and one is `display:none`
+            via the reduced-motion media query. */}
+        <p
+          role="heading"
+          aria-level={1}
+          className="text-balance font-display text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
+        >
           {taglineCopy[0]}{" "}
           <span className="text-gradient-brand">{taglineCopy[1]}</span>
-        </h1>
+        </p>
         <p className="max-w-2xl text-lg text-muted-foreground">{ctaCopy.description}</p>
         <HeroCTAs align="start" />
       </Container>
@@ -104,27 +111,34 @@ function StaticCinematicHero() {
 }
 
 export function HeroCinematic() {
-  const reducedMotion = useReducedMotion();
-
-  if (reducedMotion) {
-    return <StaticCinematicHero />;
-  }
-
+  // Both variants are server-rendered and swapped by the `prefers-reduced-motion`
+  // media query, not by a post-hydration state flip. The old JS swap rendered the
+  // animated hero first and replaced it after hydration, which flashed and shifted
+  // the layout for exactly the users who asked for less motion.
   return (
-    <section aria-label="Hero" className="relative -mt-16">
-      <CinematicHero
-        brandName="Lexpertz"
-        tagline1={taglineCopy[0]}
-        tagline2={taglineCopy[1]}
-        cardHeading={cardCopy.heading}
-        cardDescription={cardCopy.description}
-        ctaHeading={ctaCopy.heading}
-        ctaDescription={ctaCopy.description}
-        primaryCtaLabel="Start Automation"
-        primaryCtaHref="/contact"
-        secondaryCtaLabel="View Solutions"
-        secondaryCtaHref="/case-studies"
-      />
-    </section>
+    <>
+      <section
+        aria-label="Hero"
+        className="relative -mt-16 motion-reduce:hidden"
+      >
+        <CinematicHero
+          brandName="Lexpertz"
+          tagline1={taglineCopy[0]}
+          tagline2={taglineCopy[1]}
+          cardHeading={cardCopy.heading}
+          cardDescription={cardCopy.description}
+          ctaHeading={ctaCopy.heading}
+          ctaDescription={ctaCopy.description}
+          primaryCtaLabel="Start Automation"
+          primaryCtaHref="/contact"
+          secondaryCtaLabel="View Solutions"
+          secondaryCtaHref="/case-studies"
+        />
+      </section>
+
+      <div className="hidden motion-reduce:block">
+        <StaticCinematicHero />
+      </div>
+    </>
   );
 }
