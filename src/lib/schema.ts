@@ -11,7 +11,7 @@ export const organizationSchema = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
-  logo: `${siteConfig.url}${siteConfig.logoIcon}`,
+  logo: `${siteConfig.url}${siteConfig.logoMarkPng}`,
   description: siteConfig.description,
   email: siteConfig.contactEmail,
   founder: {

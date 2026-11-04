@@ -103,7 +103,7 @@ export default async function InsightDetailPage({ params }: PageProps) {
       name: siteConfig.name,
       logo: {
         "@type": "ImageObject",
-        url: `${siteConfig.url}/logo-icon.png`,
+        url: `${siteConfig.url}${siteConfig.logoMarkPng}`,
       },
     },
     image: post.coverImage ? `${siteConfig.url}${post.coverImage}` : undefined,
