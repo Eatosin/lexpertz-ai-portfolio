@@ -123,7 +123,12 @@ export const siteConfig = {
   contactEmail: "brief@mail.lexpertzai.cc",
   founderName: "Owadokun Tosin Tobi",
   founderImage: "/founder.jpg",
-  logoIcon: "/logo-icon.png",
+  /** Vector mark. Non-square (283:232) — size by height with `w-auto`. */
+  logoMark: "/brand/logo-mark.svg",
+  /** Raster mark for schema.org / platforms that reject SVG. */
+  logoMarkPng: "/brand/logo-mark-512.png",
+  /** Mark + wordmark lockup. */
+  logoLockup: "/brand/logo-lockup.svg",
   founder: {
     github: "https://github.com/Eatosin",
     linkedin: "https://www.linkedin.com/in/owadokun-tosin-tobi-6159091a3",

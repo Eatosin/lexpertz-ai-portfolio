@@ -54,11 +54,12 @@ export function Footer() {
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white">
                 <Image
-                  src={siteConfig.logoIcon}
+                  src={siteConfig.logoMark}
                   alt=""
-                  width={500}
-                  height={500}
-                  className="h-7 w-7 object-contain"
+                  width={283}
+                  height={232}
+                  unoptimized
+                  className="h-7 w-auto"
                 />
               </span>
               <span className="font-display text-xl font-bold tracking-tight text-white">

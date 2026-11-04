@@ -49,12 +49,13 @@ export function Navbar() {
           onClick={() => trackCTA("logo", "/")}
         >
           <Image
-            src={siteConfig.logoIcon}
+            src={siteConfig.logoMark}
             alt=""
-            width={36}
-            height={36}
+            width={283}
+            height={232}
             priority
-            className="h-9 w-9"
+            unoptimized
+            className="h-9 w-auto"
           />
         </Link>
 

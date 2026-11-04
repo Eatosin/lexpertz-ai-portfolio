@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -35,6 +35,11 @@ const spaceGrotesk = Space_Grotesk({
 const homeTitle =
   "Lexpertz AI — proof-first AI systems for RAG, agents, and audit";
 
+export const viewport: Viewport = {
+  themeColor: "#050506",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
   title: {
     default: homeTitle,
@@ -63,10 +68,8 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  icons: {
-    icon: [{ url: "/logo-icon.png", type: "image/png" }],
-    apple: [{ url: "/logo-icon.png" }],
-  },
+  // Icons come from the app/ file conventions:
+  //   src/app/favicon.ico, src/app/icon.svg, src/app/apple-icon.png
 };
 
 export default function RootLayout({
