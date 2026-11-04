@@ -47,6 +47,10 @@
     --brand-blue: 221 83% 53%;
     --brand-cyan-foreground: 0 0% 100%;
     --brand-blue-foreground: 0 0% 100%;
+    /* Gradient stops are darker than the accent tokens: white 14px labels on
+       the old cyan stop measured ~2.3:1. These both clear 6:1. */
+    --brand-gradient-from: 192 90% 27%;
+    --brand-gradient-to: 221 83% 45%;
 
     /* Glassmorphism */
     --glass-bg: 0 0% 100% / 0.7;
@@ -95,10 +99,27 @@
     --brand-blue: 221 83% 53%;    /* #2563eb */
     --brand-cyan-foreground: 0 0% 100%;
     --brand-blue-foreground: 0 0% 100%;
+    --brand-gradient-from: 192 90% 27%;
+    --brand-gradient-to: 221 83% 45%;
 
     /* Glassmorphism */
     --glass-bg: 240 10% 4% / 0.7;
     --glass-border: 0 0% 100% / 0.05;
+  }
+}
+
+@layer components {
+  /* Roadmap markers: flow on mobile, absolutely placed from data at md+.
+     CSS (not JS) owns the breakpoint so the server and client agree. */
+  @media (min-width: 768px) {
+    .roadmap-marker {
+      position: absolute;
+      top: var(--m-top, auto);
+      right: var(--m-right, auto);
+      bottom: var(--m-bottom, auto);
+      left: var(--m-left, auto);
+      justify-content: flex-start;
+    }
   }
 }
 

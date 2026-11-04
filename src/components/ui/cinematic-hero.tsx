@@ -119,7 +119,7 @@ export function CinematicHero({
         gsap.set(".hero-badge", { autoAlpha: 0, y: 20 });
         gsap.set(".main-card", { y: window.innerHeight + 200, autoAlpha: 1 });
         gsap.set([".card-left-text", ".mockup-scroll-wrapper", ".floating-badge", ".phone-widget"], { autoAlpha: 0 });
-        gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
+        gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.94 });
 
         const introTl = gsap.timeline({ delay: 0.3 });
         introTl
@@ -128,7 +128,12 @@ export function CinematicHero({
           .to(".text-days", { duration: 1.4, clipPath: "inset(0 0% 0 0)", ease: "power4.inOut" }, "-=1.0");
       };
 
-      const buildScrollTl = (end: number, pullbackWidth: string, pullbackHeight: string, pullbackRadius: string) =>
+      const buildScrollTl = (
+        end: number,
+        pullbackWidth: string,
+        pullbackHeight: string,
+        pullbackRadius: string
+      ) =>
         gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
@@ -139,42 +144,50 @@ export function CinematicHero({
             anticipatePin: 1,
           },
         })
+          // Beat 1 (0 → 3.5): dismiss the intro, fly the card in, expand it.
           .to([".hero-text-wrapper", ".bg-grid-theme"], { scale: 1.15, filter: "blur(20px)", opacity: 0.2, ease: "power2.inOut", duration: 2 }, 0)
           .to(".main-card", { y: 0, ease: "power3.inOut", duration: 2 }, 0)
-          .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", ease: "power3.inOut", duration: 1.5 })
+          .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", ease: "power3.inOut", duration: 1.5 }, 2)
+          // Beat 2 (2.2 → 4.4): assemble the console mockup and its annotations.
           .fromTo(".mockup-scroll-wrapper",
             { y: 300, z: -500, rotationX: 50, rotationY: -30, autoAlpha: 0, scale: 0.6 },
-            { y: 0, z: 0, rotationX: 0, rotationY: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 2.5 }, "-=0.8"
+            { y: 0, z: 0, rotationX: 0, rotationY: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 2.2 }, 2.2
           )
-          .fromTo(".phone-widget", { y: 40, autoAlpha: 0, scale: 0.95 }, { y: 0, autoAlpha: 1, scale: 1, stagger: 0.15, ease: "back.out(1.2)", duration: 1.5 }, "-=1.5")
-          .fromTo(".floating-badge", { y: 100, autoAlpha: 0, scale: 0.7, rotationZ: -10 }, { y: 0, autoAlpha: 1, scale: 1, rotationZ: 0, ease: "back.out(1.5)", duration: 1.5, stagger: 0.2 }, "-=2.0")
-          .fromTo(".card-left-text", { x: -50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power4.out", duration: 1.5 }, "-=1.5")
-          .to({}, { duration: 2.5 })
-          .set(".hero-text-wrapper", { autoAlpha: 0 })
-          .set(".cta-wrapper", { autoAlpha: 1 })
-          .to({}, { duration: 1.5 })
+          .fromTo(".card-left-text", { x: -50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power4.out", duration: 1.2 }, 2.8)
+          .fromTo(".phone-widget", { y: 40, autoAlpha: 0, scale: 0.95 }, { y: 0, autoAlpha: 1, scale: 1, stagger: 0.12, ease: "back.out(1.2)", duration: 1.2 }, 3)
+          .fromTo(".floating-badge", { y: 100, autoAlpha: 0, scale: 0.7, rotationZ: -10 }, { y: 0, autoAlpha: 1, scale: 1, rotationZ: 0, ease: "back.out(1.5)", duration: 1.2, stagger: 0.15 }, 3)
+          // Beat 3 (4.4 → 5.4): hold the finished console, then clear it.
+          .to({}, { duration: 1 }, 4.4)
           .to([".mockup-scroll-wrapper", ".floating-badge", ".card-left-text"], {
-            scale: 0.9, y: -40, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
-          })
+            scale: 0.9, y: -40, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1, stagger: 0.05,
+          }, 5.4)
+          // Beat 4 (6.4 → 9): reveal the CTA *above* the card while it pulls back,
+          // then send the card away and leave the CTA on screen.
+          .set(".cta-wrapper", { autoAlpha: 1 }, 6.2)
+          .set(".hero-text-wrapper", { autoAlpha: 0 }, 6.2)
           .to(".main-card", {
             width: pullbackWidth,
             height: pullbackHeight,
             borderRadius: pullbackRadius,
             ease: "expo.inOut",
-            duration: 1.8,
-          }, "pullback")
-          .to(".cta-wrapper", { scale: 1, filter: "blur(0px)", ease: "expo.inOut", duration: 1.8 }, "pullback")
-          .to(".main-card", { y: -window.innerHeight - 300, ease: "power3.in", duration: 1.5 })
-          .to(".cta-wrapper", { autoAlpha: 0, duration: 0.8 });
+            duration: 1.6,
+          }, 6.4)
+          .to(".cta-wrapper", { scale: 1, ease: "expo.out", duration: 1 }, 6.2)
+          // The card leaves; the CTA stays put and scrolls away with the pin
+          // when the section releases, instead of fading out mid-exit.
+          .to(".main-card", { y: -window.innerHeight - 300, ease: "power3.in", duration: 1.4 }, 7.8);
 
+      // Scroll distances are ~9 timeline units: 4.9 viewports desktop,
+      // ~2.3 on mobile. Long enough to choreograph, short enough that the
+      // visitor reaches the actual page content before losing interest.
       mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
         buildIntro();
-        buildScrollTl(7200, "85vw", "85vh", "40px");
+        buildScrollTl(4400, "85vw", "85vh", "40px");
       });
 
       mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
         buildIntro();
-        buildScrollTl(2800, "92vw", "92vh", "32px");
+        buildScrollTl(1900, "92vw", "92vh", "32px");
       });
     }, containerRef);
 
@@ -213,8 +226,9 @@ export function CinematicHero({
         </p>
       </div>
 
-      {/* BACKGROUND LAYER 2: tactile CTA stage */}
-      <div className="cta-wrapper gsap-reveal absolute z-10 flex w-screen flex-col items-center justify-center px-4 text-center pointer-events-auto will-change-transform">
+      {/* FOREGROUND LAYER 2: CTA stage. Sits above the card (z-20) so the
+          pullback reveals it instead of hiding it behind an opaque panel. */}
+      <div className="cta-wrapper gsap-reveal pointer-events-auto absolute z-30 flex w-screen flex-col items-center justify-center px-4 text-center will-change-transform">
         <h2 className="mb-6 text-3xl font-bold tracking-tight text-silver-matte sm:text-4xl md:text-6xl">
           {ctaHeading}
         </h2>
@@ -331,7 +345,9 @@ export function CinematicHero({
                 </div>
 
                 {/* Floating glass badges */}
-                <div className="floating-badge floating-ui-badge absolute top-6 left-[-15px] z-30 flex items-center gap-3 rounded-xl p-3 lg:top-12 lg:left-[-80px] lg:gap-4 lg:rounded-2xl lg:p-4">
+                {/* Annotations only appear where there is room beside the
+                    device; on phones they covered the console content. */}
+                <div className="floating-badge floating-ui-badge absolute top-6 left-[-15px] z-30 hidden items-center gap-3 rounded-xl p-3 lg:top-12 lg:-left-20 lg:flex lg:gap-4 lg:rounded-2xl lg:p-4">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full border border-blue-400/30 bg-gradient-to-b from-blue-500/20 to-blue-900/10 shadow-inner lg:h-10 lg:w-10">
                     <span className="text-base drop-shadow-lg lg:text-xl" aria-hidden="true">⚡</span>
                   </div>
@@ -341,7 +357,7 @@ export function CinematicHero({
                   </div>
                 </div>
 
-                <div className="floating-badge floating-ui-badge absolute right-[-15px] bottom-12 z-30 flex items-center gap-3 rounded-xl p-3 lg:right-[-80px] lg:bottom-20 lg:gap-4 lg:rounded-2xl lg:p-4">
+                <div className="floating-badge floating-ui-badge absolute right-[-15px] bottom-12 z-30 hidden items-center gap-3 rounded-xl p-3 lg:right-[-80px] lg:bottom-20 lg:flex lg:gap-4 lg:rounded-2xl lg:p-4">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full border border-indigo-400/30 bg-gradient-to-b from-indigo-500/20 to-indigo-900/10 shadow-inner lg:h-10 lg:w-10">
                     <span className="text-base drop-shadow-lg lg:text-lg" aria-hidden="true">🛡</span>
                   </div>
@@ -358,7 +374,7 @@ export function CinematicHero({
               <h3 className="mb-0 text-2xl font-bold tracking-tight text-white md:text-3xl lg:mb-5 lg:text-4xl">
                 {cardHeading}
               </h3>
-              <p className="hidden max-w-sm leading-relaxed text-blue-100/70 md:block lg:max-w-none">
+              <p className="mt-2 max-w-sm leading-relaxed text-blue-100/70 md:mt-0 lg:max-w-none">
                 {cardDescription}
               </p>
             </div>

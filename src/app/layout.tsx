@@ -8,7 +8,10 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/lib/constants";
+import { defaultOgImage } from "@/lib/seo";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +32,12 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const homeTitle =
+  "Lexpertz AI — proof-first AI systems for RAG, agents, and audit";
+
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
+    default: homeTitle,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -40,16 +46,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: siteConfig.name,
+    title: homeTitle,
     description: siteConfig.description,
-    images: [{ url: "/logo-icon.png", width: 512, height: 512 }],
+    url: siteConfig.url,
+    images: [defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: homeTitle,
     description: siteConfig.description,
     creator: `@${siteConfig.xHandle}`,
-    images: [{ url: "/logo-icon.png", width: 512, height: 512 }],
+    images: [defaultOgImage.url],
   },
   robots: {
     index: true,
@@ -72,6 +79,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
         <ThemeProvider>
           <MotionProvider>
             <TooltipProvider delayDuration={200}>

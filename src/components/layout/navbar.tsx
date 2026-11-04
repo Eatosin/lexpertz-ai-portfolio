@@ -16,7 +16,6 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { useScroll } from "@/lib/hooks/use-scroll";
-import { useMediaGreaterThan } from "@/lib/hooks/use-media";
 import { primaryNav, siteConfig } from "@/lib/constants";
 import { services } from "@/content/services";
 import { cn } from "@/lib/utils";
@@ -33,7 +32,6 @@ import { trackCTA } from "@/lib/analytics";
 export function Navbar() {
   const scrollY = useScroll();
   const isScrolled = scrollY > 8;
-  const isDesktop = useMediaGreaterThan("md");
 
   return (
     <header
@@ -43,15 +41,16 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-full items-center justify-between">
-        {/* Brand */}
+        {/* Brand — padded to a 44px target without changing the mark size. */}
         <Link
           href="/"
-          className="flex items-center"
+          aria-label={`${siteConfig.name} home`}
+          className="-ml-1 flex h-11 w-11 items-center justify-center"
           onClick={() => trackCTA("logo", "/")}
         >
           <Image
             src={siteConfig.logoIcon}
-            alt={`${siteConfig.name} logo`}
+            alt=""
             width={36}
             height={36}
             priority
@@ -111,19 +110,16 @@ export function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* Right-side: CTA + mobile menu */}
+        {/* Right-side: CTA + mobile menu. The CTA stays visible on phones —
+            the hero's own CTAs are a scroll commitment, so this is the only
+            conversion action above the fold on mobile. */}
         <div className="flex items-center gap-2">
-          <Button
-            asChild
-            variant="brand"
-            size="sm"
-            className="hidden md:inline-flex"
-          >
+          <Button asChild variant="brand" size="sm" className="h-11 px-3 sm:px-4">
             <Link href="/contact" onClick={() => trackCTA("navbar_cta", "/contact")}>
-              Book A Free Call
+              Book a call
             </Link>
           </Button>
-          {!isDesktop ? <MobileMenu /> : null}
+          <MobileMenu />
         </div>
       </Container>
     </header>

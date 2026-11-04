@@ -4,12 +4,15 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SlideUp } from "@/components/motion";
+import { buildMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Axiom Verify",
-  description: "LLM answer verification and guardrail platform built by engineers who deploy at scale. Coming soon.",
-};
+  description:
+    "LLM answer verification and guardrail platform built by engineers who deploy at scale. Private beta.",
+  path: "/products/axiom-verify",
+});
 
 export default function AxiomVerifyPage() {
   return (

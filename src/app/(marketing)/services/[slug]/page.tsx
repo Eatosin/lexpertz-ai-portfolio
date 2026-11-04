@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SlideUp } from "@/components/motion";
 import { getServiceBySlug, services } from "@/content/services";
+import { JsonLd } from "@/components/seo/json-ld";
+import { serviceSchema } from "@/lib/schema";
+import { buildMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -22,12 +25,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) return;
-  return {
+  return buildMetadata({
     title: service.title,
     description: service.summary,
-    alternates: { canonical: `/services/${service.slug}` },
-    openGraph: { title: service.title, description: service.summary },
-  };
+    path: `/services/${service.slug}`,
+  });
 }
 
 export default async function ServiceDetailPage({
@@ -43,6 +45,7 @@ export default async function ServiceDetailPage({
 
   return (
     <>
+      <JsonLd data={serviceSchema(service)} />
       <Section className="pt-24 md:pt-32">
         <Container className="max-w-5xl">
           <Link

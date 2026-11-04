@@ -53,8 +53,12 @@ export type CaseStudySurface = {
   heroImage?: string;
   /** ISO date string. */
   publishedAt: string;
-  /** Markdown body for the detailed case study. */
-  body?: string;
+  /**
+   * Narrative sections for the detail page. Structured rather than free
+   * markdown so the page can lay them out (and a CMS can edit them field by
+   * field) without a markdown renderer in the critical path.
+   */
+  sections?: { heading: string; body: string }[];
   /** Optional tags for cross-linking similar case studies and insights. */
   tags?: string[];
 };

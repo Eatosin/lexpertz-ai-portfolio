@@ -1,5 +1,5 @@
 /**
- * Site-wide constants: navigation, services, pricing, and SEO defaults.
+ * Site-wide constants: navigation, services, contact, and SEO defaults.
  * Source of truth for both marketing (Next.js) and app/agents config.
  */
 
@@ -107,31 +107,10 @@ export const footerColumns: NavGroup[] = [
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "Axiom Verify", href: "/products/axiom-verify" },
+      { label: "Privacy", href: "/privacy" },
     ],
   },
 ];
-
-/** Pricing config placeholder — replace with real tiers when product launches. */
-export const pricing = {
-  currency: "USD" as const,
-  tiers: [
-    {
-      name: "Starter",
-      price: 0,
-      description: "For solo developers kicking the tires.",
-    },
-    {
-      name: "Growth",
-      price: 499,
-      description: "For teams shipping AI features to production.",
-    },
-    {
-      name: "Enterprise",
-      price: null,
-      description: "Custom deployments and SLAs.",
-    },
-  ],
-};
 
 export const siteConfig = {
   name: "Lexpertz AI",
@@ -139,16 +118,17 @@ export const siteConfig = {
   url: "https://www.lexpertzai.cc",
   description:
     "Precision AI & Logic Assurance. Enterprise RAG pipelines, agentic workflows, MLOps, and physics-informed AI auditing — engineered by a physicist who ships.",
-  tagline: "Architecting Intelligence Through Physics-Based MLOps and LLMs.",
+  tagline: "Architecting intelligence through physics-based MLOps and LLMs.",
+  /** The one address leads are actually delivered to (Resend sender domain). */
+  contactEmail: "brief@mail.lexpertzai.cc",
   founderName: "Owadokun Tosin Tobi",
   founderImage: "/founder.jpg",
-  logoFull: "/logo-full.png",
   logoIcon: "/logo-icon.png",
   founder: {
     github: "https://github.com/Eatosin",
     linkedin: "https://www.linkedin.com/in/owadokun-tosin-tobi-6159091a3",
     x: "https://x.com/TosinOwadokun",
-    email: "lexpertzai@cc.cc",
+    email: "brief@mail.lexpertzai.cc",
   },
   /** Company social links — surfaced by the footer SocialCloud. */
   socials: {

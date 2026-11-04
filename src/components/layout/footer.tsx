@@ -88,12 +88,13 @@ export function Footer() {
 
           {/* Link + newsletter card */}
           <StaggerItem className="flex w-full flex-col rounded-2xl border border-border bg-card p-8 md:w-2/3 md:p-12">
+            <h2 className="sr-only">Site footer</h2>
             <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-10 md:grid-cols-3">
               {footerColumns.map((column) => (
                 <div key={column.label} className="flex flex-col gap-4">
-                  <h4 className="font-display text-sm font-semibold text-foreground">
+                  <h3 className="font-display text-sm font-semibold text-foreground">
                     {column.label}
-                  </h4>
+                  </h3>
                   <ul className="flex flex-col gap-2.5 text-sm">
                     {column.items.map((item) => (
                       <li key={item.href}>

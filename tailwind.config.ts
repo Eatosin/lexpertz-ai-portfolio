@@ -64,7 +64,7 @@ const config: Config = {
       },
       backgroundImage: {
         "brand-gradient":
-          "linear-gradient(135deg, hsl(var(--brand-cyan)) 0%, hsl(var(--brand-blue)) 100%)",
+          "linear-gradient(135deg, hsl(var(--brand-gradient-from)) 0%, hsl(var(--brand-gradient-to)) 100%)",
         "brand-glow":
           "radial-gradient(circle at center, hsl(var(--brand-cyan) / 0.15) 0%, transparent 70%)",
       },

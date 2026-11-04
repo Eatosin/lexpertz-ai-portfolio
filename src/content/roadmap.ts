@@ -20,9 +20,8 @@ export type RoadmapMilestone = {
 };
 
 export const roadmap = {
-  /** Stock map backdrop — `next/image` source from the whitelisted Unsplash host. */
-  mapImage:
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop",
+  /** Locally rendered dot-map backdrop (no third-party image host). */
+  mapImage: "/roadmap-map.png",
   milestones: [
     {
       id: 1,
