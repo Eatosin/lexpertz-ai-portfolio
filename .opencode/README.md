@@ -174,3 +174,11 @@ compatibility, but silently — relying on them means relying on a compat shim.
 - Commands: <https://opencode.ai/v2/docs/commands/>
 - MCP servers: <https://opencode.ai/v2/docs/mcp-servers/>
 - V1 to V2: <https://opencode.ai/v2/docs/migrate-v1/>
+
+## See also — DeepSeek Harness (DSH)
+
+The repo now keeps a parallel, additive DSH surface in `../.dsh/`: the same
+`skills/` and `.opencode/skills/` suites aliased into `.dsh/skills/`, the
+commands ported as user-invocable skills, the subagents ported as persona
+skills, and an optional preset/MCP bundle. Nothing here changes for OpenCode.
+See [.dsh/README.md](../.dsh/README.md).

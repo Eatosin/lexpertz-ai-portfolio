@@ -10,7 +10,7 @@ The catalog over this repository: what each noun is and what a change hits. The 
 | [component-library](objects/component-library/CONTEXT.md) | UI, page sections, animation | ui-primitives, page-sections, motion-primitives, layout-and-providers |
 | [design-system](objects/design-system/CONTEXT.md) | color, type, spacing, utility classes | design-tokens, styling-rules |
 | [content-and-insights](objects/content-and-insights/CONTEXT.md) | static content data, blog posts, markdown | content-modules, insight-posts, markdown-rendering |
-| [agent-tooling](objects/agent-tooling/CONTEXT.md) | harness config, skills, commands, subagents | harness-config, skills-and-commands |
+| [agent-tooling](objects/agent-tooling/CONTEXT.md) | harness config, skills, commands, subagents | harness-config, skills-and-commands, dsh-harness |
 
 ## Processes
 

@@ -7,6 +7,7 @@ commit: bdb621c
 consumes:
   - ../objects/agent-tooling/harness-config.md
   - ../objects/agent-tooling/skills-and-commands.md
+  - ../objects/agent-tooling/dsh-harness.md
 produces:
   - ../objects/agent-tooling/skills-and-commands.md
 ---
@@ -31,6 +32,8 @@ Discovery is by folder convention and fails silently: a skill in an unlisted roo
 4. Start a new session and load it with the skill tool; confirm the reported base directory.
 5. If it encodes a repo rule, link it from the relevant map card rather than duplicating the rule.
 
+For DSH, the shapes differ: a slash command is a user-invocable skill (`disable-model-invocation: true`), a subagent is a model-invocable persona skill, and a shared skill from `skills/` or `.opencode/skills/` needs an alias in `.dsh/skills/`. Add DSH-native skills only under `.dsh/skills/`; the full format, the `/plan` → `/plan-feature` rename, and the verification snippet are in [.dsh/README.md](../../.dsh/README.md).
+
 ## If you change this
 
 - **Hits:** a new root without a config entry is silently ignored; renaming a folder breaks existing invocations; a skill that hardcodes paths breaks when the tree moves.
@@ -41,9 +44,10 @@ Discovery is by folder convention and fails silently: a skill in an unlisted roo
 | Surface | Role |
 |---|---|
 | OpenCode sessions | discover and load |
+| DSH sessions | discover `.dsh/skills` and `.agents/skills` |
 | `docs/process/development.md` | the documented install and verification path |
 
 ## See
 
-- Objects: [harness-config](../objects/agent-tooling/harness-config.md), [skills-and-commands](../objects/agent-tooling/skills-and-commands.md)
-- Source: `opencode.json`
+- Objects: [harness-config](../objects/agent-tooling/harness-config.md), [skills-and-commands](../objects/agent-tooling/skills-and-commands.md), [dsh-harness](../objects/agent-tooling/dsh-harness.md)
+- Source: `opencode.json`, `.dsh/README.md`

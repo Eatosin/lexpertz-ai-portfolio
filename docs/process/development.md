@@ -145,6 +145,21 @@ From `.opencode/skills/`: `defuddle`, `graphify`, `json-canvas`, `obsidian-bases
 
 To add one, copy the directory into either location. See [Adding ECC Skills](#adding-ecc-skills).
 
+## DeepSeek Harness (DSH)
+
+The repo is dual-harness: OpenCode V2 stays in `.opencode/` + `opencode.json`, and DSH works from `.dsh/` with no build step and no required config file. Full mapping and verification: [.dsh/README.md](../../.dsh/README.md).
+
+| DSH source | Holds | Committed |
+|---|---|---|
+| `.dsh/skills/` | DSH-native skills: 12 command skills, 8 specialist personas, 17 aliases to `skills/` and `.opencode/skills/` | yes |
+| `.dsh/harness/` | optional Cordis bundle: 8 agent presets + 2 MCP rows | authored, not installed |
+| `.agents/skills/` | installed marketing suite — a default DSH root, no config needed | no |
+| `AGENTS.md` | workspace instructions, loaded automatically | yes |
+
+Slash commands were ported as user-invocable skills (`disable-model-invocation: true`): type `/code-review`, `/tdd`, `/verify`, and the rest. OpenCode's `/plan` became `/plan-feature` because DSH owns `/plan` for plan mode. DSH has no `$ARGUMENTS` substitution — the text after the command token is the argument, and each ported skill says so. OpenCode subagents became model-invocable persona skills that run in the current session; the optional bundle adds isolated presets when you want separate context and enforced read-only tools.
+
+Verify DSH sees the skills: start a DSH session in the repo and confirm the catalog lists `coding-standards` and `code-reviewer`, or type `/` to see the command skills. Malformed frontmatter is skipped silently (description required, kebab-case name, boolean invocation flags) — run the check in `.dsh/README.md` after editing. Vendored blog skills need explicit aliases because `.opencode/vendor/` is gitignored: `bash .dsh/bin/link-vendor-skills.sh on` and `off`.
+
 ## Codespaces / Dev Container
 
 The repo ships a `.devcontainer/devcontainer.json` so a fresh GitHub Codespace is ready to go. Because ECC is committed repo files, it arrives automatically with the clone — the container only needs to install the runtimes.

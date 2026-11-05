@@ -18,6 +18,7 @@ Open this before editing. It answers one question: **I am changing X, which card
 | markdown output, tables, figures, reading time | [markdown-rendering](../objects/content-and-insights/markdown-rendering.md) | [insight-posts](../objects/content-and-insights/insight-posts.md) |
 | the model, skill roots, MCP, permissions | [harness-config](../objects/agent-tooling/harness-config.md) | [add-skill-command](../processes/add-skill-command.md) |
 | a skill, command, or subagent | [skills-and-commands](../objects/agent-tooling/skills-and-commands.md) | [add-skill-command](../processes/add-skill-command.md) |
+| a DSH skill, command skill, preset, or MCP row | [dsh-harness](../objects/agent-tooling/dsh-harness.md) | [add-skill-command](../processes/add-skill-command.md) |
 | campaign copy, social posts, or positioning | [skills-and-commands](../objects/agent-tooling/skills-and-commands.md) | `.agents/product-marketing.md`, then `marketing/CONTEXT.md` |
 | the contact form, lead delivery, or Resend | [routes](../objects/app-shell/routes.md) | [layout-and-seo](../objects/app-shell/layout-and-seo.md), `docs/process/development.md` |
 | analytics events or the tracking plan | [layout-and-seo](../objects/app-shell/layout-and-seo.md) | `docs/standards/analytics.md` |

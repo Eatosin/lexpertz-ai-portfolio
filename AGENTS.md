@@ -1,6 +1,6 @@
 # Lexpertz AI Portfolio
 
-Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in `src/`, published insights in `content/insights/`, and an OpenCode V2 harness. This file routes; content lives one hop away.
+Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in `src/`, published insights in `content/insights/`, and a dual harness — OpenCode V2 in `.opencode/` + `opencode.json`, DeepSeek Harness in `.dsh/`. This file routes; content lives one hop away.
 
 ## Where things live
 
@@ -11,7 +11,8 @@ Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in 
 | `marketing/` | campaign briefs, calendars, post drafts, results |
 | `map/` | System map: what each part is and what a change hits |
 | `docs/` | factory: `design/`, `process/`, `standards/` |
-| `skills/`, `.opencode/` | harness: skills, commands, subagents |
+| `skills/`, `.opencode/` | OpenCode harness: skills, commands, subagents |
+| `.dsh/` | DeepSeek Harness surface: DSH skills, command skills, optional preset/MCP bundle |
 | `_archive/` | dead code, kept, never imported |
 
 ## Route by task
@@ -22,7 +23,7 @@ Next.js 16 marketing site for Lexpertz AI (live at `lexpertzai.cc`): the app in 
 | change a route, page, section, or component | [map/objects/component-library/CONTEXT.md](map/objects/component-library/CONTEXT.md), [app-shell](map/objects/app-shell/CONTEXT.md) |
 | publish or fix an insight | [map/processes/publish-insight.md](map/processes/publish-insight.md), then [blog-pipeline](docs/process/blog-pipeline.md) |
 | change color, type, or spacing | [map/objects/design-system/CONTEXT.md](map/objects/design-system/CONTEXT.md), then [design-system](docs/design/design-system.md) |
-| harness, skills, commands | [map/objects/agent-tooling/CONTEXT.md](map/objects/agent-tooling/CONTEXT.md), then [development](docs/process/development.md) |
+| harness, skills, commands | [map/objects/agent-tooling/CONTEXT.md](map/objects/agent-tooling/CONTEXT.md), then [.dsh/README.md](.dsh/README.md) for DSH or [development](docs/process/development.md) for OpenCode |
 | run or verify the build | [map/processes/dev-and-build.md](map/processes/dev-and-build.md) |
 
 ## Commands
@@ -43,7 +44,7 @@ No test framework is installed: `npm test` fails. There is no `tsc --noEmit` pat
 - Mobile-first; verified at ~375px and ≥1280px; touch targets ≥44px; reduced motion gated everywhere → [responsive](docs/standards/responsive.md)
 - Reuse before writing: check [reusable-blocks](docs/standards/reusable-blocks.md) first. Page data goes in `src/content/*`, never inline.
 - Code floor: no hardcoded secrets, immutable updates, no `console.log` → [code-floor](docs/standards/code-floor.md)
-- Prefix shell commands with `rtk` → [rtk](docs/standards/rtk.md)
+- Prefix shell commands with `rtk` when it is installed → [rtk](docs/standards/rtk.md). DSH bash does not add the prefix automatically.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

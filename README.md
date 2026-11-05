@@ -42,7 +42,9 @@ lexpertz-ai-portfolio/
 ├── public/             # Static assets (optimized via Next.js Image)
 ├── docs/               # Factory reference: design/, process/, standards/
 ├── map/                # System map: what each part is and what a change hits
-├── skills/             # OpenCode agent skills (coding-standards, frontend, tdd, security)
+├── skills/             # Shared agent skills (coding-standards, frontend, tdd, security)
+├── .opencode/          # OpenCode V2 harness: skills, commands, subagents
+├── .dsh/               # DeepSeek Harness surface: skills, command skills, optional preset/MCP bundle
 ├── _archive/           # Dead code, kept and excluded from the build
 ├── AGENTS.md           # Entry file: identity, commands, routing
 └── CONTEXT.md          # How the repo is organised, and how a change flows
