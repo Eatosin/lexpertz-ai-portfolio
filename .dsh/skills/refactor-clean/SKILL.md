@@ -1,0 +1,103 @@
+---
+name: refactor-clean
+description: Remove dead code and consolidate duplicates.
+disable-model-invocation: true
+user-invocable: true
+---
+
+# /refactor-clean
+
+Analyze and clean up the codebase.
+
+Start by loading the `refactor-cleaner` skill; it carries the dead-code refactoring playbook.
+
+The text you type after the `/refactor-clean` token is this command's argument. If it is empty, ask for it before proceeding.
+
+## Your Task
+
+1. **Detect dead code** using static searches (no knip/depcheck/ts-prune — not installed)
+2. **Identify duplicates** and consolidation opportunities
+3. **Safely remove** unused code with documentation
+4. **Verify** no functionality broken
+
+## Detection Phase
+
+### Static Analysis (available tools)
+
+```bash
+rtk grep <function-name> src/   # find all references
+rtk grep <import-name> src/     # check import usage
+```
+
+### Manual Checks
+
+- Unused functions (no callers)
+- Unused variables
+- Unused imports
+- Commented-out code
+- Unreachable code
+- Unused CSS classes
+- Files in `_archive/src-components-old/` (dead code; never import from it)
+
+## Removal Phase
+
+### Before Removing
+
+1. **Search for usage** — `rtk grep` across `src/` for every reference
+2. **Check exports** — might be used via a barrel (`index.ts`)
+3. **Document removal** — explain in commit message
+
+### Safe Removal Order
+
+1. Remove unused imports first
+2. Remove unused private functions
+3. Remove unused exported functions
+4. Remove unused types/interfaces
+5. Remove unused files
+
+## Consolidation Phase
+
+### Identify Duplicates
+
+- Similar functions with minor differences
+- Copy-pasted code blocks
+- Repeated patterns
+
+### Consolidation Strategies
+
+1. **Extract utility function** — for repeated logic (put in `src/lib/`)
+2. **Reuse existing primitives** — check `docs/standards/reusable-blocks.md` before writing new components
+3. **Create shared constants** — for magic values
+
+## Verification
+
+After cleanup:
+
+1. `npm run build` - builds successfully (typecheck)
+2. `npm run lint` - no new lint errors
+3. `git diff --stat` - confirm only intended files changed
+
+## Report Format
+
+```
+Dead Code Analysis
+==================
+
+Removed:
+- file.ts: functionName (unused export)
+- utils.ts: helperFunction (no callers)
+
+Consolidated:
+- formatDate() and formatDateTime() → dateUtils.format()
+
+Remaining (manual review needed):
+- oldComponent.tsx: potentially unused, verify with team
+```
+
+---
+
+**CAUTION**: Always verify before removing. When in doubt, ask or leave it. Never run `npm test` (no test runner installed).
+
+## Notes
+
+DSH has no subagent mode; this command runs in the main session with the `refactor-cleaner` playbook loaded. DSH performs no argument substitution; the typed text is the whole argument.

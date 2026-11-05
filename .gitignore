@@ -57,3 +57,6 @@ Thumbs.db
 .netlify
 .env*
 !.env.example
+
+# DSH: generated aliases for the gitignored vendored blog suite (see .dsh/README.md)
+/.dsh/skills/blog*
