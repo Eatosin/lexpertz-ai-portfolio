@@ -1,12 +1,14 @@
-# `.dsh/harness/` — optional DSH bundle (authored, not installed)
+# `.dsh/harness/` — DSH bundle (installed)
 
 A workspace Cordis bundle for this repo's DeepSeek Harness profile. It gives DSH
 native equivalents of the 8 OpenCode subagents in `.opencode/agents/` and the 2
 MCP servers declared in `opencode.json`.
 
-**This bundle is NOT installed.** The repo works without it; nothing outside
-`plugin_manager` reads this directory. Installation is a profile-level change
-(the Lead's call), and the bundle is deliberately kept as an authored artifact.
+**This bundle is installed** in the DSH `web` profile on 2026-11-05 as a
+`link:` package pointing at this directory. New sessions can select the
+presets; the MCP rows stay disabled. Editing a file here changes what the
+profile loads on the next reload, and the repo still works without the bundle
+(`plugin_manager remove_bundle lexpertz-dsh-harness`).
 
 ## Contents
 
@@ -66,10 +68,11 @@ To enable a row, flip its `disabled` flag to `false` (or delete the line). For
 `resend`, configure `config.headers.Authorization` (or OAuth) first — the
 upstream endpoint rejects unauthenticated requests and no tools will register.
 
-## Install
+## Install or reinstall
 
 Installing executes plugin code in the Host process and affects every session in
-the profile, so it needs full access or approval. Install with the
+the profile, so it needs full access or approval. The profile installer spawns
+`pnpm`, so `pnpm` must be on `PATH` (the repo itself uses npm). Install with the
 `plugin_manager` tool, not by hand:
 
 ```

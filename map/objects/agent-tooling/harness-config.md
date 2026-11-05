@@ -31,7 +31,7 @@ Citations: `opencode.json:1`
 
 - **owns:** model, skill roots, MCP, permissions
 - **owned-by:** none — this is the config source
-- **joins:** [skills-and-commands](skills-and-commands.md) reads the roots listed here; [dsh-harness](dsh-harness.md) aliases the same roots for DSH, and duplicates the MCP servers in its optional bundle
+- **joins:** [skills-and-commands](skills-and-commands.md) reads the roots listed here; [dsh-harness](dsh-harness.md) aliases the same roots for DSH, and duplicates the MCP servers in its installed bundle
 - **looks-like-but-is-not:** `package.json` is the site's dependency manifest; nothing in it configures the agent
 
 ## If you change this

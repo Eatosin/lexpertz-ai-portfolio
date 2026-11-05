@@ -152,11 +152,13 @@ The repo is dual-harness: OpenCode V2 stays in `.opencode/` + `opencode.json`, a
 | DSH source | Holds | Committed |
 |---|---|---|
 | `.dsh/skills/` | DSH-native skills: 12 command skills, 8 specialist personas, 17 aliases to `skills/` and `.opencode/skills/` | yes |
-| `.dsh/harness/` | optional Cordis bundle: 8 agent presets + 2 MCP rows | authored, not installed |
+| `.dsh/harness/` | Cordis bundle: 8 agent presets + 2 disabled MCP rows | installed in the `web` profile, linked from this repo |
 | `.agents/skills/` | installed marketing suite — a default DSH root, no config needed | no |
 | `AGENTS.md` | workspace instructions, loaded automatically | yes |
 
 Slash commands were ported as user-invocable skills (`disable-model-invocation: true`): type `/code-review`, `/tdd`, `/verify`, and the rest. OpenCode's `/plan` became `/plan-feature` because DSH owns `/plan` for plan mode. DSH has no `$ARGUMENTS` substitution — the text after the command token is the argument, and each ported skill says so. OpenCode subagents became model-invocable persona skills that run in the current session; the optional bundle adds isolated presets when you want separate context and enforced read-only tools.
+
+Installing the optional bundle requires `pnpm` on `PATH` (the DSH profile installer spawns it; the site itself still uses npm). After install, the eight presets appear in the Web session preset selector for new sessions.
 
 Verify DSH sees the skills: start a DSH session in the repo and confirm the catalog lists `coding-standards` and `code-reviewer`, or type `/` to see the command skills. Malformed frontmatter is skipped silently (description required, kebab-case name, boolean invocation flags) — run the check in `.dsh/README.md` after editing. Vendored blog skills need explicit aliases because `.opencode/vendor/` is gitignored: `bash .dsh/bin/link-vendor-skills.sh on` and `off`.
 

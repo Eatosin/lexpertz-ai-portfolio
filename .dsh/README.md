@@ -12,7 +12,7 @@ already discovers
 | `.dsh/skills/<name>/SKILL.md` | native project skill root (rank 100) | yes — DSH-native skills + aliases |
 | `.agents/skills/<name>/SKILL.md` | native project agents root (rank 200) | no — installed marketing suite |
 | `AGENTS.md` | workspace instructions | yes |
-| `.dsh/harness/` | **optional** profile bundle (presets + MCP) | yes, not installed by default |
+| `.dsh/harness/` | Cordis bundle (presets + MCP), installed into the DSH `web` profile and linked from this repo | yes |
 
 Only direct children of a root are scanned (`<name>/SKILL.md` or `<name>.md`);
 a nested `**/SKILL.md` is deliberately invisible. That is why each source root
@@ -109,12 +109,12 @@ bash .dsh/bin/link-vendor-skills.sh off   # remove them
 Leave it off unless you are working the blog pipeline — every model-invocable
 description is advertised in the session catalog.
 
-## Optional profile bundle: `.dsh/harness/`
+## Profile bundle: `.dsh/harness/` (installed)
 
 A Cordis bundle that adds the repo's specialist agent presets and the two MCP
-servers from `opencode.json`. It is authored, validated, and **not installed**.
+servers from `opencode.json`. It is **installed** in the DSH `web` profile (2026-11-05) as a linked package, so editing this directory changes what the next session loads.
 
-- Install (profile-wide, survives restart):
+- Install or reinstall (profile-wide, survives restart; needs `pnpm` on `PATH` for the profile installer):
   `plugin_manager` → `action: install_bundle`, target
   `/home/tosin/projects/lexpertz-ai-portfolio/.dsh/harness`
 - Dry-run the composition without installing:
