@@ -46,25 +46,22 @@ export function Footer() {
               <rect width="100%" height="100%" filter="url(#footer-noise)" />
             </svg>
 
-            {/* Logo */}
+            {/* Logo — inverse lockup, because the brand card is brand-blue and
+                the gradient wordmark fades to a dark teal that would disappear. */}
             <Link
               href="/"
-              className="relative z-10 inline-flex items-center gap-3 self-start"
+              aria-label={`${siteConfig.name} home`}
+              className="relative z-10 inline-flex self-start"
               onClick={() => trackCTA("footer_logo", "/")}
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white">
-                <Image
-                  src={siteConfig.logoMark}
-                  alt=""
-                  width={283}
-                  height={232}
-                  unoptimized
-                  className="h-7 w-auto"
-                />
-              </span>
-              <span className="font-display text-xl font-bold tracking-tight text-white">
-                {siteConfig.name}
-              </span>
+              <Image
+                src={siteConfig.logoLockupInverse}
+                alt=""
+                width={518}
+                height={120}
+                unoptimized
+                className="h-10 w-auto"
+              />
             </Link>
 
             {/* Brand line + socials + copyright */}

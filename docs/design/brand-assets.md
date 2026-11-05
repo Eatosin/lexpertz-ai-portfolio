@@ -42,7 +42,7 @@ SVG masters; the raster files exist only for platforms that require them.
 | iOS home screen | `apple-icon.png` | 180 |
 | Android / PWA | `logo-tile-192.png`, `logo-tile-512.png` | 192, 512 |
 | Site header | `logo-mark.svg` | 32px tall |
-| Footer | `logo-mark.svg` | 24px tall |
+| Footer (brand-blue card) | `logo-lockup-inverse.svg` | 40px tall |
 | Open Graph default | `public/og/default.png` | 1200×630 |
 | schema.org logo | `logo-mark-512.png` | 512 |
 | Decks / docs | `logo-lockup.svg` | ≥120px wide |

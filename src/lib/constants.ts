@@ -129,6 +129,8 @@ export const siteConfig = {
   logoMarkPng: "/brand/logo-mark-512.png",
   /** Mark + wordmark lockup. */
   logoLockup: "/brand/logo-lockup.svg",
+  /** Single-colour lockup for brand-blue and photography. */
+  logoLockupInverse: "/brand/logo-lockup-inverse.svg",
   founder: {
     github: "https://github.com/Eatosin",
     linkedin: "https://www.linkedin.com/in/owadokun-tosin-tobi-6159091a3",
