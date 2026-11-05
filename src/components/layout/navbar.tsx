@@ -11,6 +11,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -109,6 +110,7 @@ export function Navbar() {
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
+          <NavigationMenuViewport />
         </NavigationMenu>
 
         {/* Right-side: CTA + mobile menu. The CTA stays visible on phones —

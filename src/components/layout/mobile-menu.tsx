@@ -49,7 +49,10 @@ export function MobileMenu() {
           </svg>
         </Button>
       </DialogTrigger>
-      <DialogContent className="top-0 flex h-[100dvh] translate-y-0 flex-col overflow-y-auto rounded-none border-0 p-6 pt-20 sm:max-w-none">
+      <DialogContent
+        overlayClassName="bg-background/10"
+        className="top-0 flex h-[100dvh] translate-y-0 flex-col overflow-y-auto rounded-none border-0 bg-background p-6 pt-20 supports-[backdrop-filter]:bg-background/55 supports-[backdrop-filter]:backdrop-blur-2xl sm:max-w-none"
+      >
         <DialogTitle className="sr-only">Navigation</DialogTitle>
         <nav className="flex flex-col gap-6">
           {primaryNav.map((group) => (

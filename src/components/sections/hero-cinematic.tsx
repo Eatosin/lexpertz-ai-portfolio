@@ -68,9 +68,9 @@ function HeroCTAs({ align = "start" }: { align?: "center" | "start" }) {
       </Button>
       <Button
         asChild
-        variant="outline"
+        variant="glass"
         size="lg"
-        className="btn-tactile-outline rounded-xl"
+        className="rounded-xl"
         onClick={() => trackCTA("hero_secondary", "/case-studies")}
       >
         <Link href="/case-studies">View Solutions</Link>
