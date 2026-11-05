@@ -247,9 +247,9 @@ export function CinematicHero({
           </Button>
           <Button
             asChild
-            variant="outline"
+            variant="glass"
             size="lg"
-            className="btn-tactile-outline rounded-xl"
+            className="rounded-xl"
             onClick={() => trackCTA("hero_secondary", secondaryCtaHref)}
           >
             <Link href={secondaryCtaHref}>{secondaryCtaLabel}</Link>
