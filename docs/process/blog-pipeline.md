@@ -143,8 +143,10 @@ gitignored, so **every clone and CI runner needs that git clone step.**
 - [ ] `title`, `summary`, `publishedAt`, `category` present and valid
 - [ ] `summary` under ~155 characters
 - [ ] Headings form a clean `##`/`###` hierarchy (no skipped levels)
-- [ ] `coverImage` set if the post is a feature (drives social cards)
-- [ ] At least one internal link to another insight or service page
+- [ ] `coverImage` set and follows the [thumbnail system](../design/thumbnail-system.md):
+      3-5 word hook, one artefact, readable at 300px
+- [ ] 5-10 contextual internal links to insights, case studies, or service pages
+- [ ] One CTA in the final paragraph, pointing at the most relevant service page
 - [ ] `npm run build` passes
 - [ ] Verified at ~375px and ≥1280px
 - [ ] `draft: true` while iterating; removed before commit

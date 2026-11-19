@@ -60,3 +60,6 @@ Thumbs.db
 
 # DSH: generated aliases for the gitignored vendored blog suite (see .dsh/README.md)
 /.dsh/skills/blog*
+
+# Local verification artifacts (screenshots, Chrome profiles)
+.tmp/

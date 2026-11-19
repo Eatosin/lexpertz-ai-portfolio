@@ -73,5 +73,12 @@ export const variants = {
   } satisfies Variants,
 } as const;
 
-/** Viewport config for `whileInView` — triggers once, 25% visible. */
-export const viewportOnce = { once: true, amount: 0.25 } as const;
+/**
+ * Viewport config for `whileInView` — triggers once, when any part enters.
+ *
+ * A numeric threshold breaks tall mobile grids: the insights list is roughly
+ * four viewports tall on a 375px screen, so 25% of it can never be visible at
+ * once and the whole grid stays at `opacity: 0`. `"some"` fires as soon as the
+ * section intersects, which is the behavior these entrance animations want.
+ */
+export const viewportOnce = { once: true, amount: "some" } as const;
