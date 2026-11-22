@@ -205,7 +205,10 @@ memberships into the index, then filter at query time. It is fast and works offl
 it drifts. **Query-time checks** call the source system to verify access before returning
 a passage. It is more accurate and slower, and it fails when the source is unavailable.
 Most enterprise products use a mirror with periodic refresh; the good ones expose the
-refresh interval and a manual re-sync.
+refresh interval and a manual re-sync. The identity model underneath matters as much as
+the ACL sync: [three identities in every call](/insights/ai-agent-identity-security)
+explains why a service-account index cannot answer as the user, and why delegation needs
+its own principal.
 
 The failures are predictable:
 
@@ -233,7 +236,10 @@ Test it with people, not with an admin account. Build a small corpus with known 
 
 Ask each persona a question whose answer exists in each document. Any answer from a
 document they cannot open is a failed pilot, regardless of how good the rest of the demo
-was.
+was. For the runnable version, including the corpus definition, twelve probes, and a
+scoring sheet, use the [RAG Permission Test Kit](/resources/rag-permission-test-kit).
+The [four-persona test writeup](/insights/rag-permission-test) covers the revocation and
+abstention checks.
 
 ## Freshness, deletion, and the index that will not forget
 
@@ -290,7 +296,9 @@ whether they are a search engine with a chat wrapper or a grounded system.
 
 If you want the harness we use for this, it is the same one behind [Evidence-Gated
 RAG](/services/evidence-gated-rag): hybrid retrieval, line-level citations, and a
-faithfulness gate that blocks answers below threshold.
+faithfulness gate that blocks answers below threshold. The [Axiom Engine V4 case
+study](/case-studies/axiom-engine-v4) shows the same evidence-gated review on SEC filings
+and legal MSAs.
 
 ## Pricing models, not price tags
 
@@ -311,6 +319,10 @@ The number that matters is cost per answered question, not cost per seat. A $30 
 answers 40 questions a month is expensive; a consumption bill that answers 400,000 is not.
 Model it before the pilot, then replace the estimate with measured usage.
 
+Cost per answered question is only useful if it connects to a business outcome. The
+[enterprise AI benefits](/insights/enterprise-ai-benefits) piece covers how to prove
+capacity and cycle-time gains without a dashboard.
+
 ## Failure modes worth designing against
 
 - **Indexing as a superuser.** The crawler can read everything, so the index can answer
@@ -327,6 +339,10 @@ Model it before the pilot, then replace the estimate with measured usage.
   schema changes, and an owner. Count the owners before you count the connectors.
 - **Skipping deletion and retention.** An index that never forgets is a compliance
   problem, not a feature.
+
+If the agent can act on what it retrieves, retrieval security is only half the surface.
+The [2026 Google agent threat map](/insights/google-ai-agent-security-threats) covers the
+authority, tool, and agent-to-agent risks that sit on top.
 
 ## A decision path
 
@@ -428,4 +444,5 @@ product.
 
 If you are working through this on a document-heavy system and want a second opinion on
 the architecture before you sign, [the engagement model](/services) is where we usually
-start.
+start. If you need the gap list before the build, the [AI Proof
+Audit](/services/ai-proof-audit) is the two-week version.

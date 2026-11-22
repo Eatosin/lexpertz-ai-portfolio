@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/motion";
-import { AuthorCard, ShareRow } from "@/components/blog";
+import { AuthorCard, InlineCapture, ShareRow } from "@/components/blog";
 import { getPostBySlug, getPublishedPosts } from "@/lib/insights";
 import { siteConfig } from "@/lib/constants";
 
@@ -175,6 +175,16 @@ export default async function InsightDetailPage({ params }: PageProps) {
         <div
           className="prose prose-neutral mt-10 max-w-none dark:prose-invert prose-headings:font-display prose-headings:tracking-tight prose-a:text-brand-cyan prose-pre:bg-muted prose-code:before:content-none prose-code:after:content-none"
           dangerouslySetInnerHTML={{ __html: post.html }}
+        />
+
+        <InlineCapture
+          variant={
+            post.tags?.some((tag) =>
+              ["rag", "enterprise-search", "knowledge-management"].includes(tag)
+            )
+              ? "rag"
+              : "newsletter"
+          }
         />
         {post.tags && post.tags.length > 0 ? (
           <div className="mt-12 flex flex-wrap gap-2">

@@ -37,6 +37,8 @@ export type ServiceSurface = {
   forWhom?: string;
   /** How the engagement is priced; no numbers until pricing is validated. */
   investment?: string;
+  /** Slugs of insights to surface as related field notes on the service page. */
+  relatedInsights?: string[];
 };
 
 export type CaseStudySurface = {

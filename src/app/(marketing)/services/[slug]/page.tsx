@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SlideUp } from "@/components/motion";
 import { getServiceBySlug, services } from "@/content/services";
+import { getPublishedInsights } from "@/content/insights";
 import { JsonLd } from "@/components/seo/json-ld";
 import { serviceSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -42,6 +43,11 @@ export default async function ServiceDetailPage({
   if (!service) notFound();
 
   const paragraphs = service.body?.split(/\n{2,}/) ?? [];
+  const allInsights = await getPublishedInsights();
+  const related = (service.relatedInsights ?? []).flatMap((slug) => {
+    const post = allInsights.find((candidate) => candidate.slug === slug);
+    return post ? [post] : [];
+  });
 
   return (
     <>
@@ -139,6 +145,28 @@ export default async function ServiceDetailPage({
               </p>
             </aside>
           </div>
+
+          {related.length > 0 ? (
+            <div className="mt-16 border-t border-border pt-8">
+              <h2 className="font-mono text-xs uppercase tracking-[0.14em] text-brand-cyan">
+                Field notes
+              </h2>
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                {related.map((post) => (
+                  <Link
+                    key={post.slug}
+                    href={`/insights/${post.slug}`}
+                    className="rounded-lg border border-border bg-card p-5 transition-colors hover:border-brand-cyan/40"
+                  >
+                    <span className="font-medium">{post.title}</span>
+                    <span className="mt-2 block text-sm leading-6 text-muted-foreground">
+                      {post.summary}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </Container>
       </Section>
     </>

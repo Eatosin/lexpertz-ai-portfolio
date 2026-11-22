@@ -8,6 +8,7 @@ import type { ServiceSurface } from "./types";
 export const services: ServiceSurface[] = [
   {
     slug: "ai-proof-audit",
+    relatedInsights: ["enterprise-ai-benefits", "rag-permission-test", "google-ai-agent-security-threats"],
     title: "AI Proof Audit",
     tagline: "Two weeks to find out what your AI cannot prove.",
     summary:
@@ -34,6 +35,7 @@ The output is deliberately boring: a ranked list, each item with an owner and a 
   },
   {
     slug: "evidence-gated-rag",
+    relatedInsights: ["enterprise-rag-solutions", "rag-permission-test", "ai-agent-identity-security"],
     title: "Evidence-Gated RAG",
     tagline: "Retrieval that cites, and refuses when it cannot.",
     summary:
@@ -59,6 +61,7 @@ You keep the harness. The system is handed over with the tests that prove it sti
   },
   {
     slug: "agent-authority",
+    relatedInsights: ["google-ai-agent-security-threats", "ai-agent-identity-security", "ai-powered-security-agents"],
     title: "Agent Authority & Integration",
     tagline: "An agent that can act is an identity, not a prompt.",
     summary:
@@ -84,6 +87,7 @@ Then we wire the identity, the tool surface, and the audit trail, so an incident
   },
   {
     slug: "assurance-retainer",
+    relatedInsights: ["enterprise-ai-benefits", "enterprise-rag-solutions", "google-ai-agent-security-threats"],
     title: "Assurance Retainer",
     tagline: "Keep the evidence current, not just the model.",
     summary:
