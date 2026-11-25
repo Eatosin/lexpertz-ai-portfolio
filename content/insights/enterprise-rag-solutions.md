@@ -321,7 +321,9 @@ Model it before the pilot, then replace the estimate with measured usage.
 
 Cost per answered question is only useful if it connects to a business outcome. The
 [enterprise AI benefits](/insights/enterprise-ai-benefits) piece covers how to prove
-capacity and cycle-time gains without a dashboard.
+capacity and cycle-time gains without a dashboard. For the full cost model, including
+the five meters and the three quotes to request, see [Enterprise RAG
+Pricing](/insights/enterprise-rag-pricing).
 
 ## Failure modes worth designing against
 

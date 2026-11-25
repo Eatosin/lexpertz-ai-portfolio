@@ -1,6 +1,6 @@
 # Organic growth playbook: enterprise RAG and the proof gap
 
-Research date: 2026-11-22. Status: in progress. First sprint shipped 2026-11-22: resource page, PDF, supporting article, inline capture, and internal links.
+Research date: 2026-11-22. Status: in progress. Shipped 2026-11-22: resource page, PDF, supporting article, inline capture, and internal links. Shipped 2026-11-25: Enterprise RAG Pricing.
 
 The goal is not more impressions. It is qualified conversations from people who are
 already looking for what Lexpertz sells: AI systems that can prove what they did.
@@ -196,9 +196,9 @@ Four pillars, with the existing pages as the first spokes:
 | 19 | RAG Readiness Assessment | Commercial | Interactive tool |
 | 20 | What a Failed RAG Audit Looks Like | Proof | Case study |
 
-The queue is deliberately weighted to commercial and technical questions. Broad
-"what is RAG" content is already answered by AI Overviews and does not produce
-qualified leads.
+Shipped so far: #1 (2026-11-22) and #2 (2026-11-25). The queue is deliberately
+weighted to commercial and technical questions. Broad "what is RAG" content is
+already answered by AI Overviews and does not produce qualified leads.
 
 ## 5. The 90-day roadmap
 

@@ -8,7 +8,7 @@ import type { ServiceSurface } from "./types";
 export const services: ServiceSurface[] = [
   {
     slug: "ai-proof-audit",
-    relatedInsights: ["enterprise-ai-benefits", "rag-permission-test", "google-ai-agent-security-threats"],
+    relatedInsights: ["enterprise-ai-benefits", "enterprise-rag-pricing", "rag-permission-test"],
     title: "AI Proof Audit",
     tagline: "Two weeks to find out what your AI cannot prove.",
     summary:
@@ -35,7 +35,7 @@ The output is deliberately boring: a ranked list, each item with an owner and a 
   },
   {
     slug: "evidence-gated-rag",
-    relatedInsights: ["enterprise-rag-solutions", "rag-permission-test", "ai-agent-identity-security"],
+    relatedInsights: ["enterprise-rag-solutions", "enterprise-rag-pricing", "rag-permission-test"],
     title: "Evidence-Gated RAG",
     tagline: "Retrieval that cites, and refuses when it cannot.",
     summary:

@@ -254,6 +254,7 @@ a vendor can fail. That is what makes it useful before a contract.
 - [Google Drive permissions and sharing](https://developers.google.com/workspace/drive/api/guides/manage-sharing)
 - [Onyx connector permissions](https://docs.onyx.app/admins/connectors/overview)
 - [Enterprise RAG solutions for knowledge management](/insights/enterprise-rag-solutions)
+- [Enterprise RAG pricing](/insights/enterprise-rag-pricing)
 - [Three identities in every call](/insights/ai-agent-identity-security)
 
 ## The short version
